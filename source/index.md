@@ -3,8 +3,6 @@ title: API Reference
 
 language_tabs:
   - javascript
-  - ruby
-  - python
 ---
 # General
 
@@ -526,7 +524,7 @@ te | trade executed
 ```json
 { 
 "Event": "error",
-"Status": "FAILED",
+"Status": "FAILED", 
 "ChanId": 0,
 "Code": "<CODE>"
 }
