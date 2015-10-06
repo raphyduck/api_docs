@@ -40,7 +40,7 @@ Each message sent and received via the Bitfinex's websocket channel is encoded i
 ## How to Connect
 Open up a websocket connection to the websocket URI.
 
-> Example
+> ###Example
 
 ```javascript
 var w = new WebSocket("wss://api2.bitfinex.com:3000/ws"); 
@@ -58,52 +58,50 @@ Generic Error Codes
 ## Ping/Pong
 Use `ping` message to test your connection to the websocket server.
 
-> Request
+> ###Request
 
 ```json
-// subscription success
 { 
-Event: "ping"
+"Event": "ping"
 }
 ```
 
-> Response
+> ###Response
 
 ```json
-// subscription success
 { 
-Event: "pong"
+"Event": "pong"
 }
 ```
 
 ## Subscribe to Channels
 To receive data from a channel you have to send a "subscribe" message first.
 
-> Request
+> ###Request
 
 ```json
 { 
-Event: "subscribe", 
-Channel: "CHANNEL_NAME", 
-...
-...
+"Event": "subscribe",
+"Channel": "CHANNEL_NAME"
 }
 ```
-> Response
+> ###Response - Success
 
 ```json
-// subscription success
 { 
-Event: "subscribed", 
-Channel: "CHANNEL_NAME", 
-ChanId: CHANNEL_ID 
+"Event": "subscribed", 
+"Channel": "CHANNEL_NAME", 
+"ChanId": "<CHANNEL_ID>"
 }
-// subscription failure
+```
+
+> ###Response - Failure
+
+```json
 { 
-Event: "error", 
-Msg: ERROR_MSG, 
-Code: ERROR_CODE
-...
+"Event": "error", 
+"Msg": "<ERROR_MSG>", 
+"Code": "<ERROR_CODE>"
 }
 ```
 
@@ -113,12 +111,12 @@ the snapshot will have as its first item, the ChanId, its second item
 will be an array of update messages (each of which is itself an array).
 So The array would have 3 levels.
 
-> Snapshot
+> ###Snapshot
 
 ```json
-[ Chan Id,
-    [Group of Update Messages,
-        [Update Message]
+[ "<Chan Id>",
+    ["<Group of Update Messages>",
+        ["<Update Message>"]
     ]
 ]
 ```
@@ -142,37 +140,40 @@ in the response to a subscription message.
 ## Unsubscribe to Channels
 To stop receiving data from a channel you have to send a "unsubscribe" message.
 
-> Request
+> ###Request
 
 ```json
 { 
-Event: "unsubscribe", 
-ChanId: CHANNEL_ID
+"Event": "unsubscribe", 
+"ChanId": "<CHANNEL_ID>"
 }
-// or
+```
+> or
+
+```json
 { 
-Event: "unsubscribe", 
-Channel: CHANNEL_NAME, 
-Pair: PAIR
-...
+"Event": "unsubscribe", 
+"Channel": "<CHANNEL_NAME>", 
+"Pair": "<PAIR>"
 }
 ```
 
-> Response
+> ###Response - Success
 
 ```json
-// unsubscription success
-{ 
-Event: "unsubscribed", 
-ChanId: CHANNEL_ID 
+{
+"Event": "unsubscribed", 
+"ChanId": "<CHANNEL_ID>"
 }
+```
 
-// unsubscription failure
+> ###Response - Failure
+
+```json
 { 
-Event: "error", 
-Msg: ERROR_MSG, 
-Code: ERROR_CODE,
-...
+"Event": "error", 
+"Msg": "<ERROR_MSG>", 
+"Code": "<ERROR_CODE>"
 }
 ```
 
@@ -189,37 +190,39 @@ The Order Books channel allow you to keep track of the state of the Bitfinex ord
 It is provided on a price aggregated basis, with customizable precision. 
 After receiving the response, you will receive a snapshot of the book, 
 followed by updates upon any changes to the book.
-> Example
+> ###Example
 
 ```javascript
-w.send(JSON.stringify({ Event: "subscribe", Channel: "trades", Pair: "BTCUSD", Prec: "P0" }))
+w.send(JSON.stringify({ "Event": "subscribe", Channel: "trades", Pair: "BTCUSD", Prec: "P0" }))
 ```
-> Request: 
+> ###Request: 
 
 ```json
 { 
-Event: "subscribe", 
-Channel: "book", 
-Pair: PAIR, 
-Prec: PRECISION }
+"Event": "subscribe", 
+"Channel": "book", 
+"Pair": "<PAIR>", 
+"Prec": "<PRECISION>" 
+}
 ```
-> Response
+> ###Response
 
 ```json
 { 
-Event: "subscribed", 
-Channel: "book", 
-ChanId: CHANNEL_ID }
+"Event": "subscribed", 
+"Channel": "book", 
+"ChanId": "<CHANNEL_ID>"
+}
 ```
-> Snapshot:
+> ###Snapshot:
 
 ```json
-[CHANNEL_ID, [[PRICE, COUNT, ±AMOUNT], [...]]]
+["<CHANNEL_ID>", [["<PRICE>", "<COUNT>", "<AMOUNT>"], ["..."]]]
 ```
-> Updates: 
+> ###Updates: 
 
 ```json
-[CHANNEL_ID, PRICE, COUNT, ±AMOUNT]
+["<CHANNEL_ID>", "<PRICE>", "<COUNT>", "<AMOUNT>"]
 ```
 
 ### Fields
@@ -253,38 +256,38 @@ LTCBTC | P0 | 6 | ฿0.000001
 This channel sends a trade message whenever a trade occurs at Bitfinex. 
 It includes all the pertinent details of the trade, 
 such as price, size and time.
-> Example 
+> ###Example 
 
 ```javascript
-w.send(JSON.stringify({ Event: "subscribe", Channel: "trades", Pair: "BTCUSD" }))
+w.send(JSON.stringify({ "Event": "subscribe", Channel: "trades", Pair: "BTCUSD" }))
 ```
-> Request:
+> ###Request:
 
 ```json
 { 
-Event: "subscribe", 
-Channel: "trades", 
-Pair: "BTCUSD" 
+"Event": "subscribe", 
+"Channel": "trades", 
+"Pair": "BTCUSD" 
 }
 ```
-> Response:
+> ###Response:
 
 ```json
 { 
-Event: "subscribed", 
-Channel: "trades", 
-ChanId: CHANNEL_ID 
+"Event": "subscribed", 
+"Channel": "trades", 
+"ChanId": "<CHANNEL_ID>" 
 }
 ```
-> Snapshot
+> ###Snapshot
 
 ```javascript
-[CHANNEL_ID, [ID, TIMESTAMP, PRICE, ±AMOUNT], [...]]
+["<CHANNEL_ID>", ["<ID>", "<TIMESTAMP>", "<PRICE>", "<AMOUNT>"], ["..."]]
 ```
-> Updates
+> ###Updates
 
 ```javascript
-[CHANNEL_ID, ID, TIMESTAMP, PRICE, ±AMOUNT]
+["<CHANNEL_ID>", "<ID>", "<TIMESTAMP>", "<PRICE>", "<AMOUNT>"]
 ```
 *here is an example of a real trade*
 
@@ -302,38 +305,38 @@ The ticker is a high level overview of the state of the market.
 It shows you the current best bid and ask, as well as the last trade 
 price. It also includes information such as daily volume and how 
 much the price has moved over the last day.
-> Example
+> ###Example
 
 ```javascript
-w.send(JSON.stringify({ Event: "subscribe", Channel: "ticker", Pair: "BTCUSD" }))
+w.send(JSON.stringify({ "Event": "subscribe", Channel: "ticker", Pair: "BTCUSD" }))
 ```
-> Request:
+> ###Request:
 
 ```json
 { 
-Event: "subscribe", 
-Channel: "ticker", 
-Pair: "BTCUSD" 
+"Event": "subscribe", 
+"Channel": "ticker", 
+"Pair": "BTCUSD" 
 }
 ```
-> Response:
+> ###Response:
 
 ```json
 { 
-Event: "subscribed", 
-Channel: "ticker", 
-ChanId: CHANNEL_ID
+"Event": "subscribed", 
+"Channel": "ticker", 
+"ChanId": "<CHANNEL_ID>"
 }
 ```
-> Snapshot
+> ###Snapshot
 
 ```json
-[CHANNEL_ID, BID, BID_SIZE, ASK, ASK_SIZE, DAILY_CHANGE, DAIYLY_CHANGE_PERC, LAST_PRICE, VOLUME]
+["<CHANNEL_ID>", "<BID>", "<BID_SIZE>", "<ASK>", "<ASK_SIZE>", "<DAILY_CHANGE>", "<DAILY_CHANGE_PERC>", "<LAST_PRICE>", "<VOLUME>"]
 ```
-> Updates
+> ###Updates
 
 ```json
-[CHANNEL_ID, BID, BID_SIZE, ASK, ASK_SIZE, DAILY_CHANGE, DAIYLY_CHANGE_PERC, LAST_PRICE, VOLUME]
+["<CHANNEL_ID>", "<BID>", "<BID_SIZE>", "<ASK>", "<ASK_SIZE>", "<DAILY_CHANGE>", "<DAILY_CHANGE_PERC>", "<LAST_PRICE>", "<VOLUME>"]
 ```
 *Here is an example of a real ticker*
 
@@ -359,7 +362,7 @@ your account. You can receive updates on your positions,
 your balances, your orders and your trades.
 
 Account info always uses ChanId 0.
-> Example
+> ###Example
 
 ```javascript
 var crypto = require('crypto');
@@ -373,39 +376,42 @@ var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('
 w.send(JSON.stringify({ Event: "auth", ApiKey: api_key, AuthSig: signature, AuthPayload: payload }));
 ```
 
-> Request
+> ###Request
 
 ```json
 { 
-Event: "auth", 
-ApiKey: API_KEY, 
-AuthSig: AUTH_SIGNATURE, 
-AuthPayload: AUTH_PAYLOAD 
+"Event": "auth", 
+"ApiKey": "<API_KEY>", 
+"AuthSig": "<AUTH_SIGNATURE>", 
+"AuthPayload": "<AUTH_PAYLOAD>"
 }
 ```
-> Response 
+> ###Response - Success
 
 ```json
-// authentication success
+
 { 
-Event: "auth", 
-Status: "OK", 
-ChanId: 0, 
-UserId: USER_ID 
+"Event": "auth", 
+"Status": "OK", 
+"ChanId": 0, 
+"UserId": "<USER_ID>" 
 }
-// authentication failure
+```
+> ### Response - Failure
+
+```json
 { 
-Event: "auth", 
-Status: "FAIL", 
-ChanId: 0,
-Code: ERROR_CODE
+"Event": "auth", 
+"Status": "FAIL", 
+"ChanId": 0,
+"Code": "<ERROR_CODE>"
 }
 ```
 
-> Position Snapshot
+> ###Position Snapshot
 
 ```json
-[0, "ps", [[POS_PAIR, POS_STATUS, POS_AMOUNT, POS_BASE_PRICE, POS_MARGIN_FUNDING, POS_MARGIN_FUNDING_TYPE], [...]]]
+[0, "ps", [["<POS_PAIR>", "<POS_STATUS>", "<POS_AMOUNT>", "<POS_BASE_PRICE>", "<POS_MARGIN_FUNDING>", "<POS_MARGIN_FUNDING_TYPE>"], ["..."]]]
 ```
 #### Fields
 Term | Type | Description
@@ -417,10 +423,10 @@ POS_BASE_PRICE | float | The price at which you entered your position.
 POS_MARGIN_FUNDING | float | The amount of funding being used for this position.
 POS_MARGIN_FUNDING_TYPE | int | 0 for term, 1 for daily.
 
-> Wallet Snapshot
+> ###Wallet Snapshot
 
 ```json
-[0, "ws", [[WLT_NAME, WLT_CURRENCY, ±WLT_BALANCE, WLT_INTEREST_UNSETTLED]]]
+[0, "ws", [["<WLT_NAME>", "<WLT_CURRENCY>", "<WLT_BALANCE>", "<WLT_INTEREST_UNSETTLED>"]]]
 ```
 ### Fields
 Term | Type | Description
@@ -429,10 +435,10 @@ WLT_NAME | string | Wallet name (exchange, trading, deposit)
 WLT_BALANCE | float | Wallet balance
 WLT_INTEREST_UNSETTLED | float | Unsettled interest
 
-> Order Snapshot
+> ###Order Snapshot
 
 ```json
-[0, "os", [[ORD_ID, ORD_PAIR, ±ORD_AMOUNT, ±ORD_AMOUNT_ORIG, ORD_TYPE, ORD_STATUS, ORD_PRICE, ORD_PRICE_AVG, ORD_CREATED_AT], [...]]]
+[0, "os", [["<ORD_ID>", "<ORD_PAIR>", "<ORD_AMOUNT>", "<ORD_AMOUNT_ORIG>", "<ORD_TYPE>", "<ORD_STATUS>", "<ORD_PRICE>", "<ORD_PRICE_AVG>", "<ORD_CREATED_AT>"], ["..."]]]
 ```
 
 ### Fields
@@ -448,25 +454,25 @@ ORD_PRICE | float | Price
 ORD_PRICE_AVG | float | Average price
 ORD_CREATED_AT | string | Creation date/time
 
-> Updates (position)
+> ###Updates (position)
 
 ```json
-[0, "pn"|"pu"|"pc", POS_PAIR, POS_STATUS, ±POS_AMOUNT, POS_BASE_PRICE, POS_MARGIN_FUNDING, POS_MARGIN_FUNDING_TYPE]
+[0, "<pn|pu|pc>", "<POS_PAIR>", "<POS_STATUS>", "<POS_AMOUNT>", "<POS_BASE_PRICE>", "<POS_MARGIN_FUNDING>", "<POS_MARGIN_FUNDING_TYPE>"]
 ```
-> Updates (wallet)
+> ###Updates (wallet)
 
 ```json
-[0, "wu", WLT_NAME, WLT_CURRENCY, ±WLT_BALANCE, WLT_INTEREST_UNSETTLED]
+[0, "wu", "<WLT_NAME>", "<WLT_CURRENCY>", "<WLT_BALANCE>", "<WLT_INTEREST_UNSETTLED>"]
 ```
-> Updates (order)
+> ###Updates (order)
 
 ```json
-[0, "on"|"ou"|"oc", ORD_ID, ORD_PAIR, ±ORD_AMOUNT, ±ORD_AMOUNT_ORIG, ORD_TYPE, ORD_STATUS, ORD_PRICE, ORD_PRICE_AVG, ORD_CREATED_AT]
+[0, "<on|ou|oc>", "<ORD_ID>", "<ORD_PAIR>", "<ORD_AMOUNT>", "<ORD_AMOUNT_ORIG>", "<ORD_TYPE>", "<ORD_STATUS>", "<ORD_PRICE>", "<ORD_PRICE_AVG>", "<ORD_CREATED_AT>"]
 ```
-> Updates (trade_executed)
+> ###Updates (trade_executed)
 
 ```json
-[0, "te", ORD_ID, ORD_AMOUNT_REMAIN]
+[0, "te", "<ORD_ID>", "<ORD_AMOUNT_REMAIN>"]
 ```
 
 ### Notes
@@ -498,28 +504,31 @@ te | trade executed
 
 ## Unauthentication
 
-> Request
+> ###Request
 
 ```json
 { 
-Event: "unauth"
+"Event": "unauth"
 }
 ```
-> Response 
+> ###Response - Success
 
 ```json
-// unauthentication success
 { 
-Event: "unauth", 
-Status: "OK", 
-ChanId: 0
+"Event": "unauth", 
+"Status": "OK", 
+"ChanId": 0
 }
-// unauthentication failure
+```
+
+> ###Response - Failure
+
+```json
 { 
-Event: "error", 
-Status: "FAILED", 
-ChanId: 0,
-Code: ...
+"Event": "error",
+"Status": "FAILED",
+"ChanId": 0,
+"Code": "<CODE>"
 }
 ```
 
