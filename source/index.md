@@ -2,167 +2,527 @@
 title: API Reference
 
 language_tabs:
-  - shell
+  - javascript
   - ruby
   - python
-
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
-
-search: true
 ---
+# General
 
-# Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+The Bitfinex websocket API is extremely straightforward. Offering 
+4 channels, it can be implemented in minutes. It provides you with 
+realtime updates on many different aspects of your account and the 
+market at Bitfinex.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+For more information on websockets see the link below
 
-This example API documentation page was created with [Slate](http://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+*RFC*: https://tools.ietf.org/html/rfc6455
 
-# Authentication
 
-> To authorize, use this code:
+### Bitfinex official libraries
+* ruby: https://github.com/bitfinexcom/bitfinex-api-rb
+* node: https://github.com/bitfinexcom/bitfinex-api-node
 
-```ruby
-require 'kittn'
+### SSL Websocket Connection
+URI: `wss://api2.bitfinex.com:3000/ws`
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+### Message encoding
+Each message sent and received via the Bitfinex's websocket channel is encoded in JSON format
+
+### Public Channels
+* **Book:** order book feed (BTCUSD, LTCUSD, LTCBTC)
+* **Ticker:** ticker feed (BTCUSD, LTCUSD, LTCBTC)
+* **Trades:** trades feed (BTCUSD, LTCUSD, LTCBTC)
+
+### Authenticated Channels
+* **Account Info:** account specific private data (positions, orders, executed trades, balances)
+
+## How to Connect
+Open up a websocket connection to the websocket URI.
+
+> Example
+
+```javascript
+var w = new WebSocket("wss://api2.bitfinex.com:3000/ws"); 
+w.onmessage = function(msg) { console.log(msg.data); };
 ```
 
-```python
-import kittn
+## Error Codes
+In case of error, you receive a message containing the proper error code (`Code` JSON field).
 
-api = kittn.authorize('meowmeowmeow')
-```
+Generic Error Codes
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
+* 10000 : Unknown event
+* 10001 : Unknown pair
 
-> Make sure to replace `meowmeowmeow` with your API key.
+## Ping/Pong
+Use `ping` message to test your connection to the websocket server.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
+> Request
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Isis",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Isis",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+// subscription success
+{ 
+Event: "ping"
 }
 ```
 
-This endpoint retrieves a specific kitten.
+> Response
 
-<aside class="warning">If you're not using an administrator API key, note that some kittens will return 403 Forbidden if they are hidden for admins only.</aside>
+```json
+// subscription success
+{ 
+Event: "pong"
+}
+```
 
-### HTTP Request
+## Subscribe to Channels
+To receive data from a channel you have to send a "subscribe" message first.
 
-`GET http://example.com/kittens/<ID>`
+> Request
 
-### URL Parameters
+```json
+{ 
+Event: "subscribe", 
+Channel: "CHANNEL_NAME", 
+...
+...
+}
+```
+> Response
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+```json
+// subscription success
+{ 
+Event: "subscribed", 
+Channel: "CHANNEL_NAME", 
+ChanId: CHANNEL_ID 
+}
+// subscription failure
+{ 
+Event: "error", 
+Msg: ERROR_MSG, 
+Code: ERROR_CODE
+...
+}
+```
+
+### Snapshot
+Upon subscribing to a channel an initial snapshot is sent. Typically, 
+the snapshot will have as its first item, the ChanId, its second item 
+will be an array of update messages (each of which is itself an array).
+So The array would have 3 levels.
+
+> Snapshot
+
+```json
+[ Chan Id,
+    [Group of Update Messages,
+        [Update Message]
+    ]
+]
+```
+
+### Update
+After receiving the snapshot, you will receive updates upon any change.
+
+**Notes**
+
+Channel ID's allow you to keep track of the messages, they are static 
+per session, you will receive both the CHANNEL_NAME and the ChanId
+in the response to a subscription message.
+* CHANNEL_NAME: (string) channel name (book, trades, ticker)
+* ChanId/CHANNEL_ID: (int) channel identificator. ChanId is a numeric channel identificator that the developer can use to distinguish the updates for each subscribed channel. 
+
+### Error Codes
+* 10300 : Subscription failed (generic)
+* 10301 : Already subscribed
+* 10302 : Unknown channel
+
+## Unsubscribe to Channels
+To stop receiving data from a channel you have to send a "unsubscribe" message.
+
+> Request
+
+```json
+{ 
+Event: "unsubscribe", 
+ChanId: CHANNEL_ID
+}
+// or
+{ 
+Event: "unsubscribe", 
+Channel: CHANNEL_NAME, 
+Pair: PAIR
+...
+}
+```
+
+> Response
+
+```json
+// unsubscription success
+{ 
+Event: "unsubscribed", 
+ChanId: CHANNEL_ID 
+}
+
+// unsubscription failure
+{ 
+Event: "error", 
+Msg: ERROR_MSG, 
+Code: ERROR_CODE,
+...
+}
+```
+
+### Error Codes
+* 10400 : Subscription failed (generic)
+* 10401 : Not subscribed 
+
+
+# Public Channels
+---
+## Order Books
+
+The Order Books channel allow you to keep track of the state of the Bitfinex order book. 
+It is provided on a price aggregated basis, with customizable precision. 
+After receiving the response, you will receive a snapshot of the book, 
+followed by updates upon any changes to the book.
+> Example
+
+```javascript
+w.send(JSON.stringify({ Event: "subscribe", Channel: "trades", Pair: "BTCUSD", Prec: "P0" }))
+```
+> Request: 
+
+```json
+{ 
+Event: "subscribe", 
+Channel: "book", 
+Pair: PAIR, 
+Prec: PRECISION }
+```
+> Response
+
+```json
+{ 
+Event: "subscribed", 
+Channel: "book", 
+ChanId: CHANNEL_ID }
+```
+> Snapshot:
+
+```json
+[CHANNEL_ID, [[PRICE, COUNT, ±AMOUNT], [...]]]
+```
+> Updates: 
+
+```json
+[CHANNEL_ID, PRICE, COUNT, ±AMOUNT]
+```
+
+### Fields
+Fields | Type | Description
+--- | --- | ---
+PRECISION | string | Level of price aggregation (P0, P1, P2, P3). The default is P0.
+COUNT | int | Number of orders at that price level.
+AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
+
+#### Precision Levels per Pair
+Pair | Precision Level | Number of decimal places | Example
+--- | --- | --- | ---
+BTCUSD | P0 | 2 | $0.01
+...    | P1 | 1 | $0.10
+...    | P2 | 0 | $1
+...    | P3 | -1| $10
+LTCUSD | P0 | 4 | $0.0001
+...    | P1 | 3 | $0.001
+...    | P2 | 2 | $0.01
+...    | P3 | 1 | $0.1
+LTCBTC | P0 | 6 | ฿0.000001
+...    | P1 | 5 | ฿0.00001
+...    | P2 | 4 | ฿0.0001
+...    | P3 | 3 | ฿0.001
+
+### Error Codes
+* 10011 : Unknown Book precision
+* 10012 : Unknown Book length
+
+## Trades
+This channel sends a trade message whenever a trade occurs at Bitfinex. 
+It includes all the pertinent details of the trade, 
+such as price, size and time.
+> Example 
+
+```javascript
+w.send(JSON.stringify({ Event: "subscribe", Channel: "trades", Pair: "BTCUSD" }))
+```
+> Request:
+
+```json
+{ 
+Event: "subscribe", 
+Channel: "trades", 
+Pair: "BTCUSD" 
+}
+```
+> Response:
+
+```json
+{ 
+Event: "subscribed", 
+Channel: "trades", 
+ChanId: CHANNEL_ID 
+}
+```
+> Snapshot
+
+```javascript
+[CHANNEL_ID, [ID, TIMESTAMP, PRICE, ±AMOUNT], [...]]
+```
+> Updates
+
+```javascript
+[CHANNEL_ID, ID, TIMESTAMP, PRICE, ±AMOUNT]
+```
+*here is an example of a real trade*
+
+[ 5, 11928301, 1443659698, 236.42, 0.49064538 ],
+###Fields
+Fields | Type | Description
+--- | --- | ----
+ID | int | A Bitfinex trade ID
+TIMESTAMP | int|  Unix timestamp of the trade.
+PRICE | float | Price at which the trade was executed
+AMOUNT | float | How much was bought (positive) or sold (negative). The order that causes the trade determines if it is a buy or a sell.
+
+## Ticker
+The ticker is a high level overview of the state of the market. 
+It shows you the current best bid and ask, as well as the last trade 
+price. It also includes information such as daily volume and how 
+much the price has moved over the last day.
+> Example
+
+```javascript
+w.send(JSON.stringify({ Event: "subscribe", Channel: "ticker", Pair: "BTCUSD" }))
+```
+> Request:
+
+```json
+{ 
+Event: "subscribe", 
+Channel: "ticker", 
+Pair: "BTCUSD" 
+}
+```
+> Response:
+
+```json
+{ 
+Event: "subscribed", 
+Channel: "ticker", 
+ChanId: CHANNEL_ID
+}
+```
+> Snapshot
+
+```json
+[CHANNEL_ID, BID, BID_SIZE, ASK, ASK_SIZE, DAILY_CHANGE, DAIYLY_CHANGE_PERC, LAST_PRICE, VOLUME]
+```
+> Updates
+
+```json
+[CHANNEL_ID, BID, BID_SIZE, ASK, ASK_SIZE, DAILY_CHANGE, DAIYLY_CHANGE_PERC, LAST_PRICE, VOLUME]
+```
+*Here is an example of a real ticker*
+
+[ 2, 236.62, 9.0029, 236.88, 7.1138, -1.02, 0, 236.52, 5191.36754297 ]
+### Fields
+Fields | Type | Description
+--- | ---- | ---
+BID | float | Price of last highest bid
+BID_SIZE | float | Size of the last highest bid
+ASK | float | Price of last lowest ask
+ASK_SIZE | float | Size of the last lowest ask
+DAILY_CHANGE | float | Amount that the last price has changed since yesterday
+DAILY_CHANGE_PERC | float | Amount that the price has changed expressed in percentage terms
+LAST_PRICE | float| Price of the last trade.
+VOLUME | float | Daily volume
+
+# Authenticated Channels
+---
+## Account Info
+
+This channel allows you to keep up to date with the status of 
+your account. You can receive updates on your positions, 
+your balances, your orders and your trades.
+
+Account info always uses ChanId 0.
+> Example
+
+```javascript
+var crypto = require('crypto');
+
+var api_key = 'API_KEY';
+var api_secret = 'API_SECRET';
+var payload = 'AUTH' + (new Date().getTime());
+
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+
+w.send(JSON.stringify({ Event: "auth", ApiKey: api_key, AuthSig: signature, AuthPayload: payload }));
+```
+
+> Request
+
+```json
+{ 
+Event: "auth", 
+ApiKey: API_KEY, 
+AuthSig: AUTH_SIGNATURE, 
+AuthPayload: AUTH_PAYLOAD 
+}
+```
+> Response 
+
+```json
+// authentication success
+{ 
+Event: "auth", 
+Status: "OK", 
+ChanId: 0, 
+UserId: USER_ID 
+}
+// authentication failure
+{ 
+Event: "auth", 
+Status: "FAIL", 
+ChanId: 0,
+Code: ERROR_CODE
+}
+```
+
+> Position Snapshot
+
+```json
+[0, "ps", [[POS_PAIR, POS_STATUS, POS_AMOUNT, POS_BASE_PRICE, POS_MARGIN_FUNDING, POS_MARGIN_FUNDING_TYPE], [...]]]
+```
+#### Fields
+Term | Type | Description
+--- | --- | ---
+POS_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC).
+POS_STATUS | string | Status (ACTIVE, CLOSED).
+±POS_AMOUNT | float | Size of the position. Positive values means a long position, negative values means a short position.
+POS_BASE_PRICE | float | The price at which you entered your position.
+POS_MARGIN_FUNDING | float | The amount of funding being used for this position.
+POS_MARGIN_FUNDING_TYPE | int | 0 for term, 1 for daily.
+
+> Wallet Snapshot
+
+```json
+[0, "ws", [[WLT_NAME, WLT_CURRENCY, ±WLT_BALANCE, WLT_INTEREST_UNSETTLED]]]
+```
+### Fields
+Term | Type | Description
+--- | --- | ---
+WLT_NAME | string | Wallet name (exchange, trading, deposit)
+WLT_BALANCE | float | Wallet balance
+WLT_INTEREST_UNSETTLED | float | Unsettled interest
+
+> Order Snapshot
+
+```json
+[0, "os", [[ORD_ID, ORD_PAIR, ±ORD_AMOUNT, ±ORD_AMOUNT_ORIG, ORD_TYPE, ORD_STATUS, ORD_PRICE, ORD_PRICE_AVG, ORD_CREATED_AT], [...]]]
+```
+
+### Fields
+Term | Type | Description
+--- | --- | ---
+ORD_ID | int | order id
+ORD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
+±ORD_AMOUNT | float | Positive means buy, negative means sell.
+±ORD_AMOUNT_ORIG | float | Original amount
+ORD_TYPE | string | The type of the order (LIMIT, STOP, TRAILING STOP, ...).
+ORD_STATUS | string | Status (ACTIVE, EXECUTED, PARTIALLY FILLED, ...)
+ORD_PRICE | float | Price
+ORD_PRICE_AVG | float | Average price
+ORD_CREATED_AT | string | Creation date/time
+
+> Updates (position)
+
+```json
+[0, "pn"|"pu"|"pc", POS_PAIR, POS_STATUS, ±POS_AMOUNT, POS_BASE_PRICE, POS_MARGIN_FUNDING, POS_MARGIN_FUNDING_TYPE]
+```
+> Updates (wallet)
+
+```json
+[0, "wu", WLT_NAME, WLT_CURRENCY, ±WLT_BALANCE, WLT_INTEREST_UNSETTLED]
+```
+> Updates (order)
+
+```json
+[0, "on"|"ou"|"oc", ORD_ID, ORD_PAIR, ±ORD_AMOUNT, ±ORD_AMOUNT_ORIG, ORD_TYPE, ORD_STATUS, ORD_PRICE, ORD_PRICE_AVG, ORD_CREATED_AT]
+```
+> Updates (trade_executed)
+
+```json
+[0, "te", ORD_ID, ORD_AMOUNT_REMAIN]
+```
+
+### Notes
+* AUTH request message: authenticate for the private data stream
+ * API_KEY: (string) Bitfinex's api key
+ * AUTH_SIGNATURE: (string) HMAC-sha384 signature
+
+### Abbreviated Terms Glossary
+Term | Definition
+---| ---
+ps | position snapshot
+pn | new position
+pu | position update
+pc | position close
+ws | wallet snapshot
+wu | wallet update
+os | order snapshot
+on | new order 
+ou | order update
+oc | order cancel
+te | trade executed
+
+### Error Codes
+* 10100 : Authentication failure (generic)
+* 10101 : Already authenticated
+* 10102 : Authentication Payload Error
+* 10103 : Authentication Signature Error
+* 10104 : Authentication HMAC Error
+
+## Unauthentication
+
+> Request
+
+```json
+{ 
+Event: "unauth"
+}
+```
+> Response 
+
+```json
+// unauthentication success
+{ 
+Event: "unauth", 
+Status: "OK", 
+ChanId: 0
+}
+// unauthentication failure
+{ 
+Event: "error", 
+Status: "FAILED", 
+ChanId: 0,
+Code: ...
+}
+```
+
+### Error Codes
+* 10201 : Not authenticated
 
