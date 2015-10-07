@@ -3,11 +3,11 @@ The Bitfinex API's are designed to allow access to all of the features of the Bi
 allow people to potentially recreate the entire platform on their own.
 
 ## Bitfinex official libraries
-### Javascript
-* node: https://github.com/bitfinexcom/bitfinex-api-node
+### Node.js
+* Node.js: [https://github.com/bitfinexcom/bitfinex-api-node](https://github.com/bitfinexcom/bitfinex-api-node)
 
 ### Ruby
-* ruby: https://github.com/bitfinexcom/bitfinex-api-rb
+* ruby: [https://github.com/bitfinexcom/bitfinex-api-rb](https://github.com/bitfinexcom/bitfinex-api-rb)
 
 
 ## API Access
@@ -27,3 +27,6 @@ account, or update any data.
 * Provides, in addition to the standard key's privileges, the ability to move funds between 
 wallets or to withdraw funds from your account.
 
+<aside class="notice">
+You cannot create an API key that is both enabled for withdrawal AND Read-only.
+</aside>

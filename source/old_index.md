@@ -18,8 +18,8 @@ For more information on websockets see the link below
 
 
 ### Bitfinex official libraries
-* ruby: https://github.com/bitfinexcom/bitfinex-api-rb
-* node: https://github.com/bitfinexcom/bitfinex-api-node
+* ruby: [https://github.com/bitfinexcom/bitfinex-api-rb][]
+* node: [https://github.com/bitfinexcom/bitfinex-api-node][]
 
 ### SSL Websocket Connection
 URI: `wss://api2.bitfinex.com:3000/ws`
