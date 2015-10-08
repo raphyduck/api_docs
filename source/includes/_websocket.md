@@ -468,7 +468,7 @@ ORD_CREATED_AT | string | Creation date/time
 > **Updates (order)**
 
 ```json
-[0, "<on|ou|oc>", ["<ORD_ID>", "<ORD_PAIR>", "<ORD_AMOUNT>", "<ORD_AMOUNT_ORIG>", "<ORD_TYPE>", "<ORD_STATUS>", "<ORD_PRICE>", "<ORD_PRICE_AVG>", "<ORD_CREATED_AT>"]]
+[0, "<on|ou|oc>", ["<ORD_ID>", "<ORD_PAIR>", "<ORD_AMOUNT>", "<ORD_AMOUNT_ORIG>", "<ORD_TYPE>", "<ORD_STATUS>", "<ORD_PRICE>", "<ORD_PRICE_AVG>", "<ORD_CREATED_AT>", "<ORD_NOTIFY>", "<ORD_HIDDEN>"]]
 ```
 > **Updates (trade_executed)**
 
