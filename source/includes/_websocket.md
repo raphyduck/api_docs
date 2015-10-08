@@ -477,7 +477,7 @@ ORD_CREATED_AT | string | Creation date/time
 ```
 
 <aside class="notice">
-AUTH request message: authenticate for the private data stream
+<strong>AUTH request message: authenticate for the private data stream</strong>
 <br>
 -API_KEY: (string) Bitfinex's api key
 <br>
