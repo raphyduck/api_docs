@@ -33,6 +33,7 @@ In case of error, you receive a message containing the proper error code (`Code`
 <strong>Generic Error Codes</strong>
 <br>
 10000 : Unknown event
+<br>
 10001 : Unknown pair
 </aside>
 
@@ -118,8 +119,11 @@ can use to distinguish the updates for each subscribed channel.
 <strong>error codes</strong>
 <br>
 10300 : Subscription failed (generic)
+<br>
 10301 : Already subscribed
+<br>
 10302 : Unknown channel
+<br>
 </aside>
 
 ### Unsubscribe to Channels
@@ -166,6 +170,7 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 <strong>error codes</strong>
 <br>
 10400 : Subscription failed (generic)
+<br>
 10401 : Not subscribed 
 </aside>
 
@@ -241,6 +246,7 @@ LTCBTC | P0 | 6 | ฿0.000001
 <strong>error codes</strong>
 <br>
 10011 : Unknown Book precision
+<br>
 10012 : Unknown Book length
 </aside>
 
@@ -495,9 +501,13 @@ te | trade executed
 <strong>error codes</strong>
 <br>
 10100 : Authentication failure (generic)
+<br>
 10101 : Already authenticated
+<br>
 10102 : Authentication Payload Error
+<br>
 10103 : Authentication Signature Error
+<br>
 10104 : Authentication HMAC Error
 </aside>
 
