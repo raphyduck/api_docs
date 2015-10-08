@@ -2963,7 +2963,7 @@ View your funding currently borrowed and used in a margin position.
 An array of your active margin funds.
 
 
-### Total taken funds
+#### Total taken funds
 
 > **Request**
 
