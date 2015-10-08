@@ -38,7 +38,7 @@ Each message sent and received via the Bitfinex's websocket channel is encoded i
 ## How to Connect
 Open up a websocket connection to the websocket URI.
 
-> ###Example
+> **Example**
 
 ```javascript
 var w = new WebSocket("wss://api2.bitfinex.com:3000/ws"); 
