@@ -3667,7 +3667,9 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <blockquote>
 <p><strong>Example</strong></p>
 </blockquote>
-<pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="s2">"wss://api2.bitfinex.com:3000/ws"</span><span class="p">);</span>
+<pre class="highlight javascript"><code><span class="c1">//using the ws library</span>
+<span class="kd">var</span> <span class="nx">WebSocket</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'ws'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="s2">"wss://api2.bitfinex.com:3000/ws"</span><span class="p">);</span>
 <span class="nx">w</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span> <span class="p">};</span>
 </code></pre>
 
