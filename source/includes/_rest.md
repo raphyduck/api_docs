@@ -1061,8 +1061,9 @@ Return your deposit address to make a new deposit.
 
           </tbody>
           </table>
-          
-### New Order
+### Orders
+
+#### New Order
 
 > **Request**
 
@@ -1226,7 +1227,7 @@ Submit a new order.
               </tbody>
             </table>
 
-### Multiple new orders
+#### Multiple new orders
 
 > **Request**
 
@@ -1388,7 +1389,7 @@ Submit several new orders at once.
             </table>
 
 
-### Cancel order
+#### Cancel order
 > **Request**
 
 ```javascript
@@ -1467,7 +1468,7 @@ Cancel an order.
 
 Result of /order/status for the cancelled order.
 
-### Cancel multiple orders
+#### Cancel multiple orders
 
 > **Request**
 
@@ -1531,7 +1532,7 @@ Cancel multiples orders at once.
 
 Confirmation of cancellation of the orders.
 
-### Cancel all orders
+#### Cancel all orders
 
 > **Request**
 
@@ -1578,7 +1579,7 @@ No arguments required
 
 Confirmation of cancellation of the orders.
 
-### Replace order
+#### Replace order
 
 > **Request**
 
@@ -1716,7 +1717,7 @@ Replace an orders with a new one.
             </tbody>
             </table>
             
-### Order status
+#### Order status
 
 > **Request**
 
@@ -1878,7 +1879,7 @@ Get the status of an order. Is it active? Was it cancelled? To what extent has i
             </tbody>
             </table>
             
-### Active orders
+#### Active orders
 
 > **Request**
 
@@ -1939,7 +1940,9 @@ View your active orders.
 
 An array of the results of `/order/status` for all your live orders.
 
-### Active Positions
+### Positions
+
+#### Active Positions
 
 > **Request**
 
@@ -1994,7 +1997,7 @@ View your active positions.
 An array of your active positions.
 
 
-### Claim position
+#### Claim position
 
 > **Request**
 
@@ -2076,7 +2079,9 @@ greater or equal to the amount of the position and the margin funding used.
 
 Status of the position for the claimed position, if the position could be claimed.
 
-### Balance History
+### Historical Data
+
+#### Balance History
 
 > **Request**
 
@@ -2206,7 +2211,7 @@ View all of your balance ledger entries.
           </tbody>
           </table>
           
-### Deposit-Withdrawal History
+#### Deposit-Withdrawal History
 
 > **Request**
 
@@ -2351,7 +2356,7 @@ An array of histories
           </tbody>
           </table>
 
-### Past Trades
+#### Past Trades
 
 > **Request**
 
@@ -2512,8 +2517,9 @@ An array of trades
           </tbody>
           </table>
 
-### New Offer
+### Margin Funding
 
+#### New Offer
 > **Request**
 
 ```javascript
@@ -2629,7 +2635,7 @@ Submit a new offer.
             </tbody>
             </table>
 
-### Cancel Offer
+#### Cancel Offer
 > **Request**
 
 ```javascript
@@ -2704,7 +2710,7 @@ Cancel an offer.
 
 Result of /offer/status for the cancelled offer.
 
-### Offer Status
+#### Offer Status
 > **Request**
 
 ```javascript
@@ -2846,7 +2852,7 @@ Get the status of an offer. Is it active? Was it cancelled? To what extent has i
             </tbody>
             </table>
             
-### Active Credits
+#### Active Credits
 
 > **Request**
 
@@ -2903,7 +2909,7 @@ View your active offers.
 
 An array of the results of `/offer/status` for all your live offers (lending or borrowing).
 
-### Active funding used in a margin position
+#### Active funding used in a margin position
 
 > **Request**
 
@@ -3028,7 +3034,7 @@ View the total of your active funding used in your position(s).
 
 **Response Details**
 
-###Close margin funding
+##### Close margin funding
 
 > **Request**
 

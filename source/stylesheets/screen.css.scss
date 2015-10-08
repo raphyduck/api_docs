@@ -178,7 +178,19 @@ html, body {
     background-color: $nav-active-bg;
     color: $nav-active-text;
   }
-
+  // Subheaders are the submenus that slide open
+  // in the table of contents.
+  .tocify-subheader {
+    .tocify-subheader {
+      .tocify-subheader {
+        .tocify-item > a {
+          // Styling here for a level 2 nesting. For example ->
+          padding-left: $nav-padding + $nav-indent * 4;
+          font-size: 10px;
+        }
+      }
+    }
+  }
   // Subheaders are the submenus that slide open
   // in the table of contents.
   .tocify-subheader {
