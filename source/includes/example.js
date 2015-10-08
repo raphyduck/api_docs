@@ -42,8 +42,8 @@
 //});
 var request = require('request');
 var crypto = require('crypto');
-var api_key = "l5GH46Sp5eAdsVYL79vrzOjljiys5U3AZ8Fo4NM5QVB";
-var api_secret = "offjC6bk5Yqkh29djssYVeRMF5CCEsss9bOeSe4rEIh";
+var api_key = "iGRFOF1cZpoEMpd3oSoaSEcW1ERp8paI9XUYf8yztGw";
+var api_secret = "GZGTUcvjjDnv55duS9Xiel0FaZEovI1e2miVlB0367f";
 var baseRequest = request.defaults({
     headers: {
         'X-BFX-APIKEY': api_key
@@ -54,13 +54,17 @@ var baseRequest = request.defaults({
 
 var payload =
 {
-    "request": "/v1/orders",
-    "nonce": Date.now().toString()
+    "request": "/v1/withdraw",
+    "nonce": Date.now().toString(),
+    "amount": "0.01",
+    "withdraw_type": "bitcoin",
+    "walletselected": "exchange",
+    "address": "1DKwqRhDmVyHJDL4FUYpDmQMYA3Rsxtvur"
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/orders",
+    url: "/withdraw",
     headers: {
         'X-BFX-PAYLOAD': payload,
         'X-BFX-SIGNATURE': signature

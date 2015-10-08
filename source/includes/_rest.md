@@ -1944,13 +1944,41 @@ An array of the results of `/order/status` for all your live orders.
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/positions",
+    "nonce": Date.now().toString()
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/positions",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+[  
+   {  
+      "id":943715,
+      "symbol":"btcusd",
+      "status":"ACTIVE",
+      "base":"246.94",
+      "amount":"1.0",
+      "timestamp":"1444141857.0",
+      "swap":"0.0",
+      "pl":"-2.22042"
+   }
+]
 ```
 
 **Endpoint**
@@ -1965,202 +1993,1569 @@ View your active positions.
 
 An array of your active positions.
 
+
+### Claim position
+
+> **Request**
+
+```javascript
+var payload =
+{
+    "request": "/v1/position/claim",
+    "nonce": Date.now().toString(),
+    "position_id": 943715
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/position/claim",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
+```
+
+> **Response**
+
+```json
+{  
+   "id":943715,
+   "symbol":"btcusd",
+   "status":"ACTIVE",
+   "base":"246.94",
+   "amount":"1.0",
+   "timestamp":"1444141857.0",
+   "swap":"0.0",
+   "pl":"-2.2304"
+}
+```
+
+**Endpoint**
+
+`/position/claim`
+
+**Description**
+
+A position can be claimed if:
+
+It is a long position: The amount in the last unit of the position pair that you have in your trading wallet 
+AND/OR the realized profit of the position is greater or equal to the purchase amount of the position 
+(base price * position amount) and the funds which need to be returned. For example, for a long BTCUSD position, 
+you can claim the position if the amount of USD you have in the trading wallet is greater than the base price * the 
+position amount and the funds used.
+
+It is a short position: The amount in the first unit of the position pair that you have in your trading wallet is 
+greater or equal to the amount of the position and the margin funding used.
+
+**Request Details**
+
+<table class="striped">
+            <thead>
+              <tr>
+                <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>position_id</strong></td>
+              <td>[int]</td>
+              <td>The position ID given by `/positions`.</td>
+            </tr>
+            </tbody>
+            </table>
+
+**Response Details**
+
+Status of the position for the claimed position, if the position could be claimed.
+
 ### Balance History
 
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/history",
+    "nonce": Date.now().toString(),
+    "currency": "USD",
+    "limit": 1
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/history",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+[  
+   {  
+      "currency":"USD",
+      "amount":"-246.94",
+      "balance":"515.4476526",
+      "description":"Position claimed @ 245.2 on wallet trading",
+      "timestamp":"1444277602.0"
+   }
+]
 ```
 
 **Endpoint**
 
+`/history`
+
 **Description**
+
+View all of your balance ledger entries.
+
+**Request Details**
+
+<table class="striped">
+          <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td><strong>currency</strong></td>
+            <td>[string]</td>
+            <td>The currency to look for.</td>
+          </tr>
+          <tr>
+            <td><strong>since</strong></td>
+            <td>[time]</td>
+            <td>Optional. Return only the history after this timestamp.</td>
+          </tr>
+          <tr>
+            <td><strong>until</strong></td>
+            <td>[time]</td>
+            <td>Optional. Return only the history before this timestamp.</td>
+          </tr>
+          <tr>
+            <td><strong>limit</strong></td>
+            <td>[int]</td>
+            <td>Optional. Limit the number of entries to return. Default is 500.</td>
+          </tr>
+          <tr>
+            <td><strong>wallet</strong></td>
+            <td>[string]</td>
+            <td>Optional. Return only entries that took place in this wallet. Accepted inputs are: "trading", "exchange", "deposit".</td>
+          </tr>
+          </tbody>
+          </table>
 
 **Response Details**
 
+<table class="striped">
+          <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td><strong>currency</strong></td>
+            <td>[string]</td>
+            <td>Currency</td>
+          </tr>
+          <tr>
+            <td><strong>amount</strong></td>
+            <td>[decimal]</td>
+            <td>Positive (credit) or negative (debit)</td>
+          </tr>
+          <tr>
+            <td><strong>balance</strong></td>
+            <td>[decimal]</td>
+            <td>Wallet balance after the current entry</td>
+          </tr>
+          <tr>
+            <td><strong>description</strong></td>
+            <td>[string]</td>
+            <td>Description of the entry. Includes the wallet in which the operation took place</td>
+          </tr>
+          <tr>
+            <td><strong>timestamp</strong></td>
+            <td>[time]</td>
+            <td>Timestamp of the entry</td>
+          </tr>
+
+          </tbody>
+          </table>
+          
 ### Deposit-Withdrawal History
 
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/history/movements",
+    "nonce": Date.now().toString(),
+    "currency": "BTC",
+    "limit": 1
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/history/movements",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+[  
+   {  
+      "id":581183,
+      "currency":"BTC",
+      "method":"BITCOIN",
+      "type":"WITHDRAWAL",
+      "amount":".01",
+      "description":"3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, offchain transfer ",
+      "status":"COMPLETED",
+      "timestamp":"1443833327.0"
+   }
+]
 ```
 
 **Endpoint**
 
+`/history/movements`
+
 **Description**
 
+View your past deposits/withdrawals.
+
+**Request Details**
+
+<table class="striped">
+          <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td><strong>currency</strong></td>
+            <td>[string]</td>
+            <td>The currency to look for.</td>
+          </tr>
+          <tr>
+            <td><strong>method</strong></td>
+            <td>[string]</td>
+            <td>Optional. The method of the deposit/withdrawal (can be "bitcoin", "litecoin", "darkcoin", "wire").</td>
+          </tr>
+          <tr>
+            <td><strong>since</strong></td>
+            <td>[time]</td>
+            <td>Optional. Return only the history after this timestamp.</td>
+          </tr>
+          <tr>
+            <td><strong>until</strong></td>
+            <td>[time]</td>
+            <td>Optional. Return only the history before this timestamp.</td>
+          </tr>
+          <tr>
+            <td><strong>limit</strong></td>
+            <td>[int]</td>
+            <td>Optional. Limit the number of entries to return. Default is 500.</td>
+          </tr>
+          </tbody>
+          </table>
+          
 **Response Details**
+
+An array of histories
+
+<table class="striped">
+          <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td><strong>currency</strong></td>
+            <td>[string]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><strong>method</strong></td>
+            <td>[string]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><strong>type</strong></td>
+            <td>[string]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><strong>amount</strong></td>
+            <td>[decimal]</td>
+            <td>Absolute value of the movement</td>
+          </tr>
+          <tr>
+            <td><strong>description</strong></td>
+            <td>[string]</td>
+            <td>Description of the movement (txid, destination address,,,,)</td>
+          </tr>
+          <tr>
+            <td><strong>status</strong></td>
+            <td>[string]</td>
+            <td>Status of the movement</td>
+          </tr>
+          <tr>
+            <td><strong>timestamp</strong></td>
+            <td>[time]</td>
+            <td>Timestamp of the movement</td>
+          </tr>
+
+          </tbody>
+          </table>
 
 ### Past Trades
 
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/mytrades",
+    "nonce": Date.now().toString(),
+    "symbol": "BTCUSD",
+    "limit_trades": 1
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/mytrades",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+[  
+   {  
+      "price":"246.94",
+      "amount":"1.0",
+      "timestamp":"1444141857.0",
+      "exchange":"",
+      "type":"Buy",
+      "fee_currency":"USD",
+      "fee_amount":"-0.49388",
+      "tid":11970839,
+      "order_id":446913929
+   }
+]
 ```
 
 **Endpoint**
 
+`/mytrades`
+
 **Description**
 
+View your past trades.
+
+**Request Details**
+
+<table class="striped">
+          <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td><strong>symbol</strong></td>
+            <td>[string]</td>
+            <td>The pair traded (BTCUSD, LTCUSD, LTCBTC).</td>
+          </tr>
+          <tr>
+            <td><strong>timestamp</strong></td>
+            <td>[time]</td>
+            <td>Trades made before this timestamp won't be returned.</td>
+          </tr>
+          <tr>
+            <td><strong>until</strong></td>
+            <td>[time]</td>
+            <td>Optional. Trades made after this timestamp won't be returned.</td>
+          </tr>
+          <tr>
+            <td><strong>limit_trades</strong></td>
+            <td>[int]</td>
+            <td>Optional. Limit the number of trades returned. Default is 50.</td>
+          </tr>
+          <tr>
+            <td><strong>reverse</strong></td>
+            <td>[int]</td>
+            <td>Optional. Return trades in reverse order (the oldest comes first). Default is returning newest trades first.</td>
+          </tr>
+          </tbody>
+          </table>
+          
 **Response Details**
 
-### Offers
+An array of trades
+
+<table class="striped">
+          <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td><strong>price</strong></td>
+            <td>[price]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><strong>amount</strong></td>
+            <td>[decimal]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><strong>timestamp</strong></td>
+            <td>[time]</td>
+            <td>return only trades after or at the time specified here</td>
+          </tr>
+          <tr>
+            <td><strong>until</strong></td>
+            <td>[time]</td>
+            <td>return only trades before or a the time specified here</td>
+          </tr>
+          <tr>
+            <td><strong>exchange</strong></td>
+            <td>[string]</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><strong>type</strong></td>
+            <td>[string]</td>
+            <td>Sell or Buy</td>
+          </tr>
+          <tr>
+            <td><strong>fee_currency</strong></td>
+            <td>[string]</td>
+            <td>Currency you paid this trade's fee in</td>
+          </tr>
+          <tr>
+            <td><strong>fee_amount</strong></td>
+            <td>[decimal]</td>
+            <td>Amount of fees you paid for this trade</td>
+          </tr>
+          <tr>
+            <td><strong>tid</strong></td>
+            <td>[integer]</td>
+            <td>unique identification number of the trade</td>
+          </tr>
+          <tr>
+            <td><strong>order_id</strong></td>
+            <td>[integer]</td>
+            <td>unique identification number of the parent order of the trade</td>
+          </tr>
+
+          </tbody>
+          </table>
+
+### New Offer
 
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/offer/new",
+    "nonce": Date.now().toString(),
+    "currency": "USD",
+    "amount": "50.00",
+    "rate": "20",
+    "period": 2,
+    "direction": "lend"
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/offer/new",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+{  
+   "id":13800585,
+   "currency":"USD",
+   "rate":"20.0",
+   "period":2,
+   "direction":"lend",
+   "timestamp":"1444279698.21175971",
+   "is_live":true,
+   "is_cancelled":false,
+   "original_amount":"50.0",
+   "remaining_amount":"50.0",
+   "executed_amount":"0.0",
+   "offer_id":13800585
+}
 ```
 
 **Endpoint**
 
+`/offer/new`
+
 **Description**
+
+Submit a new offer.
+
+**Request Details**
+
+<table class="striped">
+            <thead>
+              <tr>
+                <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>currency</strong></td>
+              <td>[string]</td>
+              <td>The name of the currency.</td>
+            </tr>
+            <tr>
+              <td><strong>amount</strong></td>
+              <td>[decimal]</td>
+              <td>Offer size: how much to lend or borrow.</td>
+            </tr>
+            <tr>
+              <td><strong>rate</strong></td>
+              <td>[decimal]</td>
+              <td>Rate to lend or borrow at. <b>In percentage per 365 days</b>.</td>
+            </tr>
+            <tr>
+              <td><strong>period</strong></td>
+              <td>[integer]</td>
+              <td>Number of days of the funding contract (in days)</td>
+            </tr>
+            <tr>
+              <td><strong>direction</strong></td>
+              <td>[string]</td>
+              <td>Either "lend" or "loan".</td>
+            </tr>
+            </tbody>
+            </table>
 
 **Response Details**
 
+<table class="striped">
+            <thead>
+              <tr>
+                <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>offer_id</strong></td>
+              <td>[int]</td>
+              <td>A randomly generated ID for the offer and the information given by /offer/status</td>
+            </tr>
+            </tbody>
+            </table>
+
+### Cancel Offer
+> **Request**
+
+```javascript
+var payload =
+{
+    "request": "/v1/offer/cancel",
+    "nonce": Date.now().toString(),
+    "offer_id": 13800585
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/offer/cancel",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
+```
+
+> **Response**
+
+```json
+{  
+   "id":13800585,
+   "currency":"USD",
+   "rate":"20.0",
+   "period":2,
+   "direction":"lend",
+   "timestamp":"1444279698.0",
+   "is_live":true,
+   "is_cancelled":false,
+   "original_amount":"50.0",
+   "remaining_amount":"50.0",
+   "executed_amount":"0.0"
+}
+```
+
+**Endpoint**
+
+`/offer/cancel`
+
+**Description**
+
+Cancel an offer.
+
+**Request Details**
+
+<table class="striped">
+            <thead>
+              <tr>
+                <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>offer_id</strong></td>
+              <td>[int]</td>
+              <td>The offer ID given by `/offer/new`.</td>
+            </tr>
+            </tbody>
+            </table>
+
+**Response Details**
+
+Result of /offer/status for the cancelled offer.
+
+### Offer Status
+> **Request**
+
+```javascript
+var payload =
+{
+    "request": "/v1/offer/status",
+    "nonce": Date.now().toString(),
+    "offer_id": 13800585
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/offer/status",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
+```
+
+> **Response**
+
+```json
+{  
+   "id":13800585,
+   "currency":"USD",
+   "rate":"20.0",
+   "period":2,
+   "direction":"lend",
+   "timestamp":"1444279698.0",
+   "is_live":false,
+   "is_cancelled":true,
+   "original_amount":"50.0",
+   "remaining_amount":"50.0",
+   "executed_amount":"0.0"
+}
+```
+
+**Endpoint**
+
+`/offer/status`
+
+**Description**
+
+Get the status of an offer. Is it active? Was it cancelled? To what extent has it been executed? etc.
+
+**Request Details**
+
+<table class="striped">
+            <thead>
+              <tr>
+                <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>offer_id</strong></td>
+              <td>[int]</td>
+              <td>The offer ID given by `/offer/new`.</td>
+            </tr>
+            </tbody>
+            </table>
+
+**Response Details**
+
+<table class="striped">
+            <thead>
+              <tr>
+                <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>currency</strong></td>
+              <td>[string]</td>
+              <td>The currency name of the offer.</td>
+            </tr>
+            <tr>
+              <td><strong>rate</strong></td>
+              <td>[decimal]</td>
+              <td>The rate the offer was issued at (in % per 365 days).</td>
+            </tr>
+            <tr>
+              <td><strong>period</strong></td>
+              <td>[integer]</td>
+              <td>The number of days of the offer.</td>
+            </tr>
+            <tr>
+              <td><strong>direction</strong></td>
+              <td>[string]</td>
+              <td>Either "lend" or "loan".</td>
+            </tr>
+            <tr>
+              <td><strong>type</strong></td>
+              <td>[string]</td>
+              <td>Either "market" / "limit" / "stop" / "trailing-stop".</td>
+            </tr>
+            <tr>
+              <td><strong>timestamp</strong></td>
+              <td>[time]</td>
+              <td>The timestamp the offer was submitted.</td>
+            </tr>
+            <tr>
+              <td><strong>is_live</strong></td>
+              <td>[bool]</td>
+              <td>Could the offer still be filled?</td>
+            </tr>
+            <tr>
+              <td><strong>is_cancelled</strong></td>
+              <td>[bool]</td>
+              <td>Has the offer been cancelled?</td>
+            </tr>
+            <tr>
+              <td><strong>executed_amount</strong></td>
+              <td>[decimal]</td>
+              <td>How much of the offer has been executed so far in its history?</td>
+            </tr>
+            <tr>
+              <td><strong>remaining_amount</strong></td>
+              <td>[decimal]</td>
+              <td>How much is still remaining to be submitted?</td>
+            </tr>
+            <tr>
+              <td><strong>original_amount</strong></td>
+              <td>[decimal]</td>
+              <td>What was the offer originally submitted for?</td>
+            </tr>
+
+            </tbody>
+            </table>
+            
 ### Active Credits
 
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/offers",
+    "nonce": Date.now().toString(),
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/offers",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+[  
+   {  
+      "id":13800719,
+      "currency":"USD",
+      "rate":"31.39",
+      "period":2,
+      "direction":"lend",
+      "timestamp":"1444280237.0",
+      "is_live":true,
+      "is_cancelled":false,
+      "original_amount":"50.0",
+      "remaining_amount":"50.0",
+      "executed_amount":"0.0"
+   }
+]
 ```
 
 **Endpoint**
 
+`/offers`
+
 **Description**
+
+View your active offers.
 
 **Response Details**
 
-### Margin Funding
+An array of the results of `/offer/status` for all your live offers (lending or borrowing).
+
+### Active funding used in a margin position
 
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/taken_funds",
+    "nonce": Date.now().toString(),
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/taken_funds",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+[  
+   {  
+      "id":11576737,
+      "position_id":944309,
+      "currency":"USD",
+      "rate":"9.8874",
+      "period":2,
+      "amount":"34.24603414",
+      "timestamp":"1444280948.0"
+   }
+]
 ```
 
 **Endpoint**
 
+`/taken_funds`
+
 **Description**
 
+View your funding currently borrowed and used in a margin position.
+
 **Response Details**
+
+An array of your active margin funds.
+
+
+### Total taken funds
+
+> **Request**
+
+```javascript
+var payload =
+{
+    "request": "/v1/total_taken_funds",
+    "nonce": Date.now().toString(),
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/total_taken_funds",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
+```
+
+> **Response**
+
+```json
+[  
+   {  
+      "position_pair":"BTCUSD",
+      "total_swaps":"34.24603414"
+   }
+]
+```
+
+**Endpoint**
+
+`/total_taken_funds`
+
+**Description**
+
+View the total of your active funding used in your position(s).
+
+**Response Details**
+
+<table class="striped">
+            <thead>
+              <tr>
+                <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>position_pair</strong></td>
+              <td>[string]</td>
+              <td>Pair of the position</td>
+            </tr>
+            <tr>
+              <td><strong>total_swaps</strong></td>
+              <td>[decimal]</td>
+              <td>Sum of the active funding backing this position</td>
+            </tr>
+            </tbody>
+            </table>
+
+**Response Details**
+
+###Close margin funding
+
+> **Request**
+
+```javascript
+var payload =
+{
+    "request": "/v1/funding/close",
+    "nonce": Date.now().toString(),
+    "swap_id": 11576737
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/funding/close",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
+```
+
+> **Response**
+
+```json
+{  
+   "id":11576737,
+   "position_id":944309,
+   "currency":"USD",
+   "rate":"9.8874",
+   "period":2,
+   "amount":"34.24603414",
+   "timestamp":"1444280948.0"
+}
+```
+
+**Endpoint**
+
+`/funding/close`
+
+**Description**
+
+Return the funding taken in a margin position
+
+**Request Details**
+
+<table class="striped">
+            <thead>
+              <tr>
+                <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+                <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>swap_id</strong></td>
+              <td>[int]</td>
+              <td>The ID given by `/taken_funds`.</td>
+            </tr>
+            </tbody>
+            </table>
+
+**Response Details**
+
+Status of the margin funding contract. Closed if it could be closed.
 
 ### Wallet Balances
 
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/balances",
+    "nonce": Date.now().toString()
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/balances",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+[  
+   {  
+      "type":"deposit",
+      "currency":"btc",
+      "amount":"0.0",
+      "available":"0.0"
+   },
+   {  
+      "type":"deposit",
+      "currency":"usd",
+      "amount":"1.0",
+      "available":"1.0"
+   },
+   {  
+      "type":"exchange",
+      "currency":"btc",
+      "amount":"1",
+      "available":"1"
+   },
+   {  
+      "type":"exchange",
+      "currency":"usd",
+      "amount":"1",
+      "available":"1"
+   },
+   {  
+      "type":"trading",
+      "currency":"btc",
+      "amount":"1",
+      "available":"1"
+   },
+   {  
+      "type":"trading",
+      "currency":"usd",
+      "amount":"1",
+      "available":"1"
+   }
+]
 ```
 
 **Endpoint**
 
+`/balances`
+
 **Description**
 
+See your balances.
+
 **Response Details**
+
+An array of wallet balances
+
+<table class="striped">
+          <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td><strong>type</strong></td>
+            <td>[string]</td>
+            <td>"trading", "deposit" or "exchange".</td>
+          </tr>
+          <tr>
+            <td><strong>currency</strong></td>
+            <td>[string]</td>
+            <td>Currency </td>
+          </tr>
+          <tr>
+            <td><strong>amount</strong></td>
+            <td>[decimal]</td>
+            <td>How much balance of this currency in this wallet</td>
+          </tr>
+          <tr>
+            <td><strong>available</strong></td>
+            <td>[decimal]</td>
+            <td>How much X there is in this wallet that is available to trade.</td>
+          </tr>
+          </tbody>
+          </table>
 
 ### Margin Information
 
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/margin_infos",
+    "nonce": Date.now().toString()
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/margin_infos",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+[  
+   {  
+      "margin_balance":"14.80039951",
+      "tradable_balance":"-12.50620089",
+      "unrealized_pl":"-0.18392",
+      "unrealized_swap":"-0.00038653",
+      "net_value":"14.61609298",
+      "required_margin":"7.3569",
+      "leverage":"2.5",
+      "margin_requirement":"13.0",
+      "margin_limits":[  
+         {  
+            "on_pair":"BTCUSD",
+            "initial_margin":"30.0",
+            "margin_requirement":"15.0",
+            "tradable_balance":"-0.329243259666666667"
+         }
+      ],
+      "message":"Margin requirement, leverage and tradable balance are now per pair. You will find them under margin_limits, for each pair. Please update your code as soon as possible."
+   }
+]
 ```
 
 **Endpoint**
 
+`/margin_infos`
+
 **Description**
+
+See your trading wallet information for margin trading.
 
 **Response Details**
 
+<table class="striped">
+          <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td><strong>margin_balance</strong></td>
+            <td>[decimal]</td>
+            <td>the USD value of all your trading assets (based on last prices)</td>
+          </tr>
+          <tr>
+            <td><strong>unrealized_pl</strong></td>
+            <td>[decimal]</td>
+            <td>The unrealized profit/loss of all your open positions</td>
+          </tr>
+          <tr>
+            <td><strong>unrealized_swap</strong></td>
+            <td>[decimal]</td>
+            <td>The margin funding used by all your open positions</td>
+          </tr>
+          <tr>
+            <td><strong>net_value</strong></td>
+            <td>[decimal]</td>
+            <td>Your net value (the USD value of your trading wallet, including your margin balance, your unrealized P/L and margin funding)</td>
+          </tr>
+          <tr>
+            <td><strong>required_margin</strong></td>
+            <td>[decimal]</td>
+            <td>The minimum net value to maintain in your trading wallet, under which all of your positions are fully liquidated</td>
+          </tr>
+          <tr>
+            <td><strong>margin_limits</strong></td>
+            <td>[array]</td>
+            <td>The list of margin limits for each pair. The array gives you the following information, for each pair:</td>
+          </tr>
+          <tr>
+            <td><strong>on_pair</strong></td>
+            <td>[string]</td>
+            <td>The pair for which these limits are valid</td>
+          </tr>
+          <tr>
+            <td><strong>initial_margin</strong></td>
+            <td>[decimal]</td>
+            <td>The minimum margin (in %) to maintain to open or increase a position</td>
+          </tr>
+          <tr>
+            <td><strong>tradable_balance</strong></td>
+            <td>[decimal]</td>
+            <td>Your tradable balance in USD (the maximum size you can open on leverage for this pair)</td>
+          </tr>
+          <tr>
+            <td><strong>margin_requirements</strong></td>
+            <td>[decimal]</td>
+            <td>The maintenance margin (% of the USD value of all of your open positions in the current pair to maintain)</td>
+          </tr>
+
+          </tbody>
+          </table>
+          
 ### Transfer Between Wallets
 
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/transfer",
+    "nonce": Date.now().toString(),
+    "amount": "1.0",
+    "currency": "USD",
+    "walletfrom": "exchange",
+    "walletto": "deposit"
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/transfer",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+[  
+   {  
+      "status":"success",
+      "message":"1.0 USD transfered from Exchange to Deposit"
+   }
+]
 ```
 
 **Endpoint**
 
+`/transfer`
+
 **Description**
 
+Allow you to move available balances between your wallets.
+
+**Request Details**
+
+<table class="striped">
+            <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>amount</strong></td>
+              <td>[decimal]</td>
+              <td>Amount to transfer.</td>
+            </tr>
+            <tr>
+              <td><strong>currency</strong></td>
+              <td>[string]</td>
+              <td>Currency of funds to transfer.</td>
+            </tr>
+            <tr>
+              <td><strong>walletfrom</strong></td>
+              <td>[string]</td>
+              <td>Wallet to transfer from.</td>
+            </tr>
+            <tr>
+              <td><strong>walletto</strong></td>
+              <td>[string]</td>
+              <td>Wallet to transfer to.</td>
+            </tr>
+            </tbody>
+          </table>
+          
 **Response Details**
+
+<table class="striped">
+            <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>status</strong></td>
+              <td>[string]</td>
+              <td>"success" or "error".</td>
+            </tr>
+            <tr>
+              <td><strong>message</strong></td>
+              <td>[string]</td>
+              <td>Success or error message</td>
+            </tr>
+            </tbody>
+          </table>
 
 ### Withdrawal
 
 > **Request**
 
 ```javascript
-
+var payload =
+{
+    "request": "/v1/withdraw",
+    "nonce": Date.now().toString(),
+    "amount": "0.01",
+    "withdraw_type": "bitcoin",
+    "walletselected": "exchange",
+    "address": "1DKwqRhDmVyHJDL4FUYpDmQMYA3Rsxtvur"
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+    url: "/withdraw",
+    headers: {
+        'X-BFX-PAYLOAD': payload,
+        'X-BFX-SIGNATURE': signature
+    },
+    body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+    console.log(body);
+});
 ```
 
 > **Response**
 
 ```json
-
+[  
+   {  
+      "status":"success",
+      "message":"Your withdrawal request has been successfully submitted.",
+      "withdrawal_id":586829
+   }
+]
 ```
 
 **Endpoint**
 
+`/withdraw`
+
 **Description**
 
-**Response Details**
+Allow you to request a withdrawal from one of your wallet.
+
+**Request Details**
+
+<table class="striped">
+            <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>withdraw_type</strong></td>
+              <td>[string]</td>
+              <td>can be "bitcoin", "litecoin" or "darkcoin"  or "tether".</td>
+            </tr>
+            <tr>
+              <td><strong>walletselected</strong></td>
+              <td>[string]</td>
+              <td>The wallet to withdraw from, can be "trading", "exchange", or "deposit".</td>
+            </tr>
+            <tr>
+              <td><strong>amount</strong></td>
+              <td>[string]</td>
+              <td>Amount to withdraw.</td>
+            </tr>
+            <tr>
+              <td><strong>address</strong></td>
+              <td>[string]</td>
+              <td>Destination address for withdrawal.</td>
+            </tr>
+            </tbody>
+          </table>
+          
+**Request Details**
+
+<table class="striped">
+            <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr>
+              <td><strong>status</strong></td>
+              <td>[string]</td>
+              <td>"success" or "error".</td>
+            </tr>
+            <tr>
+              <td><strong>message</strong></td>
+              <td>[string]</td>
+              <td>Success or error message</td>
+            </tr>
+            <tr>
+              <td><strong>withdrawal_id</strong></td>
+              <td>[int]</td>
+              <td>ID of the withdrawal (0 if unsuccessful)</td>
+            </tr>
+            </tbody>
+          </table>
