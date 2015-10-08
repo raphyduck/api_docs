@@ -845,7 +845,7 @@ Get a list of valid symbol IDs and the pair details.
 // 3. BTCUSD is the default symbol
 var request = require('request');
 var api_key = "<Your API key>";
-var api_secret = "Your API secret<>";
+var api_secret = "<Your API secret>";
 var baseRequest = request.defaults({
     headers: {
         'X-BFX-APIKEY': api_key,
