@@ -22,7 +22,7 @@ Open up a websocket connection to the websocket URI.
 > **Example**
 
 ```javascript
-var w = new WebSocket("wss://api2.bitfinex.com:3000/ws"); 
+var w = new WebSocket("wss://api2.bitfinex.com:3000/ws");
 w.onmessage = function(msg) { console.log(msg.data); };
 ```
 
@@ -43,16 +43,16 @@ Use `ping` message to test your connection to the websocket server.
 > **#Request**
 
 ```json
-{ 
-"Event": "ping"
+{
+  "Event": "ping"
 }
 ```
 
 > **Response**
 
 ```json
-{ 
-"Event": "pong"
+{
+  "Event": "pong"
 }
 ```
 
@@ -62,44 +62,44 @@ To receive data from a channel you have to send a "subscribe" message first.
 > **Request**
 
 ```json
-{ 
-"Event": "subscribe",
-"Channel": "CHANNEL_NAME"
+{
+  "Event": "subscribe",
+  "Channel": "CHANNEL_NAME"
 }
 ```
 > **Response - Success**
 
 ```json
-{ 
-"Event": "subscribed", 
-"Channel": "CHANNEL_NAME", 
-"ChanId": "<CHANNEL_ID>"
+{
+  "Event": "subscribed",
+  "Channel": "CHANNEL_NAME",
+  "ChanId": "<CHANNEL_ID>"
 }
 ```
 
 > **Response - Failure**
 
 ```json
-{ 
-"Event": "error", 
-"Msg": "<ERROR_MSG>", 
-"Code": "<ERROR_CODE>"
+{
+  "Event": "error",
+  "Msg": "<ERROR_MSG>",
+  "Code": "<ERROR_CODE>"
 }
 ```
 
 ### Snapshot
-Upon subscribing to a channel an initial snapshot is sent. Typically, 
-the snapshot will have as its first item, the ChanId, its second item 
+Upon subscribing to a channel an initial snapshot is sent. Typically,
+the snapshot will have as its first item, the ChanId, its second item
 will be an array of update messages (each of which is itself an array).
 So The array would have 3 levels.
 
 > **Snapshot**
 
 ```json
-[ "<Chan Id>",
-    ["<Group of Update Messages>",
-        ["<Update Message>"]
-    ]
+["<Chan Id>",
+  ["<Group of Update Messages>",
+    ["<Update Message>"]
+  ]
 ]
 ```
 
@@ -107,12 +107,12 @@ So The array would have 3 levels.
 After receiving the snapshot, you will receive updates upon any change.
 
 <aside class="notice">
-Channel ID's allow you to keep track of the messages, they are static 
+Channel ID's allow you to keep track of the messages, they are static
 per session, you will receive both the CHANNEL_NAME and the ChanId
 in the response to a subscription message.
 * CHANNEL_NAME: (string) channel name (book, trades, ticker)
-* ChanId/CHANNEL_ID: (int) channel identificator. ChanId is a numeric channel identificator that the developer 
-can use to distinguish the updates for each subscribed channel. 
+* ChanId/CHANNEL_ID: (int) channel identificator. ChanId is a numeric channel identificator that the developer
+can use to distinguish the updates for each subscribed channel.
 </aside>
 
 <aside class="warning">
@@ -132,18 +132,18 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 > **Request**
 
 ```json
-{ 
-"Event": "unsubscribe", 
-"ChanId": "<CHANNEL_ID>"
+{
+  "Event": "unsubscribe",
+  "ChanId": "<CHANNEL_ID>"
 }
 ```
 > or
 
 ```json
-{ 
-"Event": "unsubscribe", 
-"Channel": "<CHANNEL_NAME>", 
-"Pair": "<PAIR>"
+{
+  "Event": "unsubscribe",
+  "Channel": "<CHANNEL_NAME>",
+  "Pair": "<PAIR>"
 }
 ```
 
@@ -151,18 +151,18 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 
 ```json
 {
-"Event": "unsubscribed", 
-"ChanId": "<CHANNEL_ID>"
+  "Event": "unsubscribed",
+  "ChanId": "<CHANNEL_ID>"
 }
 ```
 
 > **Response - Failure**
 
 ```json
-{ 
-"Event": "error", 
-"Msg": "<ERROR_MSG>", 
-"Code": "<ERROR_CODE>"
+{
+  "Event": "error",
+  "Msg": "<ERROR_MSG>",
+  "Code": "<ERROR_CODE>"
 }
 ```
 
@@ -171,39 +171,39 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 <br>
 10400 : Subscription failed (generic)
 <br>
-10401 : Not subscribed 
+10401 : Not subscribed
 </aside>
 
 ## Public Channels
 ---
 ### Order Books
 
-The Order Books channel allow you to keep track of the state of the Bitfinex order book. 
-It is provided on a price aggregated basis, with customizable precision. 
-After receiving the response, you will receive a snapshot of the book, 
+The Order Books channel allow you to keep track of the state of the Bitfinex order book.
+It is provided on a price aggregated basis, with customizable precision.
+After receiving the response, you will receive a snapshot of the book,
 followed by updates upon any changes to the book.
 > **Example**
 
 ```javascript
 w.send(JSON.stringify({ "Event": "subscribe", Channel: "trades", Pair: "BTCUSD", Prec: "P0" }))
 ```
-> **Request** 
+> **Request**
 
 ```json
-{ 
-"Event": "subscribe", 
-"Channel": "book", 
-"Pair": "<PAIR>", 
-"Prec": "<PRECISION>" 
+{
+  "Event": "subscribe",
+  "Channel": "book",
+  "Pair": "<PAIR>",
+  "Prec": "<PRECISION>"
 }
 ```
 > **Response**
 
 ```json
-{ 
-"Event": "subscribed", 
-"Channel": "book", 
-"ChanId": "<CHANNEL_ID>"
+{
+  "Event": "subscribed",
+  "Channel": "book",
+  "ChanId": "<CHANNEL_ID>"
 }
 ```
 > **Snapshot**
@@ -251,8 +251,8 @@ LTCBTC | P0 | 6 | ฿0.000001
 </aside>
 
 ### Trades
-This channel sends a trade message whenever a trade occurs at Bitfinex. 
-It includes all the pertinent details of the trade, 
+This channel sends a trade message whenever a trade occurs at Bitfinex.
+It includes all the pertinent details of the trade,
 such as price, size and time.
 > **Example**
 
@@ -262,19 +262,19 @@ w.send(JSON.stringify({ "Event": "subscribe", Channel: "trades", Pair: "BTCUSD" 
 > **Request**
 
 ```json
-{ 
-"Event": "subscribe", 
-"Channel": "trades", 
-"Pair": "BTCUSD" 
+{
+  "Event": "subscribe",
+  "Channel": "trades",
+  "Pair": "BTCUSD"
 }
 ```
 > **Response**
 
 ```json
-{ 
-"Event": "subscribed", 
-"Channel": "trades", 
-"ChanId": "<CHANNEL_ID>" 
+{
+  "Event": "subscribed",
+  "Channel": "trades",
+  "ChanId": "<CHANNEL_ID>"
 }
 ```
 > **Snapshot**
@@ -301,9 +301,9 @@ PRICE | float | Price at which the trade was executed
 AMOUNT | float | How much was bought (positive) or sold (negative). The order that causes the trade determines if it is a buy or a sell.
 
 ### Ticker
-The ticker is a high level overview of the state of the market. 
-It shows you the current best bid and ask, as well as the last trade 
-price. It also includes information such as daily volume and how 
+The ticker is a high level overview of the state of the market.
+It shows you the current best bid and ask, as well as the last trade
+price. It also includes information such as daily volume and how
 much the price has moved over the last day.
 > **Example**
 
@@ -313,19 +313,19 @@ w.send(JSON.stringify({ "Event": "subscribe", Channel: "ticker", Pair: "BTCUSD" 
 > **Request**
 
 ```json
-{ 
-"Event": "subscribe", 
-"Channel": "ticker", 
-"Pair": "BTCUSD" 
+{
+  "Event": "subscribe",
+  "Channel": "ticker",
+  "Pair": "BTCUSD"
 }
 ```
 > **Response**
 
 ```json
-{ 
-"Event": "subscribed", 
-"Channel": "ticker", 
-"ChanId": "<CHANNEL_ID>"
+{
+  "Event": "subscribed",
+  "Channel": "ticker",
+  "ChanId": "<CHANNEL_ID>"
 }
 ```
 > **Snapshot**
@@ -359,48 +359,49 @@ VOLUME | float | Daily volume
 ---
 ### Account Info
 
-This channel allows you to keep up to date with the status of 
-your account. You can receive updates on your positions, 
+This channel allows you to keep up to date with the status of
+your account. You can receive updates on your positions,
 your balances, your orders and your trades.
 
 Account info always uses ChanId 0.
 > **Example**
 
 ```javascript
-var crypto = require('crypto');
-var api_key = 'API_KEY';
-var api_secret = 'API_SECRET';
-var payload = 'AUTH' + (new Date().getTime());
-var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var
+  crypto = require('crypto'),
+  api_key = 'API_KEY',
+  api_secret = 'API_SECRET',
+  payload = 'AUTH' + (new Date().getTime()),
+  signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 w.send(JSON.stringify({ Event: "auth", ApiKey: api_key, AuthSig: signature, AuthPayload: payload }));
 ```
 
 > **Request**
 
 ```json
-{ 
-"Event": "auth", 
-"ApiKey": "<API_KEY>", 
-"AuthSig": "<AUTH_SIGNATURE>", 
-"AuthPayload": "<AUTH_PAYLOAD>"
+{
+  "Event": "auth",
+  "ApiKey": "<API_KEY>",
+  "AuthSig": "<AUTH_SIGNATURE>",
+  "AuthPayload": "<AUTH_PAYLOAD>"
 }
 ```
 > **Response - Success**
 
 ```json
-{ 
-"Event": "auth", 
-"Status": "OK", 
-"ChanId": 0, 
-"UserId": "<USER_ID>" 
+{
+  "Event": "auth",
+  "Status": "OK",
+  "ChanId": 0,
+  "UserId": "<USER_ID>"
 }
 ```
 > **Response - Failure**
 
 ```json
-{ 
-"Event": "auth", 
-"Status": "FAIL", 
+{
+"Event": "auth",
+"Status": "FAIL",
 "ChanId": 0,
 "Code": "<ERROR_CODE>"
 }
@@ -494,7 +495,7 @@ pc | position close
 ws | wallet snapshot
 wu | wallet update
 os | order snapshot
-on | new order 
+on | new order
 ou | order update
 oc | order cancel
 te | trade executed
@@ -518,16 +519,16 @@ te | trade executed
 > **Request**
 
 ```json
-{ 
+{
 "Event": "unauth"
 }
 ```
 > **Response - Success**
 
 ```json
-{ 
-"Event": "unauth", 
-"Status": "OK", 
+{
+"Event": "unauth",
+"Status": "OK",
 "ChanId": 0
 }
 ```
@@ -535,9 +536,9 @@ te | trade executed
 > **Response - Failure**
 
 ```json
-{ 
+{
 "Event": "error",
-"Status": "FAILED", 
+"Status": "FAILED",
 "ChanId": 0,
 "Code": "<CODE>"
 }

@@ -12,14 +12,13 @@ var url = "https://api.bitfinex.com/v1"
 ### Authentication
 
 ```javascript
-var payload =
-{
-    "request": "/v1/account_infos",
-    "nonce": Date.now().toString()
+var payload = {
+  "request": "/v1/account_infos",
+  "nonce": Date.now().toString()
 };
 ```
 
-Authentication is done using an API key and a secret. To generate this pair, 
+Authentication is done using an API key and a secret. To generate this pair,
 go to the [API Access](https://www.bitfinex.com/account/api) page.
 As an example of how to authenticate, we can look at the "account_infos" endpoint.
 Take the example payload to the right.
@@ -31,26 +30,28 @@ The nonce provided must be strictly increasing.
 ```javascript
 //Using the "request" library, available via npm.
 //From the console, run npm install request
-var request = require('request');
-var api_key = "<Your API key here>";
-var api_secret = "<Your API secret here>";
+var
+  request = require('request'),
+  api_key = "<Your API key here>",
+  api_secret = "<Your API secret here>";
 payload = new Buffer(JSON.stringify(payload))
   .toString('base64');
-var signature = crypto
+var
+  signature = crypto
   .createHmac("sha384", api_secret)
   .update(payload)
-  .digest('hex');
-var headers = {
+  .digest('hex'),
+  headers = {
     'X-BFX-APIKEY': api_key,
     'X-BFX-PAYLOAD': payload,
     'X-BFX-SIGNATURE': signature
-};
-var options = {
+  },
+  options = {
     url: url + '/account_infos',
     headers: headers,
     body: payload
-};
-request.post(options, 
+  };
+request.post(options,
   function(error, response, body) {
     console.log(body);
 });
@@ -75,10 +76,10 @@ These are encoded as HTTP headers named:
 * X-BFX-SIGNATURE
 
 ### Parameters
-Requests parameters for POST requests (authenticated) (presented below in the "Request" sections) 
+Requests parameters for POST requests (authenticated) (presented below in the "Request" sections)
 are part of the PAYLOAD, not GET parameters.
 
-Requests parameters for GET requests (non-authenticated) are GET parameters, 
+Requests parameters for GET requests (non-authenticated) are GET parameters,
 appended to the URL being called as follows:
 
 `/v1/call/?parameter=value`
@@ -99,7 +100,7 @@ All Public Endpoints use GET requests
 > **Request**
 
 ```javascript
-request.get(url + "/pubticker/:symbol", 
+request.get(url + "/pubticker/:symbol",
   function(error, response, body) {
     console.log(body);
 });
@@ -108,15 +109,15 @@ request.get(url + "/pubticker/:symbol",
 > **Response**
 
 ```json
-{  
-   "mid":"244.755",
-   "bid":"244.75",
-   "ask":"244.76",
-   "last_price":"244.82",
-   "low":"244.2",
-   "high":"248.19",
-   "volume":"7842.11542563",
-   "timestamp":"1444253422.348340958"
+{
+  "mid":"244.755",
+  "bid":"244.75",
+  "ask":"244.76",
+  "last_price":"244.82",
+  "low":"244.2",
+  "high":"248.19",
+  "volume":"7842.11542563",
+  "timestamp":"1444253422.348340958"
 }
 ```
 **Endpoint**
@@ -125,7 +126,7 @@ request.get(url + "/pubticker/:symbol",
 
 **Description**
 
-Gives innermost bid and asks and information on the most recent trade, 
+Gives innermost bid and asks and information on the most recent trade,
 as well as high, low and volume of the last 24 hours.
 
 **Response Details**
@@ -145,7 +146,7 @@ timestamp|	[time]|	The timestamp at which this information was valid.
 > **Request**
 
 ```javascript
-request.get(url + "/stats/BTCUSD", 
+request.get(url + "/stats/BTCUSD",
   function(error, response, body) {
     console.log(body);
 });
@@ -154,20 +155,16 @@ request.get(url + "/stats/BTCUSD",
 > **Response**
 
 ```json
-[  
-   {  
-      "period":1,
-      "volume":"7967.96766158"
-   },
-   {  
-      "period":7,
-      "volume":"55938.67260266"
-   },
-   {  
-      "period":30,
-      "volume":"275148.09653645"
-   }
-]
+[{
+  "period":1,
+  "volume":"7967.96766158"
+},{
+  "period":7,
+  "volume":"55938.67260266"
+},{
+  "period":30,
+  "volume":"275148.09653645"
+}]
 ```
 **Endpoint**
 
@@ -189,17 +186,16 @@ volume |[price] | volume
 > **Request**
 
 ```javascript
-var payload =
-{
-    "limit_bids": 1,
-    "limit_asks": 1
+var payload = {
+  "limit_bids": 1,
+  "limit_asks": 1
 };
 var options = {
-    url: url + '/lendbook/USD',
-    qs: payload
+  url: url + '/lendbook/USD',
+  qs: payload
 };
 request.get(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
@@ -207,24 +203,20 @@ request.get(options, function(error, response, body) {
 
 ```json
 {
-  "bids":[
-    {
+  "bids":[{
     "rate":"9.1287",
     "amount":"5000.0",
     "period":30,
     "timestamp":"1444257541.0",
     "frr":"No"
-    }
-  ],
-  "asks":[
-    {
+  }],
+  "asks":[{
     "rate":"8.3695",
     "amount":"407.5",
     "period":2,
     "timestamp":"1444260343.0",
     "frr":"No"
-    }
-  ]
+  }]
 }
 ```
 
@@ -345,43 +337,38 @@ Get the full margin funding book
 > **Request**
 
 ```javascript
-var payload =
-{
-    "limit_bids": 1,
-    "limit_asks": 1,
-    "group": 0
+var payload = {
+  "limit_bids": 1,
+  "limit_asks": 1,
+  "group": 0
 };
 var options = {
-    url: url + '/book/BTCUSD',
-    qs: payload
+  url: url + '/book/BTCUSD',
+  qs: payload
 };
 request.get(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-{  
-   "bids":[  
-      {  
-         "rate":"9.1287",
-         "amount":"5000.0",
-         "period":30,
-         "timestamp":"1444257541.0",
-         "frr":"No"
-      }
-   ],
-   "asks":[  
-      {  
-         "rate":"8.3695",
-         "amount":"407.5",
-         "period":2,
-         "timestamp":"1444260343.0",
-         "frr":"No"
-      }
-   ]
+{
+  "bids":[{
+    "rate":"9.1287",
+    "amount":"5000.0",
+    "period":30,
+    "timestamp":"1444257541.0",
+    "frr":"No"
+  }],
+  "asks":[{
+    "rate":"8.3695",
+    "amount":"407.5",
+    "period":2,
+    "timestamp":"1444260343.0",
+    "frr":"No"
+  }]
 }
 ```
 
@@ -482,33 +469,30 @@ Get the full order book.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "timestamp": false,
-    "limit_trades": 1
+var payload = {
+  "timestamp": false,
+  "limit_trades": 1
 };
 var options = {
-    url: url + '/trades/BTCUSD',
-    qs: payload
+  url: url + '/trades/BTCUSD',
+  qs: payload
 };
 request.get(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "timestamp":1444266681,
-      "tid":11988919,
-      "price":"244.8",
-      "amount":"0.03297384",
-      "exchange":"bitfinex",
-      "type":"sell"
-   }
-]
+[{
+  "timestamp":1444266681,
+  "tid":11988919,
+  "price":"244.8",
+  "amount":"0.03297384",
+  "exchange":"bitfinex",
+  "type":"sell"
+}]
 ```
 
 **Endpoint**
@@ -550,7 +534,7 @@ Get a list of the most recent trades for the given symbol.
 
           </tbody>
           </table>
-          
+
 **Response Details**
 
 <table class="striped">
@@ -595,37 +579,34 @@ Get a list of the most recent trades for the given symbol.
           </tr>
           </tbody>
           </table>
-          
+
 ### Lends
 
 > **Request**
 
 ```javascript
-var payload =
-{
-    "timestamp": false,
-    "limit_lends": 1
-};
-var options = {
-    url: url + '/lends/USD',
-    qs: payload
+var payload = {
+  "timestamp": false,
+  "limit_lends": 1
+},
+options = {
+  url: url + '/lends/USD',
+  qs: payload
 };
 request.get(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "rate":"9.8998",
-      "amount_lent":"22528933.77950878",
-      "amount_used":"0.0",
-      "timestamp":1444264307
-   }
-]
+[{
+  "rate":"9.8998",
+  "amount_lent":"22528933.77950878",
+  "amount_used":"0.0",
+  "timestamp":1444264307
+}]
 ```
 
 **Endpoint**
@@ -667,7 +648,7 @@ Get a list of the most recent funding data for the given currency: total amount 
 
           </tbody>
           </table>
-          
+
 **Response Details*
 
 <table class="striped">
@@ -702,18 +683,18 @@ Get a list of the most recent funding data for the given currency: total amount 
           </tr>
           </tbody>
           </table>
-          
+
 ### Symbols
 
 > **Request**
 
 ```javascript
 var options = {
-    url: url + '/symbols',
-    qs: {}
+  url: url + '/symbols',
+  qs: {}
 };
 request.get(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
@@ -740,46 +721,42 @@ A list of symbol names. Currently "btcusd", "ltcusd", "ltcbtc"
 
 ```javascript
 var options = {
-    url: url + '/symbols_details',
-    qs: {}
+  url: url + '/symbols_details',
+  qs: {}
 };
 request.get(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "pair":"btcusd",
-      "price_precision":5,
-      "initial_margin":"30.0",
-      "minimum_margin":"15.0",
-      "maximum_order_size":"2000.0",
-      "minimum_order_size":"0.01",
-      "expiration":"NA"
-   },
-   {  
-      "pair":"ltcusd",
-      "price_precision":5,
-      "initial_margin":"30.0",
-      "minimum_margin":"15.0",
-      "maximum_order_size":"5000.0",
-      "minimum_order_size":"0.1",
-      "expiration":"NA"
-   },
-   {  
-      "pair":"ltcbtc",
-      "price_precision":5,
-      "initial_margin":"30.0",
-      "minimum_margin":"15.0",
-      "maximum_order_size":"5000.0",
-      "minimum_order_size":"0.1",
-      "expiration":"NA"
-   }
-]
+[{
+  "pair":"btcusd",
+  "price_precision":5,
+  "initial_margin":"30.0",
+  "minimum_margin":"15.0",
+  "maximum_order_size":"2000.0",
+  "minimum_order_size":"0.01",
+  "expiration":"NA"
+},{
+  "pair":"ltcusd",
+  "price_precision":5,
+  "initial_margin":"30.0",
+  "minimum_margin":"15.0",
+  "maximum_order_size":"5000.0",
+  "minimum_order_size":"0.1",
+  "expiration":"NA"
+},{
+  "pair":"ltcbtc",
+  "price_precision":5,
+  "initial_margin":"30.0",
+  "minimum_margin":"15.0",
+  "maximum_order_size":"5000.0",
+  "minimum_order_size":"0.1",
+  "expiration":"NA"
+}]
 ```
 
 **Endpoint**
@@ -835,7 +812,7 @@ Get a list of valid symbol IDs and the pair details.
 
             </tbody>
             </table>
-            
+
 ## Authenticated Endpoints
 
 ```javascript
@@ -843,15 +820,16 @@ Get a list of valid symbol IDs and the pair details.
 // 1. You are using the provided example request object
 // 2. You use your API key and secret
 // 3. BTCUSD is the default symbol
-var request = require('request');
-var api_key = "<Your API key>";
-var api_secret = "<Your API secret>";
-var baseRequest = request.defaults({
+var
+  request = require('request'),
+  api_key = "<Your API key>",
+  api_secret = "<Your API secret>",
+  baseRequest = request.defaults({
     headers: {
         'X-BFX-APIKEY': api_key,
     },
     baseUrl: "https://api.bitfinex.com/v1"
-});
+  });
 ```
 <aside class="notice">
 All Authenticated Endpoints use POST requests
@@ -861,52 +839,46 @@ All Authenticated Endpoints use POST requests
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/account_infos",
-    "nonce": Date.now().toString()
+var payload = {
+  "request": "/v1/account_infos",
+  "nonce": Date.now().toString()
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/account_infos",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/account_infos",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "maker_fees":"0.1",
-      "taker_fees":"0.2",
-      "fees":[  
-         {  
-            "pairs":"BTC",
-            "maker_fees":"0.1",
-            "taker_fees":"0.2"
-         },
-         {  
-            "pairs":"LTC",
-            "maker_fees":"0.1",
-            "taker_fees":"0.2"
-         },
-         {  
-            "pairs":"DRK",
-            "maker_fees":"0.1",
-            "taker_fees":"0.2"
-         }
-      ]
-   }
-]
+[{
+  "maker_fees":"0.1",
+  "taker_fees":"0.2",
+  "fees":[{
+    "pairs":"BTC",
+    "maker_fees":"0.1",
+    "taker_fees":"0.2"
+   },{
+    "pairs":"LTC",
+    "maker_fees":"0.1",
+    "taker_fees":"0.2"
+   },
+   {
+    "pairs":"DRK",
+    "maker_fees":"0.1",
+    "taker_fees":"0.2"
+  }]
+}]
 ```
 
 **Endpoint**
@@ -947,43 +919,42 @@ Return information about your account (trading fees).
 
           </tbody>
           </table>
-          
+
 ### Deposit
 
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/deposit/new",
-    "nonce": Date.now().toString(),
-    "method": "bitcoin",
-    "wallet_name": "exchange",
-    "renew": 0
+var payload = {
+  "request": "/v1/deposit/new",
+  "nonce": Date.now().toString(),
+  "method": "bitcoin",
+  "wallet_name": "exchange",
+  "renew": 0
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/deposit/new",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/deposit/new",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-{  
-   "result":"success",
-   "method":"bitcoin",
-   "currency":"BTC",
-   "address":"3FdY9coNq47MLiKhG2FLtKzdaXS3hZpSo4"
+{
+  "result":"success",
+  "method":"bitcoin",
+  "currency":"BTC",
+  "address":"3FdY9coNq47MLiKhG2FLtKzdaXS3hZpSo4"
 }
 ```
 
@@ -1025,7 +996,7 @@ Return your deposit address to make a new deposit.
 
           </tbody>
           </table>
-          
+
 **Response Details**
 
 <table class="striped">
@@ -1068,52 +1039,51 @@ Return your deposit address to make a new deposit.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/order/new",
-    "nonce": Date.now().toString(),
-    "symbol": "BTCUSD",
-    "amount":"0.01",
-    "price": "0.01",
-    "exchange": "bitfinex",
-    "side": "buy",
-    "type": "exchange limit"
+var payload = {
+  "request": "/v1/order/new",
+  "nonce": Date.now().toString(),
+  "symbol": "BTCUSD",
+  "amount":"0.01",
+  "price": "0.01",
+  "exchange": "bitfinex",
+  "side": "buy",
+  "type": "exchange limit"
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/order/new",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/order/new",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-{  
-   "id":448364249,
-   "symbol":"btcusd",
-   "exchange":"bitfinex",
-   "price":"0.01",
-   "avg_execution_price":"0.0",
-   "side":"buy",
-   "type":"exchange limit",
-   "timestamp":"1444272165.252370982",
-   "is_live":true,
-   "is_cancelled":false,
-   "is_hidden":false,
-   "was_forced":false,
-   "original_amount":"0.01",
-   "remaining_amount":"0.01",
-   "executed_amount":"0.0",
-   "order_id":448364249
+{
+  "id":448364249,
+  "symbol":"btcusd",
+  "exchange":"bitfinex",
+  "price":"0.01",
+  "avg_execution_price":"0.0",
+  "side":"buy",
+  "type":"exchange limit",
+  "timestamp":"1444272165.252370982",
+  "is_live":true,
+  "is_cancelled":false,
+  "is_hidden":false,
+  "was_forced":false,
+  "original_amount":"0.01",
+  "remaining_amount":"0.01",
+  "executed_amount":"0.0",
+  "order_id":448364249
 }
 ```
 
@@ -1174,7 +1144,7 @@ Submit a new order.
             </tr>
             </tbody>
             </table>
-            
+
 **Response Details**
 
 <table class="striped">
@@ -1193,7 +1163,7 @@ Submit a new order.
               <td>An order object containing the order's ID as well as all the information provided by /order/status</td>
             </tr>
             </tbody>
-            </table>            
+            </table>
 **Order Types**
 
 <table class="striped">
@@ -1232,27 +1202,24 @@ Submit a new order.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/order/new/multi",
-    "nonce": Date.now().toString(),
-    "orders": [
-        {
-            "symbol": "BTCUSD",
-            "amount": "0.01",
-            "price": "0.01",
-            "exchange": "bitfinex",
-            "side": "buy",
-            "type": "exchange limit"
-        },
-        {
-            "symbol": "BTCUSD",
-            "amount": "0.02",
-            "price": "0.03",
-            "exchange": "bitfinex",
-            "side": "buy",
-            "type": "exchange limit"
-        }]
+var payload = {
+  "request": "/v1/order/new/multi",
+  "nonce": Date.now().toString(),
+  "orders": [{
+    "symbol": "BTCUSD",
+    "amount": "0.01",
+    "price": "0.01",
+    "exchange": "bitfinex",
+    "side": "buy",
+    "type": "exchange limit"
+  },{
+    "symbol": "BTCUSD",
+    "amount": "0.02",
+    "price": "0.03",
+    "exchange": "bitfinex",
+    "side": "buy",
+    "type": "exchange limit"
+  }]
 };
 
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
@@ -1273,44 +1240,41 @@ baseRequest.post(options, function (error, response, body) {
 > **Response**
 
 ```json
-{  
-   "order_ids":[  
-      {  
-         "id":448383727,
-         "symbol":"btcusd",
-         "exchange":"bitfinex",
-         "price":"0.01",
-         "avg_execution_price":"0.0",
-         "side":"buy",
-         "type":"exchange limit",
-         "timestamp":"1444274013.621701916",
-         "is_live":true,
-         "is_cancelled":false,
-         "is_hidden":false,
-         "was_forced":false,
-         "original_amount":"0.01",
-         "remaining_amount":"0.01",
-         "executed_amount":"0.0"
-      },
-      {  
-         "id":448383729,
-         "symbol":"btcusd",
-         "exchange":"bitfinex",
-         "price":"0.03",
-         "avg_execution_price":"0.0",
-         "side":"buy",
-         "type":"exchange limit",
-         "timestamp":"1444274013.661297306",
-         "is_live":true,
-         "is_cancelled":false,
-         "is_hidden":false,
-         "was_forced":false,
-         "original_amount":"0.02",
-         "remaining_amount":"0.02",
-         "executed_amount":"0.0"
-      }
-   ],
-   "status":"success"
+{
+  "order_ids":[{
+    "id":448383727,
+    "symbol":"btcusd",
+    "exchange":"bitfinex",
+    "price":"0.01",
+    "avg_execution_price":"0.0",
+    "side":"buy",
+    "type":"exchange limit",
+    "timestamp":"1444274013.621701916",
+    "is_live":true,
+    "is_cancelled":false,
+    "is_hidden":false,
+    "was_forced":false,
+    "original_amount":"0.01",
+    "remaining_amount":"0.01",
+    "executed_amount":"0.0"
+  },{
+    "id":448383729,
+    "symbol":"btcusd",
+    "exchange":"bitfinex",
+    "price":"0.03",
+    "avg_execution_price":"0.0",
+    "side":"buy",
+    "type":"exchange limit",
+    "timestamp":"1444274013.661297306",
+    "is_live":true,
+    "is_cancelled":false,
+    "is_hidden":false,
+    "was_forced":false,
+    "original_amount":"0.02",
+    "remaining_amount":"0.02",
+    "executed_amount":"0.0"
+  }],
+  "status":"success"
 }
 ```
 
@@ -1321,7 +1285,7 @@ baseRequest.post(options, function (error, response, body) {
 **Description**
 
 Submit several new orders at once.
-            
+
 **Request Details**
 
 <table class="striped">
@@ -1367,9 +1331,9 @@ Submit several new orders at once.
 
             </tbody>
             </table>
-            
+
 **Response Details**
-     
+
 <table class="striped">
             <thead>
               <tr>
@@ -1393,46 +1357,45 @@ Submit several new orders at once.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/order/cancel",
-    "nonce": Date.now().toString(),
-    "order_id": 448364249
+var payload = {
+  "request": "/v1/order/cancel",
+  "nonce": Date.now().toString(),
+  "order_id": 448364249
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/order/cancel",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/order/cancel",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function (error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-{  
-   "id":446915287,
-   "symbol":"btcusd",
-   "exchange":null,
-   "price":"239.0",
-   "avg_execution_price":"0.0",
-   "side":"sell",
-   "type":"trailing stop",
-   "timestamp":"1444141982.0",
-   "is_live":true,
-   "is_cancelled":false,
-   "is_hidden":false,
-   "was_forced":false,
-   "original_amount":"1.0",
-   "remaining_amount":"1.0",
-   "executed_amount":"0.0"
+{
+  "id":446915287,
+  "symbol":"btcusd",
+  "exchange":null,
+  "price":"239.0",
+  "avg_execution_price":"0.0",
+  "side":"sell",
+  "type":"trailing stop",
+  "timestamp":"1444141982.0",
+  "is_live":true,
+  "is_cancelled":false,
+  "is_hidden":false,
+  "was_forced":false,
+  "original_amount":"1.0",
+  "remaining_amount":"1.0",
+  "executed_amount":"0.0"
 }
 ```
 
@@ -1463,7 +1426,7 @@ Cancel an order.
             </tr>
             </tbody>
             </table>
-            
+
 **Response Details**
 
 Result of /order/status for the cancelled order.
@@ -1473,24 +1436,23 @@ Result of /order/status for the cancelled order.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/order/cancel/multi",
-    "nonce": Date.now().toString(),
-    "order_ids": [448402101, 448402099]
+var payload = {
+  "request": "/v1/order/cancel/multi",
+  "nonce": Date.now().toString(),
+  "order_ids": [448402101, 448402099]
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/order/cancel/multi",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/order/cancel/multi",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function (error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
@@ -1527,7 +1489,7 @@ Cancel multiples orders at once.
             </tr>
             </tbody>
             </table>
-            
+
 **Response Details**
 
 Confirmation of cancellation of the orders.
@@ -1537,23 +1499,22 @@ Confirmation of cancellation of the orders.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/order/cancel/all",
-    "nonce": Date.now().toString()
+var payload = {
+  "request": "/v1/order/cancel/all",
+  "nonce": Date.now().toString()
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/order/cancel/all",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/order/cancel/all",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function (error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
@@ -1584,53 +1545,52 @@ Confirmation of cancellation of the orders.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "order_id": 448411153,
-    "request": "/v1/order/cancel/replace",
-    "nonce": Date.now().toString(),
-    "symbol": "BTCUSD",
-    "amount":"0.02",
-    "price": "0.02",
-    "exchange": "bitfinex",
-    "side": "buy",
-    "type": "exchange limit"
+var payload = {
+  "order_id": 448411153,
+  "request": "/v1/order/cancel/replace",
+  "nonce": Date.now().toString(),
+  "symbol": "BTCUSD",
+  "amount":"0.02",
+  "price": "0.02",
+  "exchange": "bitfinex",
+  "side": "buy",
+  "type": "exchange limit"
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/order/cancel/replace",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/order/cancel/replace",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 })
 ```
 
 > **Response**
 
 ```json
-{  
-   "id":448411365,
-   "symbol":"btcusd",
-   "exchange":"bitfinex",
-   "price":"0.02",
-   "avg_execution_price":"0.0",
-   "side":"buy",
-   "type":"exchange limit",
-   "timestamp":"1444276597.691580782",
-   "is_live":true,
-   "is_cancelled":false,
-   "is_hidden":false,
-   "was_forced":false,
-   "original_amount":"0.02",
-   "remaining_amount":"0.02",
-   "executed_amount":"0.0",
-   "order_id":448411365
+{
+  "id":448411365,
+  "symbol":"btcusd",
+  "exchange":"bitfinex",
+  "price":"0.02",
+  "avg_execution_price":"0.0",
+  "side":"buy",
+  "type":"exchange limit",
+  "timestamp":"1444276597.691580782",
+  "is_live":true,
+  "is_cancelled":false,
+  "is_hidden":false,
+  "was_forced":false,
+  "original_amount":"0.02",
+  "remaining_amount":"0.02",
+  "executed_amount":"0.0",
+  "order_id":448411365
 }
 ```
 
@@ -1696,7 +1656,7 @@ Replace an orders with a new one.
             </tr>
             </tbody>
             </table>
-            
+
 **Response Details**
 
 <table class="striped">
@@ -1716,52 +1676,51 @@ Replace an orders with a new one.
             </tr>
             </tbody>
             </table>
-            
+
 #### Order status
 
 > **Request**
 
 ```javascript
-var payload =
-{
-    "order_id": 448411153,
-    "request": "/v1/order/status",
-    "nonce": Date.now().toString()
+var payload = {
+  "order_id": 448411153,
+  "request": "/v1/order/status",
+  "nonce": Date.now().toString()
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/order/status",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/order/status",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-{  
-   "id":448411153,
-   "symbol":"btcusd",
-   "exchange":null,
-   "price":"0.01",
-   "avg_execution_price":"0.0",
-   "side":"buy",
-   "type":"exchange limit",
-   "timestamp":"1444276570.0",
-   "is_live":false,
-   "is_cancelled":true,
-   "is_hidden":false,
-   "was_forced":false,
-   "original_amount":"0.01",
-   "remaining_amount":"0.01",
-   "executed_amount":"0.0"
+{
+  "id":448411153,
+  "symbol":"btcusd",
+  "exchange":null,
+  "price":"0.01",
+  "avg_execution_price":"0.0",
+  "side":"buy",
+  "type":"exchange limit",
+  "timestamp":"1444276570.0",
+  "is_live":false,
+  "is_cancelled":true,
+  "is_hidden":false,
+  "was_forced":false,
+  "original_amount":"0.01",
+  "remaining_amount":"0.01",
+  "executed_amount":"0.0"
 }
 ```
 
@@ -1792,7 +1751,7 @@ Get the status of an order. Is it active? Was it cancelled? To what extent has i
             </tr>
             </tbody>
             </table>
-            
+
 **Response Details**
 
 <table class="striped">
@@ -1878,54 +1837,51 @@ Get the status of an order. Is it active? Was it cancelled? To what extent has i
 
             </tbody>
             </table>
-            
+
 #### Active orders
 
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/orders",
-    "nonce": Date.now().toString()
+var payload = {
+  "request": "/v1/orders",
+  "nonce": Date.now().toString()
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/orders",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/orders",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "id":448411365,
-      "symbol":"btcusd",
-      "exchange":"bitfinex",
-      "price":"0.02",
-      "avg_execution_price":"0.0",
-      "side":"buy",
-      "type":"exchange limit",
-      "timestamp":"1444276597.0",
-      "is_live":true,
-      "is_cancelled":false,
-      "is_hidden":false,
-      "was_forced":false,
-      "original_amount":"0.02",
-      "remaining_amount":"0.02",
-      "executed_amount":"0.0"
-   }
-]
+[{
+  "id":448411365,
+  "symbol":"btcusd",
+  "exchange":"bitfinex",
+  "price":"0.02",
+  "avg_execution_price":"0.0",
+  "side":"buy",
+  "type":"exchange limit",
+  "timestamp":"1444276597.0",
+  "is_live":true,
+  "is_cancelled":false,
+  "is_hidden":false,
+  "was_forced":false,
+  "original_amount":"0.02",
+  "remaining_amount":"0.02",
+  "executed_amount":"0.0"
+}]
 ```
 
 **Endpoint**
@@ -1947,41 +1903,38 @@ An array of the results of `/order/status` for all your live orders.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/positions",
-    "nonce": Date.now().toString()
+var payload = {
+  "request": "/v1/positions",
+  "nonce": Date.now().toString()
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/positions",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/positions",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "id":943715,
-      "symbol":"btcusd",
-      "status":"ACTIVE",
-      "base":"246.94",
-      "amount":"1.0",
-      "timestamp":"1444141857.0",
-      "swap":"0.0",
-      "pl":"-2.22042"
-   }
-]
+[{
+  "id":943715,
+  "symbol":"btcusd",
+  "status":"ACTIVE",
+  "base":"246.94",
+  "amount":"1.0",
+  "timestamp":"1444141857.0",
+  "swap":"0.0",
+  "pl":"-2.22042"
+}]
 ```
 
 **Endpoint**
@@ -2002,39 +1955,38 @@ An array of your active positions.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/position/claim",
-    "nonce": Date.now().toString(),
-    "position_id": 943715
+var payload = {
+  "request": "/v1/position/claim",
+  "nonce": Date.now().toString(),
+  "position_id": 943715
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/position/claim",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/position/claim",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-{  
-   "id":943715,
-   "symbol":"btcusd",
-   "status":"ACTIVE",
-   "base":"246.94",
-   "amount":"1.0",
-   "timestamp":"1444141857.0",
-   "swap":"0.0",
-   "pl":"-2.2304"
+{
+  "id":943715,
+  "symbol":"btcusd",
+  "status":"ACTIVE",
+  "base":"246.94",
+  "amount":"1.0",
+  "timestamp":"1444141857.0",
+  "swap":"0.0",
+  "pl":"-2.2304"
 }
 ```
 
@@ -2046,13 +1998,13 @@ baseRequest.post(options, function(error, response, body) {
 
 A position can be claimed if:
 
-It is a long position: The amount in the last unit of the position pair that you have in your trading wallet 
-AND/OR the realized profit of the position is greater or equal to the purchase amount of the position 
-(base price * position amount) and the funds which need to be returned. For example, for a long BTCUSD position, 
-you can claim the position if the amount of USD you have in the trading wallet is greater than the base price * the 
+It is a long position: The amount in the last unit of the position pair that you have in your trading wallet
+AND/OR the realized profit of the position is greater or equal to the purchase amount of the position
+(base price * position amount) and the funds which need to be returned. For example, for a long BTCUSD position,
+you can claim the position if the amount of USD you have in the trading wallet is greater than the base price * the
 position amount and the funds used.
 
-It is a short position: The amount in the first unit of the position pair that you have in your trading wallet is 
+It is a short position: The amount in the first unit of the position pair that you have in your trading wallet is
 greater or equal to the amount of the position and the margin funding used.
 
 **Request Details**
@@ -2086,40 +2038,37 @@ Status of the position for the claimed position, if the position could be claime
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/history",
-    "nonce": Date.now().toString(),
-    "currency": "USD",
-    "limit": 1
+var payload = {
+  "request": "/v1/history",
+  "nonce": Date.now().toString(),
+  "currency": "USD",
+  "limit": 1
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/history",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/history",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "currency":"USD",
-      "amount":"-246.94",
-      "balance":"515.4476526",
-      "description":"Position claimed @ 245.2 on wallet trading",
-      "timestamp":"1444277602.0"
-   }
-]
+[{
+  "currency":"USD",
+  "amount":"-246.94",
+  "balance":"515.4476526",
+  "description":"Position claimed @ 245.2 on wallet trading",
+  "timestamp":"1444277602.0"
+}]
 ```
 
 **Endpoint**
@@ -2210,49 +2159,46 @@ View all of your balance ledger entries.
 
           </tbody>
           </table>
-          
+
 #### Deposit-Withdrawal History
 
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/history/movements",
-    "nonce": Date.now().toString(),
-    "currency": "BTC",
-    "limit": 1
+var payload = {
+  "request": "/v1/history/movements",
+  "nonce": Date.now().toString(),
+  "currency": "BTC",
+  "limit": 1
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/history/movements",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/history/movements",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "id":581183,
-      "currency":"BTC",
-      "method":"BITCOIN",
-      "type":"WITHDRAWAL",
-      "amount":".01",
-      "description":"3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, offchain transfer ",
-      "status":"COMPLETED",
-      "timestamp":"1443833327.0"
-   }
-]
+[{
+  "id":581183,
+  "currency":"BTC",
+  "method":"BITCOIN",
+  "type":"WITHDRAWAL",
+  "amount":".01",
+  "description":"3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, offchain transfer ",
+  "status":"COMPLETED",
+  "timestamp":"1443833327.0"
+}]
 ```
 
 **Endpoint**
@@ -2302,7 +2248,7 @@ View your past deposits/withdrawals.
           </tr>
           </tbody>
           </table>
-          
+
 **Response Details**
 
 An array of histories
@@ -2361,44 +2307,41 @@ An array of histories
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/mytrades",
-    "nonce": Date.now().toString(),
-    "symbol": "BTCUSD",
-    "limit_trades": 1
+var payload = {
+  "request": "/v1/mytrades",
+  "nonce": Date.now().toString(),
+  "symbol": "BTCUSD",
+  "limit_trades": 1
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/mytrades",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/mytrades",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "price":"246.94",
-      "amount":"1.0",
-      "timestamp":"1444141857.0",
-      "exchange":"",
-      "type":"Buy",
-      "fee_currency":"USD",
-      "fee_amount":"-0.49388",
-      "tid":11970839,
-      "order_id":446913929
-   }
-]
+[{
+  "price":"246.94",
+  "amount":"1.0",
+  "timestamp":"1444141857.0",
+  "exchange":"",
+  "type":"Buy",
+  "fee_currency":"USD",
+  "fee_amount":"-0.49388",
+  "tid":11970839,
+  "order_id":446913929
+}]
 ```
 
 **Endpoint**
@@ -2448,7 +2391,7 @@ View your past trades.
           </tr>
           </tbody>
           </table>
-          
+
 **Response Details**
 
 An array of trades
@@ -2523,47 +2466,46 @@ An array of trades
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/offer/new",
-    "nonce": Date.now().toString(),
-    "currency": "USD",
-    "amount": "50.00",
-    "rate": "20",
-    "period": 2,
-    "direction": "lend"
+var payload = {
+  "request": "/v1/offer/new",
+  "nonce": Date.now().toString(),
+  "currency": "USD",
+  "amount": "50.00",
+  "rate": "20",
+  "period": 2,
+  "direction": "lend"
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/offer/new",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/offer/new",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-{  
-   "id":13800585,
-   "currency":"USD",
-   "rate":"20.0",
-   "period":2,
-   "direction":"lend",
-   "timestamp":"1444279698.21175971",
-   "is_live":true,
-   "is_cancelled":false,
-   "original_amount":"50.0",
-   "remaining_amount":"50.0",
-   "executed_amount":"0.0",
-   "offer_id":13800585
+{
+  "id":13800585,
+  "currency":"USD",
+  "rate":"20.0",
+  "period":2,
+  "direction":"lend",
+  "timestamp":"1444279698.21175971",
+  "is_live":true,
+  "is_cancelled":false,
+  "original_amount":"50.0",
+  "remaining_amount":"50.0",
+  "executed_amount":"0.0",
+  "offer_id":13800585
 }
 ```
 
@@ -2639,21 +2581,20 @@ Submit a new offer.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/offer/cancel",
-    "nonce": Date.now().toString(),
-    "offer_id": 13800585
+var payload = {
+  "request": "/v1/offer/cancel",
+  "nonce": Date.now().toString(),
+  "offer_id": 13800585
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/offer/cancel",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/offer/cancel",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
     console.log(body);
@@ -2663,18 +2604,18 @@ baseRequest.post(options, function(error, response, body) {
 > **Response**
 
 ```json
-{  
-   "id":13800585,
-   "currency":"USD",
-   "rate":"20.0",
-   "period":2,
-   "direction":"lend",
-   "timestamp":"1444279698.0",
-   "is_live":true,
-   "is_cancelled":false,
-   "original_amount":"50.0",
-   "remaining_amount":"50.0",
-   "executed_amount":"0.0"
+{
+  "id":13800585,
+  "currency":"USD",
+  "rate":"20.0",
+  "period":2,
+  "direction":"lend",
+  "timestamp":"1444279698.0",
+  "is_live":true,
+  "is_cancelled":false,
+  "original_amount":"50.0",
+  "remaining_amount":"50.0",
+  "executed_amount":"0.0"
 }
 ```
 
@@ -2714,42 +2655,41 @@ Result of /offer/status for the cancelled offer.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/offer/status",
-    "nonce": Date.now().toString(),
-    "offer_id": 13800585
+var payload = {
+  "request": "/v1/offer/status",
+  "nonce": Date.now().toString(),
+  "offer_id": 13800585
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/offer/status",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/offer/status",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-{  
-   "id":13800585,
-   "currency":"USD",
-   "rate":"20.0",
-   "period":2,
-   "direction":"lend",
-   "timestamp":"1444279698.0",
-   "is_live":false,
-   "is_cancelled":true,
-   "original_amount":"50.0",
-   "remaining_amount":"50.0",
-   "executed_amount":"0.0"
+{
+  "id":13800585,
+  "currency":"USD",
+  "rate":"20.0",
+  "period":2,
+  "direction":"lend",
+  "timestamp":"1444279698.0",
+  "is_live":false,
+  "is_cancelled":true,
+  "original_amount":"50.0",
+  "remaining_amount":"50.0",
+  "executed_amount":"0.0"
 }
 ```
 
@@ -2851,50 +2791,47 @@ Get the status of an offer. Is it active? Was it cancelled? To what extent has i
 
             </tbody>
             </table>
-            
+
 #### Active Credits
 
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/offers",
-    "nonce": Date.now().toString(),
+var payload = {
+  "request": "/v1/offers",
+  "nonce": Date.now().toString(),
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/offers",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/offers",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "id":13800719,
-      "currency":"USD",
-      "rate":"31.39",
-      "period":2,
-      "direction":"lend",
-      "timestamp":"1444280237.0",
-      "is_live":true,
-      "is_cancelled":false,
-      "original_amount":"50.0",
-      "remaining_amount":"50.0",
-      "executed_amount":"0.0"
-   }
-]
+[{
+  "id":13800719,
+  "currency":"USD",
+  "rate":"31.39",
+  "period":2,
+  "direction":"lend",
+  "timestamp":"1444280237.0",
+  "is_live":true,
+  "is_cancelled":false,
+  "original_amount":"50.0",
+  "remaining_amount":"50.0",
+  "executed_amount":"0.0"
+}]
 ```
 
 **Endpoint**
@@ -2914,40 +2851,37 @@ An array of the results of `/offer/status` for all your live offers (lending or 
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/taken_funds",
-    "nonce": Date.now().toString(),
+var payload = {
+  "request": "/v1/taken_funds",
+  "nonce": Date.now().toString(),
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/taken_funds",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/taken_funds",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "id":11576737,
-      "position_id":944309,
-      "currency":"USD",
-      "rate":"9.8874",
-      "period":2,
-      "amount":"34.24603414",
-      "timestamp":"1444280948.0"
-   }
-]
+[{
+  "id":11576737,
+  "position_id":944309,
+  "currency":"USD",
+  "rate":"9.8874",
+  "period":2,
+  "amount":"34.24603414",
+  "timestamp":"1444280948.0"
+}]
 ```
 
 **Endpoint**
@@ -2968,35 +2902,32 @@ An array of your active margin funds.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/total_taken_funds",
-    "nonce": Date.now().toString(),
+var payload = {
+  "request": "/v1/total_taken_funds",
+  "nonce": Date.now().toString(),
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/total_taken_funds",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/total_taken_funds",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "position_pair":"BTCUSD",
-      "total_swaps":"34.24603414"
-   }
-]
+[{
+  "position_pair":"BTCUSD",
+  "total_swaps":"34.24603414"
+}]
 ```
 
 **Endpoint**
@@ -3039,38 +2970,37 @@ View the total of your active funding used in your position(s).
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/funding/close",
-    "nonce": Date.now().toString(),
-    "swap_id": 11576737
+var payload = {
+  "request": "/v1/funding/close",
+  "nonce": Date.now().toString(),
+  "swap_id": 11576737
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/funding/close",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/funding/close",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-{  
-   "id":11576737,
-   "position_id":944309,
-   "currency":"USD",
-   "rate":"9.8874",
-   "period":2,
-   "amount":"34.24603414",
-   "timestamp":"1444280948.0"
+{
+  "id":11576737,
+  "position_id":944309,
+  "currency":"USD",
+  "rate":"9.8874",
+  "period":2,
+  "amount":"34.24603414",
+  "timestamp":"1444280948.0"
 }
 ```
 
@@ -3111,67 +3041,59 @@ Status of the margin funding contract. Closed if it could be closed.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/balances",
-    "nonce": Date.now().toString()
+var payload = {
+  "request": "/v1/balances",
+  "nonce": Date.now().toString()
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/balances",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/balances",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "type":"deposit",
-      "currency":"btc",
-      "amount":"0.0",
-      "available":"0.0"
-   },
-   {  
-      "type":"deposit",
-      "currency":"usd",
-      "amount":"1.0",
-      "available":"1.0"
-   },
-   {  
-      "type":"exchange",
-      "currency":"btc",
-      "amount":"1",
-      "available":"1"
-   },
-   {  
-      "type":"exchange",
-      "currency":"usd",
-      "amount":"1",
-      "available":"1"
-   },
-   {  
-      "type":"trading",
-      "currency":"btc",
-      "amount":"1",
-      "available":"1"
-   },
-   {  
-      "type":"trading",
-      "currency":"usd",
-      "amount":"1",
-      "available":"1"
-   }
-]
+[{
+  "type":"deposit",
+  "currency":"btc",
+  "amount":"0.0",
+  "available":"0.0"
+},{
+  "type":"deposit",
+  "currency":"usd",
+  "amount":"1.0",
+  "available":"1.0"
+},{
+  "type":"exchange",
+  "currency":"btc",
+  "amount":"1",
+  "available":"1"
+},{
+  "type":"exchange",
+  "currency":"usd",
+  "amount":"1",
+  "available":"1"
+},{
+  "type":"trading",
+  "currency":"btc",
+  "amount":"1",
+  "available":"1"
+},{
+  "type":"trading",
+  "currency":"usd",
+  "amount":"1",
+  "available":"1"
+}]
 ```
 
 **Endpoint**
@@ -3224,50 +3146,45 @@ An array of wallet balances
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/margin_infos",
-    "nonce": Date.now().toString()
+var payload = {
+  "request": "/v1/margin_infos",
+  "nonce": Date.now().toString()
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/margin_infos",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/margin_infos",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "margin_balance":"14.80039951",
-      "tradable_balance":"-12.50620089",
-      "unrealized_pl":"-0.18392",
-      "unrealized_swap":"-0.00038653",
-      "net_value":"14.61609298",
-      "required_margin":"7.3569",
-      "leverage":"2.5",
-      "margin_requirement":"13.0",
-      "margin_limits":[  
-         {  
-            "on_pair":"BTCUSD",
-            "initial_margin":"30.0",
-            "margin_requirement":"15.0",
-            "tradable_balance":"-0.329243259666666667"
-         }
-      ],
-      "message":"Margin requirement, leverage and tradable balance are now per pair. You will find them under margin_limits, for each pair. Please update your code as soon as possible."
-   }
-]
+[{
+  "margin_balance":"14.80039951",
+  "tradable_balance":"-12.50620089",
+  "unrealized_pl":"-0.18392",
+  "unrealized_swap":"-0.00038653",
+  "net_value":"14.61609298",
+  "required_margin":"7.3569",
+  "leverage":"2.5",
+  "margin_requirement":"13.0",
+  "margin_limits":[{
+    "on_pair":"BTCUSD",
+    "initial_margin":"30.0",
+    "margin_requirement":"15.0",
+    "tradable_balance":"-0.329243259666666667"
+  }],
+  "message": "Margin requirement, leverage and tradable balance are now per pair. You will find them under margin_limits, for each pair. Please update your code as soon as possible."
+}]
 ```
 
 **Endpoint**
@@ -3343,45 +3260,42 @@ See your trading wallet information for margin trading.
 
           </tbody>
           </table>
-          
+
 ### Transfer Between Wallets
 
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/transfer",
-    "nonce": Date.now().toString(),
-    "amount": "1.0",
-    "currency": "USD",
-    "walletfrom": "exchange",
-    "walletto": "deposit"
+var payload = {
+  "request": "/v1/transfer",
+  "nonce": Date.now().toString(),
+  "amount": "1.0",
+  "currency": "USD",
+  "walletfrom": "exchange",
+  "walletto": "deposit"
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/transfer",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/transfer",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "status":"success",
-      "message":"1.0 USD transfered from Exchange to Deposit"
-   }
-]
+[{
+  "status":"success",
+  "message":"1.0 USD transfered from Exchange to Deposit"
+}]
 ```
 
 **Endpoint**
@@ -3426,7 +3340,7 @@ Allow you to move available balances between your wallets.
             </tr>
             </tbody>
           </table>
-          
+
 **Response Details**
 
 <table class="striped">
@@ -3457,40 +3371,37 @@ Allow you to move available balances between your wallets.
 > **Request**
 
 ```javascript
-var payload =
-{
-    "request": "/v1/withdraw",
-    "nonce": Date.now().toString(),
-    "amount": "0.01",
-    "withdraw_type": "bitcoin",
-    "walletselected": "exchange",
-    "address": "1DKwqRhDmVyHJDL4FUYpDmQMYA3Rsxtvur"
+var payload = {
+  "request": "/v1/withdraw",
+  "nonce": Date.now().toString(),
+  "amount": "0.01",
+  "withdraw_type": "bitcoin",
+  "walletselected": "exchange",
+  "address": "1DKwqRhDmVyHJDL4FUYpDmQMYA3Rsxtvur"
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 var options = {
-    url: "/withdraw",
-    headers: {
-        'X-BFX-PAYLOAD': payload,
-        'X-BFX-SIGNATURE': signature
-    },
-    body: payload
+  url: "/withdraw",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
 };
 baseRequest.post(options, function(error, response, body) {
-    console.log(body);
+  console.log(body);
 });
 ```
 
 > **Response**
 
 ```json
-[  
-   {  
-      "status":"success",
-      "message":"Your withdrawal request has been successfully submitted.",
-      "withdrawal_id":586829
-   }
-]
+[{
+  "status":"success",
+  "message":"Your withdrawal request has been successfully submitted.",
+  "withdrawal_id":586829
+}]
 ```
 
 **Endpoint**
@@ -3535,7 +3446,7 @@ Allow you to request a withdrawal from one of your wallet.
             </tr>
             </tbody>
           </table>
-          
+
 **Request Details**
 
 <table class="striped">
