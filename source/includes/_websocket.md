@@ -366,6 +366,13 @@ your account. You can receive updates on your positions,
 your balances, your orders and your trades.
 
 Account info always uses ChanId 0.
+
+<aside class="notice">
+<strong>AUTH request message: authenticate for the private data stream</strong>
+<ul><li>API_KEY: (string) Bitfinex's api key</li>
+<li>AUTH_SIGNATURE: (string) HMAC-sha384 signature</li></ul>
+</aside>
+
 > **Example**
 
 ```javascript
@@ -463,22 +470,22 @@ ORD_CREATED_AT | string | Creation date/time
 ```json
 [0, "<pn|pu|pc>", ["<POS_PAIR>", "<POS_STATUS>", "<POS_AMOUNT>", "<POS_BASE_PRICE>", "<POS_MARGIN_FUNDING>", "<POS_MARGIN_FUNDING_TYPE>"]]
 ```
-
-> <aside class="notice">
->  <strong>Limit Order Behavior</strong>
->  <br>
->  <ul>
->  <li>When you place a limit order, you will first receive an ‘on’ (order new) which means that the order has been accepted by the system</li>
->  <li>When the order rests on the book, you will receive an 'ou' (order update).</li>
->  <li>If you send a market order, you will only receive the ‘on’ because it won’t actually rest on the book (as it matches the first order it runs into).</li>
->  </ul>
->  </aside>
-
 > **Updates (wallet)**
 
 ```json
 [0, "wu", ["<WLT_NAME>", "<WLT_CURRENCY>", "<WLT_BALANCE>", "<WLT_INTEREST_UNSETTLED>"]]
 ```
+
+<aside class="notice">
+<strong>Limit Order Behavior</strong>
+<br>
+<ul>
+<li>When you place a limit order, you will first receive an ‘on’ (order new) which means that the order has been accepted by the system</li>
+<li>When the order rests on the book, you will receive an 'ou' (order update).</li>
+<li>If you send a market order, you will only receive the ‘on’ because it won’t actually rest on the book (as it matches the first order it runs into).</li>
+</ul>
+</aside>
+
 > **Updates (order)**
 
 ```json
@@ -489,15 +496,6 @@ ORD_CREATED_AT | string | Creation date/time
 ```json
 [0, "te", ["<ORD_ID>", "<ORD_AMOUNT_EXECUTED>"]]
 ```
-
-<aside class="notice">
-<strong>AUTH request message: authenticate for the private data stream</strong>
-<br>
--API_KEY: (string) Bitfinex's api key
-<br>
--AUTH_SIGNATURE: (string) HMAC-sha384 signature
-</aside>
-
 **Abbreviated Terms Glossary**
 
 Term | Definition
