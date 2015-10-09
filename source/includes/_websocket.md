@@ -25,7 +25,9 @@ Open up a websocket connection to the websocket URI.
 //using the ws library
 var WebSocket = require('ws');
 var w = new WebSocket("wss://api2.bitfinex.com:3000/ws");
-w.onmessage = function(msg) { console.log(msg.data); };
+w.onmessage = function(msg) {
+    console.log(msg.data);
+};
 ```
 
 ### Error Codes
@@ -187,7 +189,12 @@ followed by updates upon any changes to the book.
 > **Example**
 
 ```javascript
-w.send(JSON.stringify({ "Event": "subscribe", Channel: "trades", Pair: "BTCUSD", Prec: "P0" }))
+w.send(JSON.stringify({
+    "Event": "subscribe",
+    Channel: "trades",
+    Pair: "BTCUSD",
+    Prec: "P0"
+}))
 ```
 > **Request**
 
@@ -276,7 +283,11 @@ such as price, size and time.
 > **Example**
 
 ```javascript
-w.send(JSON.stringify({ "Event": "subscribe", Channel: "trades", Pair: "BTCUSD" }))
+w.send(JSON.stringify({
+    "Event": "subscribe",
+    Channel: "trades",
+    Pair: "BTCUSD"
+}))
 ```
 > **Request**
 
@@ -344,7 +355,11 @@ much the price has moved over the last day.
 > **Example**
 
 ```javascript
-w.send(JSON.stringify({ "Event": "subscribe", Channel: "ticker", Pair: "BTCUSD" }))
+w.send(JSON.stringify({
+    "Event": "subscribe",
+    Channel: "ticker",
+    Pair: "BTCUSD"
+}))
 ```
 > **Request**
 
