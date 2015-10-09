@@ -431,12 +431,17 @@ Account info always uses ChanId 0.
 
 ```javascript
 var
-  crypto = require('crypto'),
-  api_key = 'API_KEY',
-  api_secret = 'API_SECRET',
-  payload = 'AUTH' + (new Date().getTime()),
-  signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
-w.send(JSON.stringify({ Event: "auth", ApiKey: api_key, AuthSig: signature, AuthPayload: payload }));
+    crypto = require('crypto'),
+    api_key = 'API_KEY',
+    api_secret = 'API_SECRET',
+    payload = 'AUTH' + (new Date().getTime()),
+    signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+w.send(JSON.stringify({
+    Event: "auth",
+    ApiKey: api_key,
+    AuthSig: signature,
+    AuthPayload: payload
+}));
 ```
 
 > **Request**
