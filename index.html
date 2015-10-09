@@ -4209,40 +4209,56 @@ your balances, your orders and your trades.</p>
 <blockquote>
 <p><strong>Request</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ApiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;API_KEY&gt;"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"AuthSig"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;AUTH_SIGNATURE&gt;"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"AuthPayload"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;AUTH_PAYLOAD&gt;"</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">  
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Status"</span><span class="p">:</span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"UserId"</span><span class="p">:</span><span class="s2">"&lt;USER_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Response - Success</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"UserId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;USER_ID&gt;"</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">  
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Status"</span><span class="p">:</span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"UserId"</span><span class="p">:</span><span class="s2">"&lt;USER_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Response - Failure</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-</span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
-</span><span class="nt">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FAIL"</span><span class="p">,</span><span class="w">
-</span><span class="nt">"ChanId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-</span><span class="nt">"Code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">  
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Status"</span><span class="p">:</span><span class="s2">"FAIL"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Code"</span><span class="p">:</span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Position Snapshot</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"ps"</span><span class="p">,</span><span class="w"> </span><span class="p">[[</span><span class="s2">"&lt;POS_PAIR&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_STATUS&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_AMOUNT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_BASE_PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_MARGIN_FUNDING&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_MARGIN_FUNDING_TYPE&gt;"</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">]]]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">  
+   </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"ps"</span><span class="p">,</span><span class="w">
+   </span><span class="p">[</span><span class="w">  
+      </span><span class="p">[</span><span class="w">  
+         </span><span class="s2">"&lt;POS_PAIR&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;POS_STATUS&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;POS_AMOUNT&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;POS_BASE_PRICE&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;POS_MARGIN_FUNDING&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;POS_MARGIN_FUNDING_TYPE&gt;"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="p">[</span><span class="w">  
+         </span><span class="s2">"..."</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <p><strong>Fields</strong></p>
@@ -4289,7 +4305,18 @@ your balances, your orders and your trades.</p>
 <blockquote>
 <p><strong>Wallet Snapshot</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"ws"</span><span class="p">,</span><span class="w"> </span><span class="p">[[</span><span class="s2">"&lt;WLT_NAME&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;WLT_CURRENCY&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;WLT_BALANCE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;WLT_INTEREST_UNSETTLED&gt;"</span><span class="p">]]]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"ws"</span><span class="p">,</span><span class="w">
+   </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="w">
+         </span><span class="s2">"&lt;WLT_NAME&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;WLT_CURRENCY&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;WLT_BALANCE&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;WLT_INTEREST_UNSETTLED&gt;"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <p><strong>Fields</strong></p>
@@ -4321,7 +4348,26 @@ your balances, your orders and your trades.</p>
 <blockquote>
 <p><strong>Order Snapshot</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"os"</span><span class="p">,</span><span class="w"> </span><span class="p">[[</span><span class="s2">"&lt;ORD_ID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PAIR&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_AMOUNT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_AMOUNT_ORIG&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_TYPE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_STATUS&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PRICE_AVG&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_CREATED_AT&gt;"</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">]]]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"os"</span><span class="p">,</span><span class="w">
+   </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="w">
+         </span><span class="s2">"&lt;ORD_ID&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;ORD_PAIR&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;ORD_AMOUNT&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;ORD_AMOUNT_ORIG&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;ORD_TYPE&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;ORD_STATUS&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;ORD_PRICE&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;ORD_PRICE_AVG&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;ORD_CREATED_AT&gt;"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="p">[</span><span class="w">
+         </span><span class="s2">"..."</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <p><strong>Fields</strong></p>
@@ -4383,19 +4429,55 @@ your balances, your orders and your trades.</p>
 <blockquote>
 <p><strong>Updates (order)</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;on|ou|oc&gt;"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"&lt;ORD_ID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PAIR&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_AMOUNT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_AMOUNT_ORIG&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_TYPE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_STATUS&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PRICE_AVG&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_CREATED_AT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_NOTIFY&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_HIDDEN&gt;"</span><span class="p">]]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;on|ou|oc&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"&lt;ORD_ID&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_PAIR&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_AMOUNT&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_AMOUNT_ORIG&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_TYPE&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_STATUS&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_PRICE&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_PRICE_AVG&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_CREATED_AT&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_NOTIFY&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_HIDDEN&gt;"</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Updates (position)</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;pn|pu|pc&gt;"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"&lt;POS_PAIR&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_STATUS&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_AMOUNT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_BASE_PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_MARGIN_FUNDING&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_MARGIN_FUNDING_TYPE&gt;"</span><span class="p">]]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">  
+   </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;pn|pu|pc&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="p">[</span><span class="w">  
+      </span><span class="s2">"&lt;POS_PAIR&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;POS_STATUS&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;POS_AMOUNT&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;POS_BASE_PRICE&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;POS_MARGIN_FUNDING&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;POS_MARGIN_FUNDING_TYPE&gt;"</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Updates (wallet)</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"wu"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"&lt;WLT_NAME&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;WLT_CURRENCY&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;WLT_BALANCE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;WLT_INTEREST_UNSETTLED&gt;"</span><span class="p">]]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"wu"</span><span class="p">,</span><span class="w">
+   </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"&lt;WLT_NAME&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;WLT_CURRENCY&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;WLT_BALANCE&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;WLT_INTEREST_UNSETTLED&gt;"</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <aside class="notice">
@@ -4411,7 +4493,14 @@ your balances, your orders and your trades.</p>
 <blockquote>
 <p><strong>Updates (trade_executed)</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"te"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"&lt;ORD_ID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_AMOUNT_EXECUTED&gt;"</span><span class="p">]]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"te"</span><span class="p">,</span><span class="w">
+   </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"&lt;ORD_ID&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;ORD_AMOUNT_EXECUTED&gt;"</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <p><strong>Abbreviated Terms Glossary</strong></p>
@@ -4487,18 +4576,18 @@ your balances, your orders and your trades.</p>
 <blockquote>
 <p><strong>Request</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-</span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unauth"</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">  
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"unauth"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Response - Success</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">{</span><span class="w">
-</span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unauth"</span><span class="p">,</span><span class="w">
-</span><span class="nt">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
-</span><span class="nt">"ChanId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">  
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"unauth"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Status"</span><span class="p">:</span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4506,10 +4595,10 @@ your balances, your orders and your trades.</p>
 <p><strong>Response - Failure</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-</span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-</span><span class="nt">"Status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FAILED"</span><span class="p">,</span><span class="w">
-</span><span class="nt">"ChanId"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-</span><span class="nt">"Code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CODE&gt;"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"error"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Status"</span><span class="p">:</span><span class="s2">"FAILED"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Code"</span><span class="p">:</span><span class="s2">"&lt;CODE&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
