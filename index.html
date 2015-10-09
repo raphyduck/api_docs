@@ -3670,7 +3670,9 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <pre class="highlight javascript"><code><span class="c1">//using the ws library</span>
 <span class="kd">var</span> <span class="nx">WebSocket</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'ws'</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="s2">"wss://api2.bitfinex.com:3000/ws"</span><span class="p">);</span>
-<span class="nx">w</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span> <span class="p">};</span>
+<span class="nx">w</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+<span class="p">};</span>
 </code></pre>
 
 <h3 id="error-codes">Error Codes</h3>
@@ -3843,7 +3845,12 @@ followed by updates upon any changes to the book.</p>
 <blockquote>
 <p><strong>Example</strong></p>
 </blockquote>
-<pre class="highlight javascript"><code><span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span> <span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span> <span class="na">Channel</span><span class="p">:</span> <span class="s2">"trades"</span><span class="p">,</span> <span class="na">Pair</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span> <span class="na">Prec</span><span class="p">:</span> <span class="s2">"P0"</span> <span class="p">}))</span>
+<pre class="highlight javascript"><code><span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+    <span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span>
+    <span class="na">Channel</span><span class="p">:</span> <span class="s2">"trades"</span><span class="p">,</span>
+    <span class="na">Pair</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>
+    <span class="na">Prec</span><span class="p">:</span> <span class="s2">"P0"</span>
+<span class="p">}))</span>
 </code></pre>
 
 <blockquote>
@@ -4023,7 +4030,11 @@ such as price, size and time.</p>
 <blockquote>
 <p><strong>Example</strong></p>
 </blockquote>
-<pre class="highlight javascript"><code><span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span> <span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span> <span class="na">Channel</span><span class="p">:</span> <span class="s2">"trades"</span><span class="p">,</span> <span class="na">Pair</span><span class="p">:</span> <span class="s2">"BTCUSD"</span> <span class="p">}))</span>
+<pre class="highlight javascript"><code><span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+    <span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span>
+    <span class="na">Channel</span><span class="p">:</span> <span class="s2">"trades"</span><span class="p">,</span>
+    <span class="na">Pair</span><span class="p">:</span> <span class="s2">"BTCUSD"</span>
+<span class="p">}))</span>
 </code></pre>
 
 <blockquote>
@@ -4120,7 +4131,11 @@ much the price has moved over the last day.</p>
 <blockquote>
 <p><strong>Example</strong></p>
 </blockquote>
-<pre class="highlight javascript"><code><span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span> <span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span> <span class="na">Channel</span><span class="p">:</span> <span class="s2">"ticker"</span><span class="p">,</span> <span class="na">Pair</span><span class="p">:</span> <span class="s2">"BTCUSD"</span> <span class="p">}))</span>
+<pre class="highlight javascript"><code><span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+    <span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span>
+    <span class="na">Channel</span><span class="p">:</span> <span class="s2">"ticker"</span><span class="p">,</span>
+    <span class="na">Pair</span><span class="p">:</span> <span class="s2">"BTCUSD"</span>
+<span class="p">}))</span>
 </code></pre>
 
 <blockquote>
@@ -4252,12 +4267,17 @@ your balances, your orders and your trades.</p>
 <p><strong>Example</strong></p>
 </blockquote>
 <pre class="highlight javascript"><code><span class="kd">var</span>
-  <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">),</span>
-  <span class="nx">api_key</span> <span class="o">=</span> <span class="s1">'API_KEY'</span><span class="p">,</span>
-  <span class="nx">api_secret</span> <span class="o">=</span> <span class="s1">'API_SECRET'</span><span class="p">,</span>
-  <span class="nx">payload</span> <span class="o">=</span> <span class="s1">'AUTH'</span> <span class="o">+</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()),</span>
-  <span class="nx">signature</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s2">"sha384"</span><span class="p">,</span> <span class="nx">api_secret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">payload</span><span class="p">).</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">);</span>
-<span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span> <span class="na">Event</span><span class="p">:</span> <span class="s2">"auth"</span><span class="p">,</span> <span class="na">ApiKey</span><span class="p">:</span> <span class="nx">api_key</span><span class="p">,</span> <span class="na">AuthSig</span><span class="p">:</span> <span class="nx">signature</span><span class="p">,</span> <span class="na">AuthPayload</span><span class="p">:</span> <span class="nx">payload</span> <span class="p">}));</span>
+    <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">),</span>
+    <span class="nx">api_key</span> <span class="o">=</span> <span class="s1">'API_KEY'</span><span class="p">,</span>
+    <span class="nx">api_secret</span> <span class="o">=</span> <span class="s1">'API_SECRET'</span><span class="p">,</span>
+    <span class="nx">payload</span> <span class="o">=</span> <span class="s1">'AUTH'</span> <span class="o">+</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()),</span>
+    <span class="nx">signature</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s2">"sha384"</span><span class="p">,</span> <span class="nx">api_secret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">payload</span><span class="p">).</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">);</span>
+<span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+    <span class="na">Event</span><span class="p">:</span> <span class="s2">"auth"</span><span class="p">,</span>
+    <span class="na">ApiKey</span><span class="p">:</span> <span class="nx">api_key</span><span class="p">,</span>
+    <span class="na">AuthSig</span><span class="p">:</span> <span class="nx">signature</span><span class="p">,</span>
+    <span class="na">AuthPayload</span><span class="p">:</span> <span class="nx">payload</span>
+<span class="p">}));</span>
 </code></pre>
 
 <blockquote>
