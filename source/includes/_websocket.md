@@ -463,6 +463,17 @@ ORD_CREATED_AT | string | Creation date/time
 ```json
 [0, "<pn|pu|pc>", ["<POS_PAIR>", "<POS_STATUS>", "<POS_AMOUNT>", "<POS_BASE_PRICE>", "<POS_MARGIN_FUNDING>", "<POS_MARGIN_FUNDING_TYPE>"]]
 ```
+
+> <aside class="notice">
+>  <strong>Limit Order Behavior</strong>
+>  <br>
+>  <ul>
+>  <li>When you place a limit order, you will first receive an ‘on’ (order new) which means that the order has been accepted by the system</li>
+>  <li>When the order rests on the book, you will receive an 'ou' (order update).</li>
+>  <li>If you send a market order, you will only receive the ‘on’ because it won’t actually rest on the book (as it matches the first order it runs into).</li>
+>  </ul>
+>  </aside>
+
 > **Updates (wallet)**
 
 ```json
