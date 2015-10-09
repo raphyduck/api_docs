@@ -22,6 +22,8 @@ Open up a websocket connection to the websocket URI.
 > **Example**
 
 ```javascript
+//using the ws library
+var WebSocket = require('ws');
 var w = new WebSocket("wss://api2.bitfinex.com:3000/ws");
 w.onmessage = function(msg) { console.log(msg.data); };
 ```
