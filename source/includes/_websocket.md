@@ -488,6 +488,7 @@ ORD_CREATED_AT | string | Creation date/time
 </aside>
 
 **Abbreviated Terms Glossary**
+
 Term | Definition
 ---| ---
 ps | position snapshot
