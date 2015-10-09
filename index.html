@@ -4381,6 +4381,16 @@ your balances, your orders and your trades.</p>
 </span></code></pre>
 
 <blockquote>
+<aside class="notice">
+ <strong>Limit Order Behavior</strong>
+ <br>
+ <ul>
+ <li>When you place a limit order, you will first receive an ‘on’ (order new) which means that the order has been accepted by the system</li>
+ <li>When the order rests on the book, you will receive an &lsquo;ou&rsquo; (order update).</li>
+ <li>If you send a market order, you will only receive the ‘on’ because it won’t actually rest on the book (as it matches the first order it runs into).</li>
+ </ul>
+ </aside>
+
 <p><strong>Updates (wallet)</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"wu"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"&lt;WLT_NAME&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;WLT_CURRENCY&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;WLT_BALANCE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;WLT_INTEREST_UNSETTLED&gt;"</span><span class="p">]]</span><span class="w">
