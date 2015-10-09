@@ -3693,7 +3693,7 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <p><strong>#Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ping"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"ping"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3701,7 +3701,7 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <p><strong>Response</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pong"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"pong"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3713,8 +3713,8 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CHANNEL_NAME"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"CHANNEL_NAME"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3722,9 +3722,9 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <p><strong>Response - Success</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CHANNEL_NAME"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"CHANNEL_NAME"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3732,9 +3732,9 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <p><strong>Response - Failure</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;ERROR_MSG&gt;"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"error"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Msg"</span><span class="p">:</span><span class="s2">"&lt;ERROR_MSG&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Code"</span><span class="p">:</span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3787,8 +3787,8 @@ can use to distinguish the updates for each subscribed channel.
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3796,9 +3796,9 @@ can use to distinguish the updates for each subscribed channel.
 <p>or</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CHANNEL_NAME&gt;"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Pair"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;PAIR&gt;"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_NAME&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Pair"</span><span class="p">:</span><span class="s2">"&lt;PAIR&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3806,8 +3806,8 @@ can use to distinguish the updates for each subscribed channel.
 <p><strong>Response - Success</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unsubscribed"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"unsubscribed"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3815,9 +3815,9 @@ can use to distinguish the updates for each subscribed channel.
 <p><strong>Response - Failure</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Msg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;ERROR_MSG&gt;"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"error"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Msg"</span><span class="p">:</span><span class="s2">"&lt;ERROR_MSG&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Code"</span><span class="p">:</span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3850,10 +3850,10 @@ followed by updates upon any changes to the book.</p>
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"book"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Pair"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;PAIR&gt;"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Prec"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;PRECISION&gt;"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"book"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Pair"</span><span class="p">:</span><span class="s2">"&lt;PAIR&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Prec"</span><span class="p">:</span><span class="s2">"&lt;PRECISION&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3861,22 +3861,39 @@ followed by updates upon any changes to the book.</p>
 <p><strong>Response</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"book"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"book"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Snapshot</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="p">[[</span><span class="s2">"&lt;PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;COUNT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;AMOUNT&gt;"</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="s2">"..."</span><span class="p">]]]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="w">
+         </span><span class="s2">"&lt;PRICE&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;COUNT&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;AMOUNT&gt;"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="p">[</span><span class="w">
+         </span><span class="s2">"..."</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Updates</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;COUNT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;AMOUNT&gt;"</span><span class="p">]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;PRICE&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;COUNT&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;AMOUNT&gt;"</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <p><strong>Fields</strong></p>
@@ -4032,14 +4049,31 @@ such as price, size and time.</p>
 <blockquote>
 <p><strong>Snapshot</strong></p>
 </blockquote>
-<pre class="highlight javascript"><code><span class="p">[</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"&lt;ID&gt;"</span><span class="p">,</span> <span class="s2">"&lt;TIMESTAMP&gt;"</span><span class="p">,</span> <span class="s2">"&lt;PRICE&gt;"</span><span class="p">,</span> <span class="s2">"&lt;AMOUNT&gt;"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"..."</span><span class="p">]]</span>
-</code></pre>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"&lt;ID&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;TIMESTAMP&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;PRICE&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;AMOUNT&gt;"</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+   </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"..."</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
 
 <blockquote>
 <p><strong>Updates</strong></p>
 </blockquote>
-<pre class="highlight javascript"><code><span class="p">[</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span> <span class="s2">"&lt;ID&gt;"</span><span class="p">,</span> <span class="s2">"&lt;TIMESTAMP&gt;"</span><span class="p">,</span> <span class="s2">"&lt;PRICE&gt;"</span><span class="p">,</span> <span class="s2">"&lt;AMOUNT&gt;"</span><span class="p">]</span>
-</code></pre>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;ID&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;TIMESTAMP&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;PRICE&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;AMOUNT&gt;"</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
 
 <p><em>here is an example of a real trade</em></p>
 
@@ -4093,9 +4127,9 @@ much the price has moved over the last day.</p>
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ticker"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Pair"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"ticker"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Pair"</span><span class="p">:</span><span class="s2">"BTCUSD"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4103,22 +4137,42 @@ much the price has moved over the last day.</p>
 <p><strong>Response</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ticker"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"ticker"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Snapshot</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;BID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;BID_SIZE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ASK&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ASK_SIZE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;DAILY_CHANGE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;DAILY_CHANGE_PERC&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;LAST_PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;VOLUME&gt;"</span><span class="p">]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;BID&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;BID_SIZE&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;ASK&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;ASK_SIZE&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;DAILY_CHANGE&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;DAILY_CHANGE_PERC&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;LAST_PRICE&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;VOLUME&gt;"</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Updates</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;BID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;BID_SIZE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ASK&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ASK_SIZE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;DAILY_CHANGE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;DAILY_CHANGE_PERC&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;LAST_PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;VOLUME&gt;"</span><span class="p">]</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;BID&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;BID_SIZE&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;ASK&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;ASK_SIZE&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;DAILY_CHANGE&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;DAILY_CHANGE_PERC&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;LAST_PRICE&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"&lt;VOLUME&gt;"</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 <p><em>Here is an example of a real ticker</em></p>
