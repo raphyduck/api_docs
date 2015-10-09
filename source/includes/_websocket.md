@@ -46,7 +46,7 @@ Use `ping` message to test your connection to the websocket server.
 
 ```json
 {
-  "Event": "ping"
+   "Event":"ping"
 }
 ```
 
@@ -54,7 +54,7 @@ Use `ping` message to test your connection to the websocket server.
 
 ```json
 {
-  "Event": "pong"
+   "Event":"pong"
 }
 ```
 
@@ -65,17 +65,17 @@ To receive data from a channel you have to send a "subscribe" message first.
 
 ```json
 {
-  "Event": "subscribe",
-  "Channel": "CHANNEL_NAME"
+   "Event":"subscribe",
+   "Channel":"CHANNEL_NAME"
 }
 ```
 > **Response - Success**
 
 ```json
 {
-  "Event": "subscribed",
-  "Channel": "CHANNEL_NAME",
-  "ChanId": "<CHANNEL_ID>"
+   "Event":"subscribed",
+   "Channel":"CHANNEL_NAME",
+   "ChanId":"<CHANNEL_ID>"
 }
 ```
 
@@ -83,9 +83,9 @@ To receive data from a channel you have to send a "subscribe" message first.
 
 ```json
 {
-  "Event": "error",
-  "Msg": "<ERROR_MSG>",
-  "Code": "<ERROR_CODE>"
+   "Event":"error",
+   "Msg":"<ERROR_MSG>",
+   "Code":"<ERROR_CODE>"
 }
 ```
 
@@ -135,17 +135,17 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 
 ```json
 {
-  "Event": "unsubscribe",
-  "ChanId": "<CHANNEL_ID>"
+   "Event":"unsubscribe",
+   "ChanId":"<CHANNEL_ID>"
 }
 ```
 > or
 
 ```json
 {
-  "Event": "unsubscribe",
-  "Channel": "<CHANNEL_NAME>",
-  "Pair": "<PAIR>"
+   "Event":"unsubscribe",
+   "Channel":"<CHANNEL_NAME>",
+   "Pair":"<PAIR>"
 }
 ```
 
@@ -153,8 +153,8 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 
 ```json
 {
-  "Event": "unsubscribed",
-  "ChanId": "<CHANNEL_ID>"
+   "Event":"unsubscribed",
+   "ChanId":"<CHANNEL_ID>"
 }
 ```
 
@@ -162,9 +162,9 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 
 ```json
 {
-  "Event": "error",
-  "Msg": "<ERROR_MSG>",
-  "Code": "<ERROR_CODE>"
+   "Event":"error",
+   "Msg":"<ERROR_MSG>",
+   "Code":"<ERROR_CODE>"
 }
 ```
 
@@ -193,30 +193,47 @@ w.send(JSON.stringify({ "Event": "subscribe", Channel: "trades", Pair: "BTCUSD",
 
 ```json
 {
-  "Event": "subscribe",
-  "Channel": "book",
-  "Pair": "<PAIR>",
-  "Prec": "<PRECISION>"
+   "Event":"subscribe",
+   "Channel":"book",
+   "Pair":"<PAIR>",
+   "Prec":"<PRECISION>"
 }
 ```
 > **Response**
 
 ```json
 {
-  "Event": "subscribed",
-  "Channel": "book",
-  "ChanId": "<CHANNEL_ID>"
+   "Event":"subscribed",
+   "Channel":"book",
+   "ChanId":"<CHANNEL_ID>"
 }
 ```
 > **Snapshot**
 
 ```json
-["<CHANNEL_ID>", [["<PRICE>", "<COUNT>", "<AMOUNT>"], ["..."]]]
+[
+   "<CHANNEL_ID>",
+   [
+      [
+         "<PRICE>",
+         "<COUNT>",
+         "<AMOUNT>"
+      ],
+      [
+         "..."
+      ]
+   ]
+]
 ```
 > **Updates**
 
 ```json
-["<CHANNEL_ID>", "<PRICE>", "<COUNT>", "<AMOUNT>"]
+[
+   "<CHANNEL_ID>",
+   "<PRICE>",
+   "<COUNT>",
+   "<AMOUNT>"
+]
 ```
 
 **Fields**
@@ -281,13 +298,30 @@ w.send(JSON.stringify({ "Event": "subscribe", Channel: "trades", Pair: "BTCUSD" 
 ```
 > **Snapshot**
 
-```javascript
-["<CHANNEL_ID>", ["<ID>", "<TIMESTAMP>", "<PRICE>", "<AMOUNT>"], ["..."]]
+```json
+[
+   "<CHANNEL_ID>",
+   [
+      "<ID>",
+      "<TIMESTAMP>",
+      "<PRICE>",
+      "<AMOUNT>"
+   ],
+   [
+      "..."
+   ]
+]
 ```
 > **Updates**
 
-```javascript
-["<CHANNEL_ID>", "<ID>", "<TIMESTAMP>", "<PRICE>", "<AMOUNT>"]
+```json
+[
+   "<CHANNEL_ID>",
+   "<ID>",
+   "<TIMESTAMP>",
+   "<PRICE>",
+   "<AMOUNT>"
+]
 ```
 *here is an example of a real trade*
 
@@ -316,29 +350,49 @@ w.send(JSON.stringify({ "Event": "subscribe", Channel: "ticker", Pair: "BTCUSD" 
 
 ```json
 {
-  "Event": "subscribe",
-  "Channel": "ticker",
-  "Pair": "BTCUSD"
+   "Event":"subscribe",
+   "Channel":"ticker",
+   "Pair":"BTCUSD"
 }
 ```
 > **Response**
 
 ```json
 {
-  "Event": "subscribed",
-  "Channel": "ticker",
-  "ChanId": "<CHANNEL_ID>"
+   "Event":"subscribed",
+   "Channel":"ticker",
+   "ChanId":"<CHANNEL_ID>"
 }
 ```
 > **Snapshot**
 
 ```json
-["<CHANNEL_ID>", "<BID>", "<BID_SIZE>", "<ASK>", "<ASK_SIZE>", "<DAILY_CHANGE>", "<DAILY_CHANGE_PERC>", "<LAST_PRICE>", "<VOLUME>"]
+[
+   "<CHANNEL_ID>",
+   "<BID>",
+   "<BID_SIZE>",
+   "<ASK>",
+   "<ASK_SIZE>",
+   "<DAILY_CHANGE>",
+   "<DAILY_CHANGE_PERC>",
+   "<LAST_PRICE>",
+   "<VOLUME>"
+]
 ```
 > **Updates**
 
 ```json
-["<CHANNEL_ID>", "<BID>", "<BID_SIZE>", "<ASK>", "<ASK_SIZE>", "<DAILY_CHANGE>", "<DAILY_CHANGE_PERC>", "<LAST_PRICE>", "<VOLUME>"]
+[
+   "<CHANNEL_ID>",
+   "<BID>",
+   "<BID_SIZE>",
+   "<ASK>",
+   "<ASK_SIZE>",
+   "<DAILY_CHANGE>",
+   "<DAILY_CHANGE_PERC>",
+   "<LAST_PRICE>",
+   "<VOLUME>"
+]
 ```
 *Here is an example of a real ticker*
 
