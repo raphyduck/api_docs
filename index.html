@@ -4381,6 +4381,12 @@ your balances, your orders and your trades.</p>
 </tbody></table>
 
 <blockquote>
+<p><strong>Updates (order)</strong></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;on|ou|oc&gt;"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"&lt;ORD_ID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PAIR&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_AMOUNT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_AMOUNT_ORIG&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_TYPE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_STATUS&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PRICE_AVG&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_CREATED_AT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_NOTIFY&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_HIDDEN&gt;"</span><span class="p">]]</span><span class="w">
+</span></code></pre>
+
+<blockquote>
 <p><strong>Updates (position)</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;pn|pu|pc&gt;"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"&lt;POS_PAIR&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_STATUS&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_AMOUNT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_BASE_PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_MARGIN_FUNDING&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;POS_MARGIN_FUNDING_TYPE&gt;"</span><span class="p">]]</span><span class="w">
@@ -4401,12 +4407,6 @@ your balances, your orders and your trades.</p>
 <li>If you send a market order, you will only receive the ‘on’ because it won’t actually rest on the book (as it matches the first order it runs into).</li>
 </ul>
 </aside>
-
-<blockquote>
-<p><strong>Updates (order)</strong></p>
-</blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;on|ou|oc&gt;"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"&lt;ORD_ID&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PAIR&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_AMOUNT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_AMOUNT_ORIG&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_TYPE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_STATUS&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PRICE&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_PRICE_AVG&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_CREATED_AT&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_NOTIFY&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;ORD_HIDDEN&gt;"</span><span class="p">]]</span><span class="w">
-</span></code></pre>
 
 <blockquote>
 <p><strong>Updates (trade_executed)</strong></p>
