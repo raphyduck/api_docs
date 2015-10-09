@@ -388,38 +388,54 @@ w.send(JSON.stringify({ Event: "auth", ApiKey: api_key, AuthSig: signature, Auth
 > **Request**
 
 ```json
-{
-  "Event": "auth",
-  "ApiKey": "<API_KEY>",
-  "AuthSig": "<AUTH_SIGNATURE>",
-  "AuthPayload": "<AUTH_PAYLOAD>"
+{  
+   "Event":"auth",
+   "Status":"OK",
+   "ChanId":0,
+   "UserId":"<USER_ID>"
 }
 ```
 > **Response - Success**
 
 ```json
-{
-  "Event": "auth",
-  "Status": "OK",
-  "ChanId": 0,
-  "UserId": "<USER_ID>"
+{  
+   "Event":"auth",
+   "Status":"OK",
+   "ChanId":0,
+   "UserId":"<USER_ID>"
 }
 ```
 > **Response - Failure**
 
 ```json
-{
-"Event": "auth",
-"Status": "FAIL",
-"ChanId": 0,
-"Code": "<ERROR_CODE>"
+{  
+   "Event":"auth",
+   "Status":"FAIL",
+   "ChanId":0,
+   "Code":"<ERROR_CODE>"
 }
 ```
 
 > **Position Snapshot**
 
 ```json
-[0, "ps", [["<POS_PAIR>", "<POS_STATUS>", "<POS_AMOUNT>", "<POS_BASE_PRICE>", "<POS_MARGIN_FUNDING>", "<POS_MARGIN_FUNDING_TYPE>"], ["..."]]]
+[  
+   0,
+   "ps",
+   [  
+      [  
+         "<POS_PAIR>",
+         "<POS_STATUS>",
+         "<POS_AMOUNT>",
+         "<POS_BASE_PRICE>",
+         "<POS_MARGIN_FUNDING>",
+         "<POS_MARGIN_FUNDING_TYPE>"
+      ],
+      [  
+         "..."
+      ]
+   ]
+]
 ```
 **Fields**
 
@@ -435,7 +451,18 @@ POS_MARGIN_FUNDING_TYPE | int | 0 for term, 1 for daily.
 > **Wallet Snapshot**
 
 ```json
-[0, "ws", [["<WLT_NAME>", "<WLT_CURRENCY>", "<WLT_BALANCE>", "<WLT_INTEREST_UNSETTLED>"]]]
+[
+   0,
+   "ws",
+   [
+      [
+         "<WLT_NAME>",
+         "<WLT_CURRENCY>",
+         "<WLT_BALANCE>",
+         "<WLT_INTEREST_UNSETTLED>"
+      ]
+   ]
+]
 ```
 **Fields**
 
@@ -448,7 +475,26 @@ WLT_INTEREST_UNSETTLED | float | Unsettled interest
 > **Order Snapshot**
 
 ```json
-[0, "os", [["<ORD_ID>", "<ORD_PAIR>", "<ORD_AMOUNT>", "<ORD_AMOUNT_ORIG>", "<ORD_TYPE>", "<ORD_STATUS>", "<ORD_PRICE>", "<ORD_PRICE_AVG>", "<ORD_CREATED_AT>"], ["..."]]]
+[
+   0,
+   "os",
+   [
+      [
+         "<ORD_ID>",
+         "<ORD_PAIR>",
+         "<ORD_AMOUNT>",
+         "<ORD_AMOUNT_ORIG>",
+         "<ORD_TYPE>",
+         "<ORD_STATUS>",
+         "<ORD_PRICE>",
+         "<ORD_PRICE_AVG>",
+         "<ORD_CREATED_AT>"
+      ],
+      [
+         "..."
+      ]
+   ]
+]
 ```
 
 **Fields**
@@ -468,17 +514,53 @@ ORD_CREATED_AT | string | Creation date/time
 > **Updates (order)**
 
 ```json
-[0, "<on|ou|oc>", ["<ORD_ID>", "<ORD_PAIR>", "<ORD_AMOUNT>", "<ORD_AMOUNT_ORIG>", "<ORD_TYPE>", "<ORD_STATUS>", "<ORD_PRICE>", "<ORD_PRICE_AVG>", "<ORD_CREATED_AT>", "<ORD_NOTIFY>", "<ORD_HIDDEN>"]]
+[
+   0,
+   "<on|ou|oc>",
+   [
+      "<ORD_ID>",
+      "<ORD_PAIR>",
+      "<ORD_AMOUNT>",
+      "<ORD_AMOUNT_ORIG>",
+      "<ORD_TYPE>",
+      "<ORD_STATUS>",
+      "<ORD_PRICE>",
+      "<ORD_PRICE_AVG>",
+      "<ORD_CREATED_AT>",
+      "<ORD_NOTIFY>",
+      "<ORD_HIDDEN>"
+   ]
+]
 ```
 > **Updates (position)**
 
 ```json
-[0, "<pn|pu|pc>", ["<POS_PAIR>", "<POS_STATUS>", "<POS_AMOUNT>", "<POS_BASE_PRICE>", "<POS_MARGIN_FUNDING>", "<POS_MARGIN_FUNDING_TYPE>"]]
+[  
+   0,
+   "<pn|pu|pc>",
+   [  
+      "<POS_PAIR>",
+      "<POS_STATUS>",
+      "<POS_AMOUNT>",
+      "<POS_BASE_PRICE>",
+      "<POS_MARGIN_FUNDING>",
+      "<POS_MARGIN_FUNDING_TYPE>"
+   ]
+]
 ```
 > **Updates (wallet)**
 
 ```json
-[0, "wu", ["<WLT_NAME>", "<WLT_CURRENCY>", "<WLT_BALANCE>", "<WLT_INTEREST_UNSETTLED>"]]
+[
+   0,
+   "wu",
+   [
+      "<WLT_NAME>",
+      "<WLT_CURRENCY>",
+      "<WLT_BALANCE>",
+      "<WLT_INTEREST_UNSETTLED>"
+   ]
+]
 ```
 
 <aside class="notice">
@@ -494,7 +576,14 @@ ORD_CREATED_AT | string | Creation date/time
 > **Updates (trade_executed)**
 
 ```json
-[0, "te", ["<ORD_ID>", "<ORD_AMOUNT_EXECUTED>"]]
+[
+   0,
+   "te",
+   [
+      "<ORD_ID>",
+      "<ORD_AMOUNT_EXECUTED>"
+   ]
+]
 ```
 **Abbreviated Terms Glossary**
 
@@ -531,17 +620,17 @@ te | trade executed
 > **Request**
 
 ```json
-{
-"Event": "unauth"
+{  
+   "Event":"unauth"
 }
 ```
 > **Response - Success**
 
 ```json
-{
-"Event": "unauth",
-"Status": "OK",
-"ChanId": 0
+{  
+   "Event":"unauth",
+   "Status":"OK",
+   "ChanId":0
 }
 ```
 
@@ -549,10 +638,10 @@ te | trade executed
 
 ```json
 {
-"Event": "error",
-"Status": "FAILED",
-"ChanId": 0,
-"Code": "<CODE>"
+   "Event":"error",
+   "Status":"FAILED",
+   "ChanId":0,
+   "Code":"<CODE>"
 }
 ```
 
