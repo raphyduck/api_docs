@@ -115,8 +115,8 @@ Channel ID's allow you to keep track of the messages, they are static
 per session, you will receive both the CHANNEL_NAME and the ChanId
 in the response to a subscription message.
 <ul><li>CHANNEL_NAME: (string) channel name (book, trades, ticker)</li>
-<li>ChanId/CHANNEL_ID: (int) channel identificator. ChanId is a numeric channel identificator that the developer</li></ul>
-can use to distinguish the updates for each subscribed channel.
+<li>ChanId/CHANNEL_ID: (int) channel identificator. ChanId is a numeric channel identifier that the developer
+can use to distinguish between updates for each subscribed channel.</li></ul>
 </aside>
 
 <aside class="warning">
