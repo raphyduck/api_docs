@@ -191,7 +191,7 @@ followed by updates upon any changes to the book.
 ```javascript
 w.send(JSON.stringify({
     "Event": "subscribe",
-    Channel: "trades",
+    Channel: "book",
     Pair: "BTCUSD",
     Prec: "P0"
 }))
