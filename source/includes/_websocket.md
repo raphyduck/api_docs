@@ -654,8 +654,12 @@ ORD_CREATED_AT | string | Creation date/time
    0,
    "te",
    [
-      "<ORD_ID>",
-      "<ORD_AMOUNT_EXECUTED>"
+      "<TRD_ID>",
+      "<TRD_PAIR>",
+      "<TRD_TIMESTAMP>",
+      "<TRD_ORD_ID>",
+      "<TRD_AMOUNT_EXECUTED>",
+      "<TRD_PRICE_EXECUTED>"
    ]
 ]
 ```
