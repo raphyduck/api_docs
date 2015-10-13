@@ -3677,7 +3677,7 @@ greater or equal to the amount of the position and the margin funding used.</p>
 
 <h3 id="error-codes">Error Codes</h3>
 
-<p>In case of error, you receive a message containing the proper error code (<code class="prettyprint">Code</code> JSON field).</p>
+<p>In case of error, you receive a message containing the proper error code (<code class="prettyprint">code</code> JSON field).</p>
 
 <aside class="warning">
 <strong>Generic Error Codes</strong>
@@ -3695,7 +3695,7 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <p><strong>#Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"ping"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"ping"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3703,7 +3703,7 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <p><strong>Response</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"pong"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"pong"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3715,8 +3715,8 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"CHANNEL_NAME"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"channel"</span><span class="p">:</span><span class="s2">"CHANNEL_NAME"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3724,9 +3724,9 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <p><strong>Response - Success</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"CHANNEL_NAME"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"channel"</span><span class="p">:</span><span class="s2">"CHANNEL_NAME"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3734,16 +3734,16 @@ greater or equal to the amount of the position and the margin funding used.</p>
 <p><strong>Response - Failure</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Msg"</span><span class="p">:</span><span class="s2">"&lt;ERROR_MSG&gt;"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Code"</span><span class="p">:</span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"error"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"msg"</span><span class="p">:</span><span class="s2">"&lt;ERROR_MSG&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"code"</span><span class="p">:</span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <h3 id="snapshot">Snapshot</h3>
 
 <p>Upon subscribing to a channel an initial snapshot is sent. Typically,
-the snapshot will have as its first item, the ChanId, its second item
+the snapshot will have as its first item, the chanId, its second item
 will be an array of update messages (each of which is itself an array).
 So The array would have 3 levels.</p>
 
@@ -3763,10 +3763,10 @@ So The array would have 3 levels.</p>
 
 <aside class="notice">
 Channel ID&rsquo;s allow you to keep track of the messages, they are static
-per session, you will receive both the CHANNEL_NAME and the ChanId
+per session, you will receive both the CHANNEL_NAME and the chanId
 in the response to a subscription message.
 <ul><li>CHANNEL_NAME: (string) channel name (book, trades, ticker)</li>
-<li>ChanId/CHANNEL_ID: (int) channel identifier. ChanId is a numeric channel identifier that the developer
+<li>chanId/CHANNEL_ID: (int) channel identifier. chanId is a numeric channel identifier that the developer
 can use to distinguish between updates for each subscribed channel.</li></ul>
 </aside>
 
@@ -3789,8 +3789,8 @@ can use to distinguish between updates for each subscribed channel.</li></ul>
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3798,9 +3798,9 @@ can use to distinguish between updates for each subscribed channel.</li></ul>
 <p>or</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_NAME&gt;"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Pair"</span><span class="p">:</span><span class="s2">"&lt;PAIR&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"unsubscribe"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"channel"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_NAME&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"pair"</span><span class="p">:</span><span class="s2">"&lt;PAIR&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3808,8 +3808,8 @@ can use to distinguish between updates for each subscribed channel.</li></ul>
 <p><strong>Response - Success</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"unsubscribed"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"unsubscribed"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3817,9 +3817,9 @@ can use to distinguish between updates for each subscribed channel.</li></ul>
 <p><strong>Response - Failure</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Msg"</span><span class="p">:</span><span class="s2">"&lt;ERROR_MSG&gt;"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Code"</span><span class="p">:</span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"error"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"msg"</span><span class="p">:</span><span class="s2">"&lt;ERROR_MSG&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"code"</span><span class="p">:</span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3846,10 +3846,10 @@ followed by updates upon any changes to the book.</p>
 <p><strong>Example</strong></p>
 </blockquote>
 <pre class="highlight javascript"><code><span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
-    <span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span>
-    <span class="na">Channel</span><span class="p">:</span> <span class="s2">"book"</span><span class="p">,</span>
-    <span class="na">Pair</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>
-    <span class="na">Prec</span><span class="p">:</span> <span class="s2">"P0"</span>
+    <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span>
+    <span class="s2">"channel"</span><span class="p">:</span> <span class="s2">"book"</span><span class="p">,</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span><span class="p">,</span>
+    <span class="s2">"prec"</span><span class="p">:</span> <span class="s2">"P0"</span>
 <span class="p">}))</span>
 </code></pre>
 
@@ -3857,10 +3857,10 @@ followed by updates upon any changes to the book.</p>
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"book"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Pair"</span><span class="p">:</span><span class="s2">"&lt;PAIR&gt;"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Prec"</span><span class="p">:</span><span class="s2">"&lt;PRECISION&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"channel"</span><span class="p">:</span><span class="s2">"book"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"pair"</span><span class="p">:</span><span class="s2">"&lt;PAIR&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"prec"</span><span class="p">:</span><span class="s2">"&lt;PRECISION&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -3868,9 +3868,9 @@ followed by updates upon any changes to the book.</p>
 <p><strong>Response</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"book"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"channel"</span><span class="p">:</span><span class="s2">"book"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4031,9 +4031,9 @@ such as price, size and time.</p>
 <p><strong>Example</strong></p>
 </blockquote>
 <pre class="highlight javascript"><code><span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
-    <span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span>
-    <span class="na">Channel</span><span class="p">:</span> <span class="s2">"trades"</span><span class="p">,</span>
-    <span class="na">Pair</span><span class="p">:</span> <span class="s2">"BTCUSD"</span>
+    <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span>
+    <span class="s2">"channel"</span><span class="p">:</span> <span class="s2">"trades"</span><span class="p">,</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span>
 <span class="p">}))</span>
 </code></pre>
 
@@ -4041,9 +4041,9 @@ such as price, size and time.</p>
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trades"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Pair"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD"</span><span class="w">
+  </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trades"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"pair"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4051,9 +4051,9 @@ such as price, size and time.</p>
 <p><strong>Response</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"Event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"Channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trades"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+  </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trades"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"chanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4132,9 +4132,9 @@ much the price has moved over the last day.</p>
 <p><strong>Example</strong></p>
 </blockquote>
 <pre class="highlight javascript"><code><span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
-    <span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span>
-    <span class="na">Channel</span><span class="p">:</span> <span class="s2">"ticker"</span><span class="p">,</span>
-    <span class="na">Pair</span><span class="p">:</span> <span class="s2">"BTCUSD"</span>
+    <span class="s2">"event"</span><span class="p">:</span> <span class="s2">"subscribe"</span><span class="p">,</span>
+    <span class="s2">"channel"</span><span class="p">:</span> <span class="s2">"ticker"</span><span class="p">,</span>
+    <span class="s2">"pair"</span><span class="p">:</span> <span class="s2">"BTCUSD"</span>
 <span class="p">}))</span>
 </code></pre>
 
@@ -4142,9 +4142,9 @@ much the price has moved over the last day.</p>
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"ticker"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Pair"</span><span class="p">:</span><span class="s2">"BTCUSD"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"subscribe"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"channel"</span><span class="p">:</span><span class="s2">"ticker"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"pair"</span><span class="p">:</span><span class="s2">"BTCUSD"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4152,9 +4152,9 @@ much the price has moved over the last day.</p>
 <p><strong>Response</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Channel"</span><span class="p">:</span><span class="s2">"ticker"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"channel"</span><span class="p">:</span><span class="s2">"ticker"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4255,7 +4255,7 @@ much the price has moved over the last day.</p>
 your account. You can receive updates on your positions,
 your balances, your orders and your trades.</p>
 
-<p>Account info always uses ChanId 0.</p>
+<p>Account info always uses chanId 0.</p>
 
 <aside class="notice">
 <strong>AUTH request message: authenticate for the private data stream</strong>
@@ -4273,10 +4273,10 @@ your balances, your orders and your trades.</p>
     <span class="nx">payload</span> <span class="o">=</span> <span class="s1">'AUTH'</span> <span class="o">+</span> <span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()),</span>
     <span class="nx">signature</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s2">"sha384"</span><span class="p">,</span> <span class="nx">api_secret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">payload</span><span class="p">).</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">);</span>
 <span class="nx">w</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
-    <span class="na">Event</span><span class="p">:</span> <span class="s2">"auth"</span><span class="p">,</span>
-    <span class="na">ApiKey</span><span class="p">:</span> <span class="nx">api_key</span><span class="p">,</span>
-    <span class="na">AuthSig</span><span class="p">:</span> <span class="nx">signature</span><span class="p">,</span>
-    <span class="na">AuthPayload</span><span class="p">:</span> <span class="nx">payload</span>
+    <span class="na">event</span><span class="p">:</span> <span class="s2">"auth"</span><span class="p">,</span>
+    <span class="na">apiKey</span><span class="p">:</span> <span class="nx">api_key</span><span class="p">,</span>
+    <span class="na">authSig</span><span class="p">:</span> <span class="nx">signature</span><span class="p">,</span>
+    <span class="na">authPayload</span><span class="p">:</span> <span class="nx">payload</span>
 <span class="p">}));</span>
 </code></pre>
 
@@ -4284,10 +4284,10 @@ your balances, your orders and your trades.</p>
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">  
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Status"</span><span class="p">:</span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"UserId"</span><span class="p">:</span><span class="s2">"&lt;USER_ID&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"userId"</span><span class="p">:</span><span class="s2">"&lt;USER_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4295,10 +4295,10 @@ your balances, your orders and your trades.</p>
 <p><strong>Response - Success</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">  
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Status"</span><span class="p">:</span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"UserId"</span><span class="p">:</span><span class="s2">"&lt;USER_ID&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"userId"</span><span class="p">:</span><span class="s2">"&lt;USER_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4306,10 +4306,10 @@ your balances, your orders and your trades.</p>
 <p><strong>Response - Failure</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">  
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Status"</span><span class="p">:</span><span class="s2">"FAIL"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Code"</span><span class="p">:</span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"auth"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"FAIL"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"code"</span><span class="p">:</span><span class="s2">"&lt;ERROR_CODE&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4571,8 +4571,12 @@ your balances, your orders and your trades.</p>
    </span><span class="mi">0</span><span class="p">,</span><span class="w">
    </span><span class="s2">"te"</span><span class="p">,</span><span class="w">
    </span><span class="p">[</span><span class="w">
-      </span><span class="s2">"&lt;ORD_ID&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"&lt;ORD_AMOUNT_EXECUTED&gt;"</span><span class="w">
+      </span><span class="s2">"&lt;TRD_ID&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;TRD_PAIR&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;TRD_TIMESTAMP&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;TRD_ORD_ID&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;TRD_AMOUNT_EXECUTED&gt;"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"&lt;TRD_PRICE_EXECUTED&gt;"</span><span class="w">
    </span><span class="p">]</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -4651,7 +4655,7 @@ your balances, your orders and your trades.</p>
 <p><strong>Request</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">  
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"unauth"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"unauth"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4659,9 +4663,9 @@ your balances, your orders and your trades.</p>
 <p><strong>Response - Success</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">  
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"unauth"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Status"</span><span class="p">:</span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="mi">0</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"unauth"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4669,10 +4673,10 @@ your balances, your orders and your trades.</p>
 <p><strong>Response - Failure</strong></p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
-   </span><span class="nt">"Event"</span><span class="p">:</span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Status"</span><span class="p">:</span><span class="s2">"FAILED"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"ChanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"Code"</span><span class="p">:</span><span class="s2">"&lt;CODE&gt;"</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"error"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"FAILED"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"code"</span><span class="p">:</span><span class="s2">"&lt;CODE&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
