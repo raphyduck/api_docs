@@ -453,9 +453,9 @@ var
     signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 w.send(JSON.stringify({
     event: "auth",
-    ApiKey: api_key,
-    AuthSig: signature,
-    AuthPayload: payload
+    apiKey: api_key,
+    authSig: signature,
+    authPayload: payload
 }));
 ```
 
