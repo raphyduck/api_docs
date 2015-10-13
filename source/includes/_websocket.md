@@ -31,7 +31,7 @@ w.onmessage = function(msg) {
 ```
 
 ### Error Codes
-In case of error, you receive a message containing the proper error code (`Code` JSON field).
+In case of error, you receive a message containing the proper error code (`code` JSON field).
 
 <aside class="warning">
 <strong>Generic Error Codes</strong>
@@ -48,7 +48,7 @@ Use `ping` message to test your connection to the websocket server.
 
 ```json
 {
-   "Event":"ping"
+   "event":"ping"
 }
 ```
 
@@ -56,7 +56,7 @@ Use `ping` message to test your connection to the websocket server.
 
 ```json
 {
-   "Event":"pong"
+   "event":"pong"
 }
 ```
 
@@ -67,17 +67,17 @@ To receive data from a channel you have to send a "subscribe" message first.
 
 ```json
 {
-   "Event":"subscribe",
-   "Channel":"CHANNEL_NAME"
+   "event":"subscribe",
+   "channel":"CHANNEL_NAME"
 }
 ```
 > **Response - Success**
 
 ```json
 {
-   "Event":"subscribed",
-   "Channel":"CHANNEL_NAME",
-   "ChanId":"<CHANNEL_ID>"
+   "event":"subscribed",
+   "channel":"CHANNEL_NAME",
+   "chanId":"<CHANNEL_ID>"
 }
 ```
 
@@ -85,15 +85,15 @@ To receive data from a channel you have to send a "subscribe" message first.
 
 ```json
 {
-   "Event":"error",
-   "Msg":"<ERROR_MSG>",
-   "Code":"<ERROR_CODE>"
+   "event":"error",
+   "msg":"<ERROR_MSG>",
+   "code":"<ERROR_CODE>"
 }
 ```
 
 ### Snapshot
 Upon subscribing to a channel an initial snapshot is sent. Typically,
-the snapshot will have as its first item, the ChanId, its second item
+the snapshot will have as its first item, the chanId, its second item
 will be an array of update messages (each of which is itself an array).
 So The array would have 3 levels.
 
@@ -112,10 +112,10 @@ After receiving the snapshot, you will receive updates upon any change.
 
 <aside class="notice">
 Channel ID's allow you to keep track of the messages, they are static
-per session, you will receive both the CHANNEL_NAME and the ChanId
+per session, you will receive both the CHANNEL_NAME and the chanId
 in the response to a subscription message.
 <ul><li>CHANNEL_NAME: (string) channel name (book, trades, ticker)</li>
-<li>ChanId/CHANNEL_ID: (int) channel identifier. ChanId is a numeric channel identifier that the developer
+<li>chanId/CHANNEL_ID: (int) channel identifier. chanId is a numeric channel identifier that the developer
 can use to distinguish between updates for each subscribed channel.</li></ul>
 </aside>
 
@@ -137,17 +137,17 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 
 ```json
 {
-   "Event":"unsubscribe",
-   "ChanId":"<CHANNEL_ID>"
+   "event":"unsubscribe",
+   "chanId":"<CHANNEL_ID>"
 }
 ```
 > or
 
 ```json
 {
-   "Event":"unsubscribe",
-   "Channel":"<CHANNEL_NAME>",
-   "Pair":"<PAIR>"
+   "event":"unsubscribe",
+   "channel":"<CHANNEL_NAME>",
+   "pair":"<PAIR>"
 }
 ```
 
@@ -155,8 +155,8 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 
 ```json
 {
-   "Event":"unsubscribed",
-   "ChanId":"<CHANNEL_ID>"
+   "event":"unsubscribed",
+   "chanId":"<CHANNEL_ID>"
 }
 ```
 
@@ -164,9 +164,9 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 
 ```json
 {
-   "Event":"error",
-   "Msg":"<ERROR_MSG>",
-   "Code":"<ERROR_CODE>"
+   "event":"error",
+   "msg":"<ERROR_MSG>",
+   "code":"<ERROR_CODE>"
 }
 ```
 
@@ -190,29 +190,29 @@ followed by updates upon any changes to the book.
 
 ```javascript
 w.send(JSON.stringify({
-    "Event": "subscribe",
-    Channel: "book",
-    Pair: "BTCUSD",
-    Prec: "P0"
+    "event": "subscribe",
+    "channel": "book",
+    "pair": "BTCUSD",
+    "prec": "P0"
 }))
 ```
 > **Request**
 
 ```json
 {
-   "Event":"subscribe",
-   "Channel":"book",
-   "Pair":"<PAIR>",
-   "Prec":"<PRECISION>"
+   "event":"subscribe",
+   "channel":"book",
+   "pair":"<PAIR>",
+   "prec":"<PRECISION>"
 }
 ```
 > **Response**
 
 ```json
 {
-   "Event":"subscribed",
-   "Channel":"book",
-   "ChanId":"<CHANNEL_ID>"
+   "event":"subscribed",
+   "channel":"book",
+   "chanId":"<CHANNEL_ID>"
 }
 ```
 > **Snapshot**
@@ -284,27 +284,27 @@ such as price, size and time.
 
 ```javascript
 w.send(JSON.stringify({
-    "Event": "subscribe",
-    Channel: "trades",
-    Pair: "BTCUSD"
+    "event": "subscribe",
+    "channel": "trades",
+    "pair": "BTCUSD"
 }))
 ```
 > **Request**
 
 ```json
 {
-  "Event": "subscribe",
-  "Channel": "trades",
-  "Pair": "BTCUSD"
+  "event": "subscribe",
+  "channel": "trades",
+  "pair": "BTCUSD"
 }
 ```
 > **Response**
 
 ```json
 {
-  "Event": "subscribed",
-  "Channel": "trades",
-  "ChanId": "<CHANNEL_ID>"
+  "event": "subscribed",
+  "channel": "trades",
+  "chanId": "<CHANNEL_ID>"
 }
 ```
 > **Snapshot**
@@ -356,27 +356,27 @@ much the price has moved over the last day.
 
 ```javascript
 w.send(JSON.stringify({
-    "Event": "subscribe",
-    Channel: "ticker",
-    Pair: "BTCUSD"
+    "event": "subscribe",
+    "channel": "ticker",
+    "pair": "BTCUSD"
 }))
 ```
 > **Request**
 
 ```json
 {
-   "Event":"subscribe",
-   "Channel":"ticker",
-   "Pair":"BTCUSD"
+   "event":"subscribe",
+   "channel":"ticker",
+   "pair":"BTCUSD"
 }
 ```
 > **Response**
 
 ```json
 {
-   "Event":"subscribed",
-   "Channel":"ticker",
-   "ChanId":"<CHANNEL_ID>"
+   "event":"subscribed",
+   "channel":"ticker",
+   "chanId":"<CHANNEL_ID>"
 }
 ```
 > **Snapshot**
@@ -434,7 +434,7 @@ This channel allows you to keep up to date with the status of
 your account. You can receive updates on your positions,
 your balances, your orders and your trades.
 
-Account info always uses ChanId 0.
+Account info always uses chanId 0.
 
 <aside class="notice">
 <strong>AUTH request message: authenticate for the private data stream</strong>
@@ -452,7 +452,7 @@ var
     payload = 'AUTH' + (new Date().getTime()),
     signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
 w.send(JSON.stringify({
-    Event: "auth",
+    event: "auth",
     ApiKey: api_key,
     AuthSig: signature,
     AuthPayload: payload
@@ -463,30 +463,30 @@ w.send(JSON.stringify({
 
 ```json
 {  
-   "Event":"auth",
-   "Status":"OK",
-   "ChanId":0,
-   "UserId":"<USER_ID>"
+   "event":"auth",
+   "status":"OK",
+   "chanId":0,
+   "userId":"<USER_ID>"
 }
 ```
 > **Response - Success**
 
 ```json
 {  
-   "Event":"auth",
-   "Status":"OK",
-   "ChanId":0,
-   "UserId":"<USER_ID>"
+   "event":"auth",
+   "status":"OK",
+   "chanId":0,
+   "userId":"<USER_ID>"
 }
 ```
 > **Response - Failure**
 
 ```json
 {  
-   "Event":"auth",
-   "Status":"FAIL",
-   "ChanId":0,
-   "Code":"<ERROR_CODE>"
+   "event":"auth",
+   "status":"FAIL",
+   "chanId":0,
+   "code":"<ERROR_CODE>"
 }
 ```
 
@@ -695,16 +695,16 @@ te | trade executed
 
 ```json
 {  
-   "Event":"unauth"
+   "event":"unauth"
 }
 ```
 > **Response - Success**
 
 ```json
 {  
-   "Event":"unauth",
-   "Status":"OK",
-   "ChanId":0
+   "event":"unauth",
+   "status":"OK",
+   "chanId":0
 }
 ```
 
@@ -712,10 +712,10 @@ te | trade executed
 
 ```json
 {
-   "Event":"error",
-   "Status":"FAILED",
-   "ChanId":0,
-   "Code":"<CODE>"
+   "event":"error",
+   "status":"FAILED",
+   "chanId":0,
+   "code":"<CODE>"
 }
 ```
 
