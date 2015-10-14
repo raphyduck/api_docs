@@ -56,7 +56,10 @@ Right after connecting you receive an info message that contains the actual vers
 }
 ```
 
-**NOTE**: If you are developing/using a trading bot, please make sure to handle version number changes. 
+<aside class="notice">
+<strong>NOTE</strong>
+If you are developing/using a trading bot, please make sure to handle version number changes.
+</aside>
 
 ### Ping/Pong
 Use `ping` message to test your connection to the websocket server.
@@ -76,7 +79,7 @@ Use `ping` message to test your connection to the websocket server.
    "event":"pong"
 }
 ```
-i
+
 ### Subscribe to Channels
 To receive data from a channel you have to send a "subscribe" message first.
 
