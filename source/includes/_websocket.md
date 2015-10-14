@@ -17,7 +17,7 @@ Each message sent and received via the Bitfinex's websocket channel is encoded i
 * **Trades:** trades feed (BTCUSD, LTCUSD, LTCBTC)
 
 ### Authenticated Channels
-i* **Account Info:** account specific private data (positions, orders, executed trades, balances)
+* **Account Info:** account specific private data (positions, orders, executed trades, balances)
 
 ### How to Connect
 Open up a websocket connection to the websocket URI.
