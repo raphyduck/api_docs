@@ -2,6 +2,9 @@
 
 ## General
 
+### Current Version
+Bitfinex Websocket API current version is 1.0
+
 ### SSL Websocket Connection
 URI: `wss://api2.bitfinex.com:3000/ws`
 
@@ -54,16 +57,6 @@ Right after connecting you receive an info message that contains the actual vers
 ```
 
 **NOTE**: If you are developing/using a trading bot, please make sure to handle version number changes. 
-
-### Configuration 
-You can set some websocket configuration parameters using the `conf` event message.
-
-```json
-{
-   "event":"conf",
-   "version": 1
-}
-```
 
 ### Ping/Pong
 Use `ping` message to test your connection to the websocket server.
