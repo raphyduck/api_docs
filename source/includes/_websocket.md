@@ -14,7 +14,7 @@ Each message sent and received via the Bitfinex's websocket channel is encoded i
 * **Trades:** trades feed (BTCUSD, LTCUSD, LTCBTC)
 
 ### Authenticated Channels
-* **Account Info:** account specific private data (positions, orders, executed trades, balances)
+i* **Account Info:** account specific private data (positions, orders, executed trades, balances)
 
 ### How to Connect
 Open up a websocket connection to the websocket URI.
@@ -41,6 +41,30 @@ In case of error, you receive a message containing the proper error code (`code`
 10001 : Unknown pair
 </aside>
 
+### Info Messages
+Info messages are sent from the websocket server to notify the state of your connection.
+Right after connecting you receive an info message that contains the actual version of the websocket stream.
+
+```json
+{
+   "event":"info",
+   "code": 20000,
+   "version": 1
+}
+```
+
+**NOTE**: If you are developing/using a trading bot, please make sure to handle version number changes. 
+
+### Configuration 
+You can set some websocket configuration parameters using the `conf` event message.
+
+```json
+{
+   "event":"conf",
+   "version": 1
+}
+```
+
 ### Ping/Pong
 Use `ping` message to test your connection to the websocket server.
 
@@ -59,7 +83,7 @@ Use `ping` message to test your connection to the websocket server.
    "event":"pong"
 }
 ```
-
+i
 ### Subscribe to Channels
 To receive data from a channel you have to send a "subscribe" message first.
 
@@ -585,6 +609,41 @@ ORD_PRICE | float | Price
 ORD_PRICE_AVG | float | Average price
 ORD_CREATED_AT | string | Creation date/time
 
+> **Trade Snapshot**
+
+```json
+[
+   0,
+   "ts",
+   [
+      [
+         "<TRD_ID>",
+         "<TRD_PAIR>",
+         "<TRD_TIMESTAMP>",
+         "<TRD_ORD_ID>",
+         "<TRD_AMOUNT_EXECUTED>",
+         "<TRD_PRICE_EXECUTED>"
+      ],
+      [
+         "..."
+      ]
+   ]
+]
+```
+
+**Fields**
+
+Term | Type | Description
+--- | --- | ---
+TRD_ID | int | Orade id
+TRD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
+TRD_TIMESTAMP | int | Execution timestamp
+TRD_ORD_ID | int | Order id 
+±TRD_AMOUNT_EXECUTED | float | Positive means buy, negative means sell
+TRD_PRICE_EXECUTED | float | Execution price
+
+
+
 > **Updates (order)**
 
 ```json
@@ -663,6 +722,8 @@ ORD_CREATED_AT | string | Creation date/time
    ]
 ]
 ```
+
+
 **Abbreviated Terms Glossary**
 
 Term | Definition
