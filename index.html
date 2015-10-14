@@ -3638,6 +3638,10 @@ greater or equal to the amount of the position and the margin funding used.</p>
 
 <h2 id="general">General</h2>
 
+<h3 id="current-version">Current Version</h3>
+
+<p>Bitfinex Websocket API current version is 1.0</p>
+
 <h3 id="ssl-websocket-connection">SSL Websocket Connection</h3>
 
 <p>URI: <code class="prettyprint">wss://api2.bitfinex.com:3000/ws</code></p>
@@ -3685,6 +3689,22 @@ greater or equal to the amount of the position and the margin funding used.</p>
 10000 : Unknown event
 <br>
 10001 : Unknown pair
+</aside>
+
+<h3 id="info-messages">Info Messages</h3>
+
+<p>Info messages are sent from the websocket server to notify the state of your connection.
+Right after connecting you receive an info message that contains the actual version of the websocket stream.</p>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"info"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="mi">20000</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<aside class="notice">
+<strong>NOTE</strong>
+If you are developing/using a trading bot, please make sure to handle version number changes.
 </aside>
 
 <h3 id="ping-pong">Ping/Pong</h3>
@@ -4372,7 +4392,7 @@ your balances, your orders and your trades.</p>
 <tr>
 <td>POS_MARGIN_FUNDING_TYPE</td>
 <td>int</td>
-<td>0 for term, 1 for daily.</td>
+<td>0 for daily, 1 for term.</td>
 </tr>
 </tbody></table>
 
@@ -4497,6 +4517,69 @@ your balances, your orders and your trades.</p>
 <td>ORD_CREATED_AT</td>
 <td>string</td>
 <td>Creation date/time</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p><strong>Trade Snapshot</strong></p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[</span><span class="w">
+   </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"ts"</span><span class="p">,</span><span class="w">
+   </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="w">
+         </span><span class="s2">"&lt;TRD_ID&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;TRD_PAIR&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;TRD_TIMESTAMP&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;TRD_ORD_ID&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;TRD_AMOUNT_EXECUTED&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;TRD_PRICE_EXECUTED&gt;"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="p">[</span><span class="w">
+         </span><span class="s2">"..."</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+<p><strong>Fields</strong></p>
+
+<table><thead>
+<tr>
+<th>Term</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TRD_ID</td>
+<td>int</td>
+<td>Orade id</td>
+</tr>
+<tr>
+<td>TRD_PAIR</td>
+<td>string</td>
+<td>Pair (BTCUSD, LTCUSD, LTCBTC)</td>
+</tr>
+<tr>
+<td>TRD_TIMESTAMP</td>
+<td>int</td>
+<td>Execution timestamp</td>
+</tr>
+<tr>
+<td>TRD_ORD_ID</td>
+<td>int</td>
+<td>Order id</td>
+</tr>
+<tr>
+<td>±TRD_AMOUNT_EXECUTED</td>
+<td>float</td>
+<td>Positive means buy, negative means sell</td>
+</tr>
+<tr>
+<td>TRD_PRICE_EXECUTED</td>
+<td>float</td>
+<td>Execution price</td>
 </tr>
 </tbody></table>
 
