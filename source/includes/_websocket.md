@@ -2,6 +2,9 @@
 
 ## General
 
+### Current Version
+Bitfinex Websocket API current version is 1.0
+
 ### SSL Websocket Connection
 URI: `wss://api2.bitfinex.com:3000/ws`
 
@@ -41,6 +44,20 @@ In case of error, you receive a message containing the proper error code (`code`
 10001 : Unknown pair
 </aside>
 
+### Info Messages
+Info messages are sent from the websocket server to notify the state of your connection.
+Right after connecting you receive an info message that contains the actual version of the websocket stream.
+
+```json
+{
+   "event":"info",
+   "code": 20000,
+   "version": 1
+}
+```
+
+**NOTE**: If you are developing/using a trading bot, please make sure to handle version number changes. 
+
 ### Ping/Pong
 Use `ping` message to test your connection to the websocket server.
 
@@ -59,7 +76,7 @@ Use `ping` message to test your connection to the websocket server.
    "event":"pong"
 }
 ```
-
+i
 ### Subscribe to Channels
 To receive data from a channel you have to send a "subscribe" message first.
 
@@ -520,7 +537,7 @@ POS_STATUS | string | Status (ACTIVE, CLOSED).
 ±POS_AMOUNT | float | Size of the position. Positive values means a long position, negative values means a short position.
 POS_BASE_PRICE | float | The price at which you entered your position.
 POS_MARGIN_FUNDING | float | The amount of funding being used for this position.
-POS_MARGIN_FUNDING_TYPE | int | 0 for term, 1 for daily.
+POS_MARGIN_FUNDING_TYPE | int | 0 for daily, 1 for term.
 
 > **Wallet Snapshot**
 
@@ -584,6 +601,41 @@ ORD_STATUS | string | Status (ACTIVE, EXECUTED, PARTIALLY FILLED, ...)
 ORD_PRICE | float | Price
 ORD_PRICE_AVG | float | Average price
 ORD_CREATED_AT | string | Creation date/time
+
+> **Trade Snapshot**
+
+```json
+[
+   0,
+   "ts",
+   [
+      [
+         "<TRD_ID>",
+         "<TRD_PAIR>",
+         "<TRD_TIMESTAMP>",
+         "<TRD_ORD_ID>",
+         "<TRD_AMOUNT_EXECUTED>",
+         "<TRD_PRICE_EXECUTED>"
+      ],
+      [
+         "..."
+      ]
+   ]
+]
+```
+
+**Fields**
+
+Term | Type | Description
+--- | --- | ---
+TRD_ID | int | Orade id
+TRD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
+TRD_TIMESTAMP | int | Execution timestamp
+TRD_ORD_ID | int | Order id 
+±TRD_AMOUNT_EXECUTED | float | Positive means buy, negative means sell
+TRD_PRICE_EXECUTED | float | Execution price
+
+
 
 > **Updates (order)**
 
@@ -663,6 +715,8 @@ ORD_CREATED_AT | string | Creation date/time
    ]
 ]
 ```
+
+
 **Abbreviated Terms Glossary**
 
 Term | Definition
