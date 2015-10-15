@@ -4,6 +4,7 @@
 @import 'variables';
 @import 'syntax';
 @import 'icon-font';
+@import 'custom';
 
 /*
 Copyright 2008-2013 Concur Technologies, Inc.
@@ -69,7 +70,7 @@ html, body {
   bottom: 0;
   width: $nav-width;
   background-color: $nav-bg;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
 
   // language selector for mobile devices
@@ -377,7 +378,7 @@ html, body {
 
   h1 {
     @extend %header-font;
-    font-size: 30px;
+    font-size: 32px;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     border-bottom: 1px solid #ccc;
@@ -394,8 +395,8 @@ html, body {
 
   h2 {
     @extend %header-font;
-    font-size: 20px;
-    margin-top: 4em;
+    font-size: 29px;
+    margin-top: 2em;
     margin-bottom: 0;
     border-top: 1px solid #ccc;
     padding-top: 1.2em;
@@ -412,8 +413,8 @@ html, body {
 
   h3 {
     @extend %header-font;
-    font-size: 32px;
-    margin-top: 2em;
+    font-size: 26px;
+    margin-top: 1em;
     margin-bottom: 0.8em;
   }
 

@@ -2,13 +2,15 @@
 The Bitfinex API's are designed to allow access to all of the features of the Bitfinex platform. The end goal is to
 allow people to potentially recreate the entire platform on their own.
 
-## Bitfinex official libraries
-### Node.js
+### Bitfinex official libraries
+
+**Node.js**
+
 * Node.js: [https://github.com/bitfinexcom/bitfinex-api-node](https://github.com/bitfinexcom/bitfinex-api-node)
 
-### Ruby
-* ruby: [https://github.com/bitfinexcom/bitfinex-api-rb](https://github.com/bitfinexcom/bitfinex-api-rb)
+**Ruby**
 
+* ruby: [https://github.com/bitfinexcom/bitfinex-api-rb](https://github.com/bitfinexcom/bitfinex-api-rb)
 
 ## API Access
 In order to access the parts of the API which require authentication, you must generate an API key and an API secret
@@ -24,7 +26,7 @@ You can generate as many API keys as you would like, and each of those keys can 
 account, or update any data.
 
 ### Withdrawal enabled key
-* Provides, in addition to the standard key's privileges, the ability to move funds between 
+* Provides, in addition to the standard key's privileges, the ability to move funds between
 wallets or to withdraw funds from your account.
 
 <aside class="notice">
