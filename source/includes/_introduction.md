@@ -2,15 +2,21 @@
 The Bitfinex API's are designed to allow access to all of the features of the Bitfinex platform. The end goal is to
 allow people to potentially recreate the entire platform on their own.
 
-### Bitfinex official libraries
+### Open Source Libraries
+The following open source projects are works in progress. We will be continually improving them, but we want to release them early so that the community can take a look, make use of them, and offer pull requests. Nothing in the Bitcoin world exists in isolation.
+
+**Go**
+
+* Library: [bitfinexcom/bitfinex-api-go](https://github.com/bitfinexcom/bitfinex-api-go)
 
 **Node.js**
 
-* Node.js: [https://github.com/bitfinexcom/bitfinex-api-node](https://github.com/bitfinexcom/bitfinex-api-node)
+* Reference implementation: [bitfinexcom/bitfinex-api-node](https://github.com/bitfinexcom/bitfinex-api-node)
+* Library: Coming soon
 
 **Ruby**
 
-* ruby: [https://github.com/bitfinexcom/bitfinex-api-rb](https://github.com/bitfinexcom/bitfinex-api-rb)
+* Library: Coming soon
 
 ## API Access
 In order to access the parts of the API which require authentication, you must generate an API key and an API secret
