@@ -3838,6 +3838,7 @@ can use to distinguish between updates for each subscribed channel.</li></ul>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
    </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"unsubscribed"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"status"</span><span class="p">:</span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
    </span><span class="nt">"chanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -3899,7 +3900,10 @@ followed by updates upon any changes to the book.</p>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
    </span><span class="nt">"event"</span><span class="p">:</span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
    </span><span class="nt">"channel"</span><span class="p">:</span><span class="s2">"book"</span><span class="p">,</span><span class="w">
-   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"pair"</span><span class="p">:</span><span class="s2">"&lt;PAIR&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"prec"</span><span class="p">:</span><span class="s2">"&lt;PRECISION&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"len"</span><span class="p">:</span><span class="s2">"&lt;LENGTH&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -4083,22 +4087,25 @@ such as price, size and time.</p>
   </span><span class="nt">"event"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscribed"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"channel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"trades"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"chanId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="w">
+  </span><span class="s2">"pair"</span><span class="err">:</span><span class="s2">"&lt;PAIR&gt;"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 <blockquote>
 <p><strong>Snapshot</strong></p>
 </blockquote>
-<pre class="highlight json"><code><span class="p">[</span><span class="w">
+<pre class="highlight json"><code><span class="p">[</span><span class="w">  
    </span><span class="s2">"&lt;CHANNEL_ID&gt;"</span><span class="p">,</span><span class="w">
-   </span><span class="p">[</span><span class="w">
-      </span><span class="s2">"&lt;ID&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"&lt;TIMESTAMP&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"&lt;PRICE&gt;"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"&lt;AMOUNT&gt;"</span><span class="w">
-   </span><span class="p">],</span><span class="w">
-   </span><span class="p">[</span><span class="w">
-      </span><span class="s2">"..."</span><span class="w">
+   </span><span class="p">[</span><span class="w">  
+      </span><span class="p">[</span><span class="w">  
+         </span><span class="s2">"&lt;ID&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;TIMESTAMP&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;PRICE&gt;"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"&lt;AMOUNT&gt;"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="p">[</span><span class="w">  
+         </span><span class="s2">"..."</span><span class="w">
+      </span><span class="p">]</span><span class="w">
    </span><span class="p">]</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
