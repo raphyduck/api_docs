@@ -176,6 +176,7 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 ```json
 {
    "event":"unsubscribed",
+   "status":"OK",
    "chanId":"<CHANNEL_ID>"
 }
 ```
@@ -232,7 +233,10 @@ w.send(JSON.stringify({
 {
    "event":"subscribed",
    "channel":"book",
-   "chanId":"<CHANNEL_ID>"
+   "chanId":"<CHANNEL_ID>",
+   "pair":"<PAIR>",
+   "prec":"<PRECISION>",
+   "len":"<LENGTH>"
 }
 ```
 > **Snapshot**
@@ -325,21 +329,24 @@ w.send(JSON.stringify({
   "event": "subscribed",
   "channel": "trades",
   "chanId": "<CHANNEL_ID>"
+  "pair":"<PAIR>"
 }
 ```
 > **Snapshot**
 
 ```json
-[
+[  
    "<CHANNEL_ID>",
-   [
-      "<ID>",
-      "<TIMESTAMP>",
-      "<PRICE>",
-      "<AMOUNT>"
-   ],
-   [
-      "..."
+   [  
+      [  
+         "<ID>",
+         "<TIMESTAMP>",
+         "<PRICE>",
+         "<AMOUNT>"
+      ],
+      [  
+         "..."
+      ]
    ]
 ]
 ```
