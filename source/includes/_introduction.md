@@ -7,16 +7,16 @@ If you would like to suggest changes to the documentation, please see the github
 ## Open Source Libraries
 The following open source projects are works in progress. We will be continually improving them, but we want to release them early so that the community can take a look, make use of them, and offer pull requests. Nothing in the Bitcoin world exists in isolation.
 
-**Go**
+### GO
 
 * Library: [bitfinexcom/bitfinex-api-go](https://github.com/bitfinexcom/bitfinex-api-go)
 
-**Node.js**
+### Node.js
 
 * Reference implementation: [bitfinexcom/bitfinex-api-node](https://github.com/bitfinexcom/bitfinex-api-node)
 * Library: Coming soon
 
-**Ruby**
+### Ruby
 
 * Library: Coming soon
 
