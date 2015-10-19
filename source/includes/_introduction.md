@@ -2,6 +2,8 @@
 The Bitfinex API's are designed to allow access to all of the features of the Bitfinex platform. The end goal is to
 allow people to potentially recreate the entire platform on their own.
 
+If you would like to suggest changes to the documentation, please see the github at https://github.com/bitfinexcom/api_docs
+
 ### Open Source Libraries
 The following open source projects are works in progress. We will be continually improving them, but we want to release them early so that the community can take a look, make use of them, and offer pull requests. Nothing in the Bitcoin world exists in isolation.
 
