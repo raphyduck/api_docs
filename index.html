@@ -13,7 +13,7 @@
 
       <script>
         $(function() {
-          setupLanguages(["javascript"]);
+          setupLanguages(["javascript","go"]);
         });
       </script>
   </head>
@@ -29,6 +29,7 @@
       <a href='https://bitfinex.com' title="Bitfinex"><img src="images/logo.png" /></a>
         <div class="lang-selector">
               <a href="#" data-language-name="javascript">javascript</a>
+              <a href="#" data-language-name="go">go</a>
         </div>
       <div id="toc">
       </div>
@@ -109,6 +110,8 @@ You cannot create an API key that is both enabled for withdrawal AND Read-only.
 <h3 id="url">URL</h3>
 <pre class="highlight javascript"><code><span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.bitfinex.com/v1"</span>
 </code></pre>
+<pre class="highlight go"><code><span class="k">var</span><span class="x"> </span><span class="n">url</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="s">"https://api.bitfinex.com/v1/"</span><span class="x">
+</span></code></pre>
 
 <p><code class="prettyprint">https://api.bitfinex.com/v1</code></p>
 
@@ -118,6 +121,11 @@ You cannot create an API key that is both enabled for withdrawal AND Read-only.
   <span class="s2">"nonce"</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">().</span><span class="nx">toString</span><span class="p">()</span>
 <span class="p">};</span>
 </code></pre>
+<pre class="highlight go"><code><span class="n">payload</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+    </span><span class="s">"request"</span><span class="o">:</span><span class="x"> </span><span class="s">"/v1/account_infos"</span><span class="p">,</span><span class="x">
+    </span><span class="s">"nonce"</span><span class="o">:</span><span class="x">   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"%v"</span><span class="p">,</span><span class="x"> </span><span class="n">time</span><span class="o">.</span><span class="n">Now</span><span class="p">()</span><span class="o">.</span><span class="n">Unix</span><span class="p">()</span><span class="o">*</span><span class="m">10000</span><span class="p">),</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
 
 <p>Authentication is done using an API key and a secret. To generate this pair,
 go to the <a href="https://www.bitfinex.com/account/api">API Access</a> page.
@@ -155,6 +163,63 @@ The nonce provided must be strictly increasing.
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
 <span class="p">});</span>
 </code></pre>
+<pre class="highlight go"><code><span class="c">// Full example of authenticated request</span><span class="x">
+</span><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"crypto/hmac"</span><span class="x">
+    </span><span class="s">"crypto/sha512"</span><span class="x">
+    </span><span class="s">"encoding/base64"</span><span class="x">
+    </span><span class="s">"encoding/hex"</span><span class="x">
+    </span><span class="s">"encoding/json"</span><span class="x">
+    </span><span class="s">"fmt"</span><span class="x">
+    </span><span class="s">"io/ioutil"</span><span class="x">
+    </span><span class="s">"log"</span><span class="x">
+    </span><span class="s">"net/http"</span><span class="x">
+    </span><span class="s">"time"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">API_KEY</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"..."</span><span class="x">
+    </span><span class="n">API_SECRET</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"..."</span><span class="x">
+
+    </span><span class="n">url</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"https://api.bitfinex.com/v1/"</span><span class="x">
+    </span><span class="n">req</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">NewRequest</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span><span class="x"> </span><span class="n">url</span><span class="o">+</span><span class="s">"/account_infos"</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+
+    </span><span class="n">payload</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+        </span><span class="s">"request"</span><span class="o">:</span><span class="x"> </span><span class="s">"/v1/account_infos"</span><span class="p">,</span><span class="x">
+        </span><span class="s">"nonce"</span><span class="o">:</span><span class="x">   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"%v"</span><span class="p">,</span><span class="x"> </span><span class="n">time</span><span class="o">.</span><span class="n">Now</span><span class="p">()</span><span class="o">.</span><span class="n">Unix</span><span class="p">()</span><span class="o">*</span><span class="m">10000</span><span class="p">),</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+
+    </span><span class="n">payload_json</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">json</span><span class="o">.</span><span class="n">Marshal</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span><span class="x">
+    </span><span class="n">payload_enc</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">base64</span><span class="o">.</span><span class="n">StdEncoding</span><span class="o">.</span><span class="n">EncodeToString</span><span class="p">(</span><span class="n">payload_json</span><span class="p">)</span><span class="x">
+
+    </span><span class="n">sig</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">hmac</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">sha512</span><span class="o">.</span><span class="n">New384</span><span class="p">,</span><span class="x"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">(</span><span class="n">API_SECRET</span><span class="p">))</span><span class="x">
+    </span><span class="n">sig</span><span class="o">.</span><span class="n">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">(</span><span class="n">payload_enc</span><span class="p">))</span><span class="x">
+
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"Content-Type"</span><span class="p">,</span><span class="x"> </span><span class="s">"application/json"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"Accept"</span><span class="p">,</span><span class="x"> </span><span class="s">"application/json"</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"X-BFX-APIKEY"</span><span class="p">,</span><span class="x"> </span><span class="n">API_KEY</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"X-BFX-PAYLOAD"</span><span class="p">,</span><span class="x"> </span><span class="n">payload_enc</span><span class="p">)</span><span class="x">
+    </span><span class="n">req</span><span class="o">.</span><span class="n">Header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="s">"X-BFX-SIGNATURE"</span><span class="p">,</span><span class="x"> </span><span class="n">hex</span><span class="o">.</span><span class="n">EncodeToString</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">Sum</span><span class="p">(</span><span class="no">nil</span><span class="p">)))</span><span class="x">
+
+    </span><span class="n">resp</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">DefaultClient</span><span class="o">.</span><span class="n">Do</span><span class="p">(</span><span class="n">req</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="k">defer</span><span class="x"> </span><span class="n">resp</span><span class="o">.</span><span class="n">Body</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+
+    </span><span class="n">body</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">body</span><span class="p">))</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
 
 <p>The authentications procedures is as follows:</p>
 
@@ -3690,6 +3755,15 @@ greater or equal to the amount of the position and the margin funding used.</p>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
 <span class="p">};</span>
 </code></pre>
+<pre class="highlight go"><code><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+    </span><span class="s">"code.google.com/p/go.net/websocket"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="n">ws</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">websocket</span><span class="o">.</span><span class="n">Dial</span><span class="p">(</span><span class="s">"wss://api2.bitfinex.com:3000/ws"</span><span class="p">,</span><span class="x"> </span><span class="s">""</span><span class="p">,</span><span class="x"> </span><span class="s">"http://localhost/"</span><span class="p">)</span><span class="x">
+</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">err</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre>
 
 <h3 id="error-codes">Error Codes</h3>
 
@@ -4318,6 +4392,39 @@ your balances, your orders and your trades.</p>
     <span class="na">authPayload</span><span class="p">:</span> <span class="nx">payload</span>
 <span class="p">}));</span>
 </code></pre>
+<pre class="highlight go"><code><span class="n">ws</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">websocket</span><span class="o">.</span><span class="n">Dial</span><span class="p">(</span><span class="s">"wss://api2.bitfinex.com:3000/ws"</span><span class="p">,</span><span class="x"> </span><span class="s">""</span><span class="p">,</span><span class="x"> </span><span class="s">"http://localhost/"</span><span class="p">)</span><span class="x">
+</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">return</span><span class="x"> </span><span class="n">err</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="n">payload</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"AUTH"</span><span class="x"> </span><span class="o">+</span><span class="x"> </span><span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"%v"</span><span class="p">,</span><span class="x"> </span><span class="n">time</span><span class="o">.</span><span class="n">Now</span><span class="p">()</span><span class="o">.</span><span class="n">Unix</span><span class="p">())</span><span class="x">
+
+</span><span class="n">sig</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">hmac</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">sha512</span><span class="o">.</span><span class="n">New384</span><span class="p">,</span><span class="x"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">(</span><span class="s">"API_KEY"</span><span class="p">))</span><span class="x">
+</span><span class="n">sig</span><span class="o">.</span><span class="n">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">(</span><span class="n">payload</span><span class="p">))</span><span class="x">
+</span><span class="n">payload_sign</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">hex</span><span class="o">.</span><span class="n">EncodeToString</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">Sum</span><span class="p">(</span><span class="no">nil</span><span class="p">))</span><span class="x">
+
+</span><span class="n">connectMsg</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">json</span><span class="o">.</span><span class="n">Marshal</span><span class="p">(</span><span class="k">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="k">interface</span><span class="p">{}{</span><span class="x">
+    </span><span class="s">"event"</span><span class="o">:</span><span class="x">       </span><span class="s">"auth"</span><span class="p">,</span><span class="x">
+    </span><span class="s">"apiKey"</span><span class="o">:</span><span class="x">      </span><span class="s">"API_KEY"</span><span class="p">,</span><span class="x">
+    </span><span class="s">"authSig"</span><span class="o">:</span><span class="x">     </span><span class="n">payload_sign</span><span class="p">,</span><span class="x">
+    </span><span class="s">"authPayload"</span><span class="o">:</span><span class="x"> </span><span class="n">payload</span><span class="p">,</span><span class="x">
+</span><span class="p">})</span><span class="x">
+
+</span><span class="c">// Send auth message</span><span class="x">
+</span><span class="n">_</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">ws</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="n">connectMsg</span><span class="p">)</span><span class="x">
+    </span><span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="k">return</span><span class="x">
+</span><span class="p">}</span><span class="x">
+
+</span><span class="c">// Read all incoming messages</span><span class="x">
+</span><span class="k">var</span><span class="x"> </span><span class="n">msg</span><span class="x"> </span><span class="kt">string</span><span class="x">
+</span><span class="k">for</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">websocket</span><span class="o">.</span><span class="n">Message</span><span class="o">.</span><span class="n">Receive</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span><span class="x"> </span><span class="o">&amp;</span><span class="n">msg</span><span class="p">);</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+</span></code></pre>
 
 <blockquote>
 <p><strong>Request</strong></p>
@@ -4792,6 +4899,7 @@ your balances, your orders and your trades.</p>
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="go">go</a>
           </div>
       </div>
     </div>
