@@ -11,5 +11,5 @@ language_tabs:
 
 toc_footers:
   - <a href='https://bitfinex.com'><strong>Back to Bitfinex</strong></a>
-  - < href='https://github.com/bitfinexcom/api_docs'><strong>Documentation Github</strong></a>
+  - <a href='https://github.com/bitfinexcom/api_docs'><strong>Documentation Github</strong></a>
 ---
