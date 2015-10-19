@@ -328,7 +328,7 @@ w.send(JSON.stringify({
 {
   "event": "subscribed",
   "channel": "trades",
-  "chanId": "<CHANNEL_ID>"
+  "chanId": "<CHANNEL_ID>",
   "pair":"<PAIR>"
 }
 ```
