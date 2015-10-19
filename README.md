@@ -1,5 +1,8 @@
 Contributing
 ========
+
+Find the docs at http://docs.bitfinex.com
+
 We welcome any suggestions for how we can improve our documentation. In order to suggest a change:
 
 * Fork the repo.
