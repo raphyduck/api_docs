@@ -33,6 +33,17 @@ w.onmessage = function(msg) {
 };
 ```
 
+```go
+import (
+	"code.google.com/p/go.net/websocket"
+)
+
+ws, err := websocket.Dial("wss://api2.bitfinex.com:3000/ws", "", "http://localhost/")
+if err != nil {
+    return err
+}
+```
+
 ### Error Codes
 In case of error, you receive a message containing the proper error code (`code` JSON field).
 
@@ -477,6 +488,41 @@ w.send(JSON.stringify({
     authSig: signature,
     authPayload: payload
 }));
+```
+
+```go
+ws, err := websocket.Dial("wss://api2.bitfinex.com:3000/ws", "", "http://localhost/")
+if err != nil {
+    return err
+}
+
+payload := "AUTH" + fmt.Sprintf("%v", time.Now().Unix())
+
+sig := hmac.New(sha512.New384, []byte("API_KEY"))
+sig.Write([]byte(payload))
+payload_sign := hex.EncodeToString(sig.Sum(nil))
+
+connectMsg, _ := json.Marshal(map[string]interface{}{
+    "event":       "auth",
+    "apiKey":      "API_KEY",
+    "authSig":     payload_sign,
+    "authPayload": payload,
+})
+
+// Send auth message
+_, err = ws.Write(connectMsg)
+    log.Fatal(err)
+    return
+}
+
+// Read all incoming messages
+var msg string
+for {
+    if err = websocket.Message.Receive(ws, &msg); err != nil {
+        fmt.Println(err)
+    } else {
+        fmt.Println(msg)
+    }
 ```
 
 > **Request**

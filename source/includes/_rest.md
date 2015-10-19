@@ -7,6 +7,11 @@
 ```javascript
 var url = "https://api.bitfinex.com/v1"
 ```
+
+```go
+var url = "https://api.bitfinex.com/v1/"
+```
+
 `https://api.bitfinex.com/v1`
 
 ### Authentication
@@ -16,6 +21,13 @@ var payload = {
   "request": "/v1/account_infos",
   "nonce": Date.now().toString()
 };
+```
+
+```go
+payload := map[string]interface{}{
+	"request": "/v1/account_infos",
+	"nonce":   fmt.Sprintf("%v", time.Now().Unix()*10000),
+}
 ```
 
 Authentication is done using an API key and a secret. To generate this pair,
@@ -55,6 +67,65 @@ request.post(options,
   function(error, response, body) {
     console.log(body);
 });
+```
+
+```go
+// Full example of authenticated request
+package main
+
+import (
+	"crypto/hmac"
+	"crypto/sha512"
+	"encoding/base64"
+	"encoding/hex"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"time"
+)
+
+func main() {
+	API_KEY := "..."
+	API_SECRET := "..."
+
+	url := "https://api.bitfinex.com/v1/"
+	req, err := http.NewRequest("POST", url+"/account_infos", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	payload := map[string]interface{}{
+		"request": "/v1/account_infos",
+		"nonce":   fmt.Sprintf("%v", time.Now().Unix()*10000),
+	}
+
+	payload_json, _ := json.Marshal(payload)
+	payload_enc := base64.StdEncoding.EncodeToString(payload_json)
+
+	sig := hmac.New(sha512.New384, []byte(API_SECRET))
+	sig.Write([]byte(payload_enc))
+
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/json")
+	req.Header.Add("X-BFX-APIKEY", API_KEY)
+	req.Header.Add("X-BFX-PAYLOAD", payload_enc)
+	req.Header.Add("X-BFX-SIGNATURE", hex.EncodeToString(sig.Sum(nil)))
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(string(body))
+}
 ```
 
 The authentications procedures is as follows:
