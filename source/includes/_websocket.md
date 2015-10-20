@@ -635,7 +635,8 @@ WLT_INTEREST_UNSETTLED | float | Unsettled interest
          "<ORD_STATUS>",
          "<ORD_PRICE>",
          "<ORD_PRICE_AVG>",
-         "<ORD_CREATED_AT>"
+         "<ORD_CREATED_AT>",
+         "ORD_HIDDEN"
       ],
       [
          "..."
@@ -657,6 +658,7 @@ ORD_STATUS | string | Status (ACTIVE, EXECUTED, PARTIALLY FILLED, ...)
 ORD_PRICE | float | Price
 ORD_PRICE_AVG | float | Average price
 ORD_CREATED_AT | string | Creation date/time
+ORD_HIDDEN | int | 1 if Hidden, 0 if not hidden
 
 > **Trade Snapshot**
 
@@ -684,7 +686,7 @@ ORD_CREATED_AT | string | Creation date/time
 
 Term | Type | Description
 --- | --- | ---
-TRD_ID | int | Orade id
+TRD_ID | int | Trade id
 TRD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
 TRD_TIMESTAMP | int | Execution timestamp
 TRD_ORD_ID | int | Order id 
