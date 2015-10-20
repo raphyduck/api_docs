@@ -3498,7 +3498,7 @@ Allow you to request a withdrawal from one of your wallet.
             <tr>
               <td><strong>withdraw_type</strong></td>
               <td>[string]</td>
-              <td>can be "bitcoin", "litecoin" or "darkcoin"  or "tether".</td>
+              <td>can be "bitcoin", "litecoin" or "darkcoin"  or "tether" or "wire".</td>
             </tr>
             <tr>
               <td><strong>walletselected</strong></td>
@@ -3511,9 +3511,85 @@ Allow you to request a withdrawal from one of your wallet.
               <td>Amount to withdraw.</td>
             </tr>
             <tr>
+              <td colspan="3"><strong>For cryptocurrencies withdrawals (including "tether")</strong></td>
+            </tr>
+            <tr>
               <td><strong>address</strong></td>
               <td>[string]</td>
               <td>Destination address for withdrawal.</td>
+            </tr>
+            <tr>
+              <td colspan="3"><strong>For wire withdrawals</strong></td>
+            </tr>
+            <tr>
+              <td><strong>expressWire</strong></td>
+              <td>[int]</td>
+              <td>Optional. "1" to submit an express wire withdrawal, "0" or omit for a normal withdrawal</td>
+            </tr>
+            <tr>
+              <td><strong>account_name</strong></td>
+              <td>[string]</td>
+              <td>Account name</td>
+            </tr>
+            <tr>
+              <td><strong>account_number</strong></td>
+              <td>[string]</td>
+              <td>Account number</td>
+            </tr>
+            <tr>
+              <td><strong>bank_name</strong></td>
+              <td>[string]</td>
+              <td>Bank name</td>
+            </tr>
+            <tr>
+              <td><strong>bank_address</strong></td>
+              <td>[string]</td>
+              <td>Bank address</td>
+            </tr>
+            <tr>
+              <td><strong>bank_city</strong></td>
+              <td>[string]</td>
+              <td>Bank city</td>
+            </tr>
+            <tr>
+              <td><strong>bank_country</strong></td>
+              <td>[string]</td>
+              <td>Bank country</td>
+            </tr>
+            <tr>
+              <td><strong>detail_payment</strong></td>
+              <td>[string]</td>
+              <td>Optional. Message to beneficiary</td>
+            </tr>
+            <tr>
+              <td><strong>intermediary_bank_name</strong></td>
+              <td>[string]</td>
+              <td>Optional. Intermediary bank name</td>
+            </tr>
+            <tr>
+              <td><strong>intermediary_bank_address</strong></td>
+              <td>[string]</td>
+              <td>Optional. Intermediary bank address</td>
+            </tr>
+            <tr>
+              <td><strong>intermediary_bank_city</strong></td>
+              <td>[string]</td>
+              <td>Optional. Intermediary bank city</td>
+            </tr>
+            <tr>
+              <td><strong>intermediary_bank_country</strong></td>
+              <td>[string]</td>
+              <td>Optional. Intermediary bank country</td>
+            </tr>
+            <tr>
+              <td><strong>intermediary_bank_account</strong></td>
+              <td>[string]</td>
+              <td>Optional. Intermediary bank account</td>
+            </tr>
+            <tr>
+              <td><strong>intermediary_bank_swift</strong></td>
+              <td>[string]</td>
+              <td>Optional. Intermediary bank SWIFT</td>
             </tr>
             </tbody>
           </table>
