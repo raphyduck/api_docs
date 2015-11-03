@@ -1216,7 +1216,7 @@ Submit a new order.
             <tr>
               <td><strong>is_postonly</strong></td>
               <td>[bool]</td>
-              <td>true if the order should be put only. Default is false. Only relevant for limit orders.</td>
+              <td>true if the order should be post only. Default is false. Only relevant for limit orders.</td>
             </tr>
             </tbody>
             </table>
