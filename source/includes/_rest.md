@@ -1214,7 +1214,7 @@ Submit a new order.
               <td>true if the order should be hidden. Default is false.</td>
             </tr>
             <tr>
-              <td><strong>is_putonly</strong></td>
+              <td><strong>is_postonly</strong></td>
               <td>[bool]</td>
               <td>true if the order should be put only. Default is false. Only relevant for limit orders.</td>
             </tr>
