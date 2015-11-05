@@ -350,7 +350,7 @@ w.send(JSON.stringify({
    "<CHANNEL_ID>",
    [  
       [  
-         "<ID>",
+         "<SEQ>",
          "<TIMESTAMP>",
          "<PRICE>",
          "<AMOUNT>"
@@ -366,7 +366,7 @@ w.send(JSON.stringify({
 ```json
 [
    "<CHANNEL_ID>",
-   "<ID>",
+   "<SEQ>",
    "<TIMESTAMP>",
    "<PRICE>",
    "<AMOUNT>"
@@ -380,7 +380,7 @@ w.send(JSON.stringify({
 
 Fields | Type | Description
 --- | --- | ----
-ID | int | A Bitfinex trade ID
+SEQ | string | Trade sequence id
 TIMESTAMP | int|  Unix timestamp of the trade.
 PRICE | float | Price at which the trade was executed
 AMOUNT | float | How much was bought (positive) or sold (negative). The order that causes the trade determines if it is a buy or a sell.
@@ -429,7 +429,9 @@ w.send(JSON.stringify({
    "<DAILY_CHANGE>",
    "<DAILY_CHANGE_PERC>",
    "<LAST_PRICE>",
-   "<VOLUME>"
+   "<VOLUME>",
+   "<HIGH>",
+   "<LOW>"
 ]
 ```
 > **Updates**
@@ -463,6 +465,8 @@ DAILY_CHANGE | float | Amount that the last price has changed since yesterday
 DAILY_CHANGE_PERC | float | Amount that the price has changed expressed in percentage terms
 LAST_PRICE | float| Price of the last trade.
 VOLUME | float | Daily volume
+HIGH | float | Daily high
+LOW | float | Daily low
 
 ## Authenticated Channels
 ---
@@ -636,7 +640,8 @@ WLT_INTEREST_UNSETTLED | float | Unsettled interest
          "<ORD_PRICE>",
          "<ORD_PRICE_AVG>",
          "<ORD_CREATED_AT>",
-         "ORD_HIDDEN"
+         "<ORD_NOTIFY>",
+         "<ORD_HIDDEN>"
       ],
       [
          "..."
@@ -658,6 +663,7 @@ ORD_STATUS | string | Status (ACTIVE, EXECUTED, PARTIALLY FILLED, ...)
 ORD_PRICE | float | Price
 ORD_PRICE_AVG | float | Average price
 ORD_CREATED_AT | string | Creation date/time
+ORD_NOTIFY | int | 1 if Notify flag is active, 0 if not
 ORD_HIDDEN | int | 1 if Hidden, 0 if not hidden
 
 > **Trade Snapshot**
@@ -686,7 +692,7 @@ ORD_HIDDEN | int | 1 if Hidden, 0 if not hidden
 
 Term | Type | Description
 --- | --- | ---
-TRD_ID | int | Trade id
+TRD_ID | int | Trade id 
 TRD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
 TRD_TIMESTAMP | int | Execution timestamp
 TRD_ORD_ID | int | Order id 
@@ -764,7 +770,7 @@ TRD_PRICE_EXECUTED | float | Execution price
    0,
    "te",
    [
-      "<TRD_ID>",
+      "<TRD_SEQ>",
       "<TRD_PAIR>",
       "<TRD_TIMESTAMP>",
       "<TRD_ORD_ID>",
@@ -774,6 +780,23 @@ TRD_PRICE_EXECUTED | float | Execution price
 ]
 ```
 
+After a `te` message you receive shortly a `tu` message that contains the real trade id (`TRD_ID`) and additional/updated fields.
+
+```json
+[
+   0,
+   "tu",
+   [
+      "<TRD_SEQ>",
+      "<TRD_ID>",
+      "<TRD_PAIR>",
+      "<TRD_TIMESTAMP>",
+      "<TRD_ORD_ID>",
+      "<TRD_AMOUNT_EXECUTED>",
+      "<TRD_PRICE_EXECUTED>"
+   ]
+]
+```
 
 **Abbreviated Terms Glossary**
 
@@ -790,6 +813,7 @@ on | new order
 ou | order update
 oc | order cancel
 te | trade executed
+tu | trade execution update
 
 <aside class="warning">
 <strong>error codes</strong>
