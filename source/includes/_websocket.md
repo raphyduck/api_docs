@@ -72,6 +72,32 @@ Right after connecting you receive an info message that contains the actual vers
 If you are developing/using a trading bot, please make sure to handle version number changes.
 </aside>
 
+Websocket server sends other `info` messages to inform regarding relevant events.
+
+```json
+{
+   "event":"info",
+   "code": "<CODE>",
+   "msg": "<MSG>"
+}
+```
+
+<aside class="warning">
+<strong>info codes</strong>
+<br>
+20051 : Stop/Restart Websocket Server (please try to reconnect)
+<br>
+20060 : Refreshing data from the Trading Engine
+<br>
+20061 : Done Refreshing data from the Trading Engine
+<br>
+</aside>
+
+<aside class="notice">
+<strong>NOTE</strong>
+Rely on <CODE> only to handle `info` events.
+</aside>
+
 ### Ping/Pong
 Use `ping` message to test your connection to the websocket server.
 
@@ -170,15 +196,6 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 {
    "event":"unsubscribe",
    "chanId":"<CHANNEL_ID>"
-}
-```
-> or
-
-```json
-{
-   "event":"unsubscribe",
-   "channel":"<CHANNEL_NAME>",
-   "pair":"<PAIR>"
 }
 ```
 
@@ -283,8 +300,14 @@ w.send(JSON.stringify({
 Fields | Type | Description
 --- | --- | ---
 PRECISION | string | Level of price aggregation (P0, P1, P2, P3). The default is P0.
+PRICE | float | Price level.
 COUNT | int | Number of orders at that price level.
-AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
+±AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
+
+<aside class="notice">
+<strong>NOTE</strong>
+COUNT=0 means that you have to remove the price level from your book. 
+</aside>
 
 **Precision Levels per Pair**
 
