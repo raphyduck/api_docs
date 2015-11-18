@@ -704,7 +704,11 @@ ORD_HIDDEN | int | 1 if Hidden, 0 if not hidden
          "<TRD_TIMESTAMP>",
          "<TRD_ORD_ID>",
          "<TRD_AMOUNT_EXECUTED>",
-         "<TRD_PRICE_EXECUTED>"
+         "<TRD_PRICE_EXECUTED>",
+         "<ORD_TYPE>",
+         "<ORD_PRICE>",
+         "<FEE>",
+         "<FEE_CURRENCY>"
       ],
       [
          "..."
@@ -723,6 +727,10 @@ TRD_TIMESTAMP | int | Execution timestamp
 TRD_ORD_ID | int | Order id 
 ±TRD_AMOUNT_EXECUTED | float | Positive means buy, negative means sell
 TRD_PRICE_EXECUTED | float | Execution price
+ORD_TYPE | string | Order type
+ORD_PRICE | float | Order price
+FEE | float | Fee
+FE_CURRENCY | string | Fee currency
 
 
 
@@ -800,7 +808,9 @@ TRD_PRICE_EXECUTED | float | Execution price
       "<TRD_TIMESTAMP>",
       "<TRD_ORD_ID>",
       "<TRD_AMOUNT_EXECUTED>",
-      "<TRD_PRICE_EXECUTED>"
+      "<TRD_PRICE_EXECUTED>",
+      "<ORD_TYPE>",
+      "<ORD_PRICE>"
    ]
 ]
 ```
@@ -818,7 +828,11 @@ After a `te` message you receive shortly a `tu` message that contains the real t
       "<TRD_TIMESTAMP>",
       "<TRD_ORD_ID>",
       "<TRD_AMOUNT_EXECUTED>",
-      "<TRD_PRICE_EXECUTED>"
+      "<TRD_PRICE_EXECUTED>",
+      "<ORD_TYPE>",
+      "<ORD_PRICE>",
+      "<FEE>",
+      "<FEE_CURRENCY>"
    ]
 ]
 ```
