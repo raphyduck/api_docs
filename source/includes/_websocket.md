@@ -148,6 +148,12 @@ To receive data from a channel you have to send a "subscribe" message first.
 }
 ```
 
+### Heartbeating
+If there is no new message in the channel for 5 seconds, Websocket server will send you an heartbeat message in this format.
+```json
+["<Chan Id>", "hb"]
+```
+
 ### Snapshot
 Upon subscribing to a channel an initial snapshot is sent. Typically,
 the snapshot will have as its first item, the chanId, its second item
