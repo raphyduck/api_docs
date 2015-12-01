@@ -2956,7 +2956,8 @@ baseRequest.post(options, function(error, response, body) {
   "rate":"9.8874",
   "period":2,
   "amount":"34.24603414",
-  "timestamp":"1444280948.0"
+  "timestamp":"1444280948.0",
+  "auto_close":false
 }]
 ```
 
@@ -3076,7 +3077,8 @@ baseRequest.post(options, function(error, response, body) {
   "rate":"9.8874",
   "period":2,
   "amount":"34.24603414",
-  "timestamp":"1444280948.0"
+  "timestamp":"1444280948.0",
+  "auto_close":false
 }
 ```
 
