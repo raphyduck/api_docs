@@ -2973,6 +2973,57 @@ View your funding currently borrowed and used in a margin position.
 
 An array of your active margin funds.
 
+#### Active funding not used in a margin position
+
+> **Request**
+
+```javascript
+var payload = {
+  "request": "/v1/unused_taken_funds",
+  "nonce": Date.now().toString(),
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+  url: "/taken_funds",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+  body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+  console.log(body);
+});
+```
+
+> **Response**
+
+```json
+[{
+  "id":11576737,
+  "position_id":944309,
+  "currency":"USD",
+  "rate":"9.8874",
+  "period":2,
+  "amount":"34.24603414",
+  "timestamp":"1444280948.0",
+  "auto_close":false
+}]
+```
+
+**Endpoint**
+
+`/unused_taken_funds`
+
+**Description**
+
+View your funding currently borrowed and not used (available for a new margin position).
+
+**Response Details**
+
+An array of your active unused margin funds.
+
 
 #### Total taken funds
 
