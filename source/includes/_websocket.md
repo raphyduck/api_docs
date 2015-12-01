@@ -72,6 +72,32 @@ Right after connecting you receive an info message that contains the actual vers
 If you are developing/using a trading bot, please make sure to handle version number changes.
 </aside>
 
+Websocket server sends other `info` messages to inform regarding relevant events.
+
+```json
+{
+   "event":"info",
+   "code": "<CODE>",
+   "msg": "<MSG>"
+}
+```
+
+<aside class="warning">
+<strong>info codes</strong>
+<br>
+20051 : Stop/Restart Websocket Server (please try to reconnect)
+<br>
+20060 : Refreshing data from the Trading Engine
+<br>
+20061 : Done Refreshing data from the Trading Engine
+<br>
+</aside>
+
+<aside class="notice">
+<strong>NOTE</strong>
+Rely on <CODE> only to handle `info` events.
+</aside>
+
 ### Ping/Pong
 Use `ping` message to test your connection to the websocket server.
 
@@ -122,6 +148,12 @@ To receive data from a channel you have to send a "subscribe" message first.
 }
 ```
 
+### Heartbeating
+If there is no new message in the channel for 5 seconds, Websocket server will send you an heartbeat message in this format.
+```json
+["<Chan Id>", "hb"]
+```
+
 ### Snapshot
 Upon subscribing to a channel an initial snapshot is sent. Typically,
 the snapshot will have as its first item, the chanId, its second item
@@ -170,15 +202,6 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 {
    "event":"unsubscribe",
    "chanId":"<CHANNEL_ID>"
-}
-```
-> or
-
-```json
-{
-   "event":"unsubscribe",
-   "channel":"<CHANNEL_NAME>",
-   "pair":"<PAIR>"
 }
 ```
 
@@ -283,8 +306,14 @@ w.send(JSON.stringify({
 Fields | Type | Description
 --- | --- | ---
 PRECISION | string | Level of price aggregation (P0, P1, P2, P3). The default is P0.
+PRICE | float | Price level.
 COUNT | int | Number of orders at that price level.
-AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
+±AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
+
+<aside class="notice">
+<strong>NOTE</strong>
+COUNT=0 means that you have to remove the price level from your book. 
+</aside>
 
 **Precision Levels per Pair**
 
@@ -350,7 +379,7 @@ w.send(JSON.stringify({
    "<CHANNEL_ID>",
    [  
       [  
-         "<ID>",
+         "<SEQ>",
          "<TIMESTAMP>",
          "<PRICE>",
          "<AMOUNT>"
@@ -366,7 +395,7 @@ w.send(JSON.stringify({
 ```json
 [
    "<CHANNEL_ID>",
-   "<ID>",
+   "<SEQ>",
    "<TIMESTAMP>",
    "<PRICE>",
    "<AMOUNT>"
@@ -380,7 +409,7 @@ w.send(JSON.stringify({
 
 Fields | Type | Description
 --- | --- | ----
-ID | int | A Bitfinex trade ID
+SEQ | string | Trade sequence id
 TIMESTAMP | int|  Unix timestamp of the trade.
 PRICE | float | Price at which the trade was executed
 AMOUNT | float | How much was bought (positive) or sold (negative). The order that causes the trade determines if it is a buy or a sell.
@@ -429,7 +458,9 @@ w.send(JSON.stringify({
    "<DAILY_CHANGE>",
    "<DAILY_CHANGE_PERC>",
    "<LAST_PRICE>",
-   "<VOLUME>"
+   "<VOLUME>",
+   "<HIGH>",
+   "<LOW>"
 ]
 ```
 > **Updates**
@@ -444,12 +475,14 @@ w.send(JSON.stringify({
    "<DAILY_CHANGE>",
    "<DAILY_CHANGE_PERC>",
    "<LAST_PRICE>",
-   "<VOLUME>"
+   "<VOLUME>",
+   "<HIGH>",
+   "<LOW>"
 ]
 ```
 *Here is an example of a real ticker*
 
-`[ 2, 236.62, 9.0029, 236.88, 7.1138, -1.02, 0, 236.52, 5191.36754297 ]`
+`[ 2, 236.62, 9.0029, 236.88, 7.1138, -1.02, 0, 236.52, 5191.36754297, 250.01, 220.05 ]`
 
 **Fields**
 
@@ -463,6 +496,8 @@ DAILY_CHANGE | float | Amount that the last price has changed since yesterday
 DAILY_CHANGE_PERC | float | Amount that the price has changed expressed in percentage terms
 LAST_PRICE | float| Price of the last trade.
 VOLUME | float | Daily volume
+HIGH | float | Daily high
+LOW | float | Daily low
 
 ## Authenticated Channels
 ---
@@ -635,7 +670,9 @@ WLT_INTEREST_UNSETTLED | float | Unsettled interest
          "<ORD_STATUS>",
          "<ORD_PRICE>",
          "<ORD_PRICE_AVG>",
-         "<ORD_CREATED_AT>"
+         "<ORD_CREATED_AT>",
+         "<ORD_NOTIFY>",
+         "<ORD_HIDDEN>"
       ],
       [
          "..."
@@ -657,6 +694,8 @@ ORD_STATUS | string | Status (ACTIVE, EXECUTED, PARTIALLY FILLED, ...)
 ORD_PRICE | float | Price
 ORD_PRICE_AVG | float | Average price
 ORD_CREATED_AT | string | Creation date/time
+ORD_NOTIFY | int | 1 if Notify flag is active, 0 if not
+ORD_HIDDEN | int | 1 if Hidden, 0 if not hidden
 
 > **Trade Snapshot**
 
@@ -671,7 +710,11 @@ ORD_CREATED_AT | string | Creation date/time
          "<TRD_TIMESTAMP>",
          "<TRD_ORD_ID>",
          "<TRD_AMOUNT_EXECUTED>",
-         "<TRD_PRICE_EXECUTED>"
+         "<TRD_PRICE_EXECUTED>",
+         "<ORD_TYPE>",
+         "<ORD_PRICE>",
+         "<FEE>",
+         "<FEE_CURRENCY>"
       ],
       [
          "..."
@@ -684,12 +727,16 @@ ORD_CREATED_AT | string | Creation date/time
 
 Term | Type | Description
 --- | --- | ---
-TRD_ID | int | Orade id
+TRD_ID | int | Trade id 
 TRD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
 TRD_TIMESTAMP | int | Execution timestamp
 TRD_ORD_ID | int | Order id 
 ±TRD_AMOUNT_EXECUTED | float | Positive means buy, negative means sell
 TRD_PRICE_EXECUTED | float | Execution price
+ORD_TYPE | string | Order type
+ORD_PRICE | float | Order price
+FEE | float | Fee
+FE_CURRENCY | string | Fee currency
 
 
 
@@ -762,16 +809,39 @@ TRD_PRICE_EXECUTED | float | Execution price
    0,
    "te",
    [
+      "<TRD_SEQ>",
+      "<TRD_PAIR>",
+      "<TRD_TIMESTAMP>",
+      "<TRD_ORD_ID>",
+      "<TRD_AMOUNT_EXECUTED>",
+      "<TRD_PRICE_EXECUTED>",
+      "<ORD_TYPE>",
+      "<ORD_PRICE>"
+   ]
+]
+```
+
+After a `te` message you receive shortly a `tu` message that contains the real trade id (`TRD_ID`) and additional/updated fields.
+
+```json
+[
+   0,
+   "tu",
+   [
+      "<TRD_SEQ>",
       "<TRD_ID>",
       "<TRD_PAIR>",
       "<TRD_TIMESTAMP>",
       "<TRD_ORD_ID>",
       "<TRD_AMOUNT_EXECUTED>",
-      "<TRD_PRICE_EXECUTED>"
+      "<TRD_PRICE_EXECUTED>",
+      "<ORD_TYPE>",
+      "<ORD_PRICE>",
+      "<FEE>",
+      "<FEE_CURRENCY>"
    ]
 ]
 ```
-
 
 **Abbreviated Terms Glossary**
 
@@ -788,6 +858,7 @@ on | new order
 ou | order update
 oc | order cancel
 te | trade executed
+tu | trade execution update
 
 <aside class="warning">
 <strong>error codes</strong>
