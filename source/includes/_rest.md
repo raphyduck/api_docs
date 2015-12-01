@@ -651,7 +651,7 @@ Get a list of the most recent trades for the given symbol.
           </tbody>
           </table>
 
-### Lends
+### Provided funding
 
 > **Request**
 
@@ -661,7 +661,7 @@ var payload = {
   "limit_lends": 1
 },
 options = {
-  url: url + '/lends/USD',
+  url: url + '/provided_funds/USD',
   qs: payload
 };
 request.get(options, function(error, response, body) {
@@ -682,11 +682,11 @@ request.get(options, function(error, response, body) {
 
 **Endpoint**
 
-/lends/:currency
+/provided_funds/:currency
 
 **Description**
 
-Get a list of the most recent funding data for the given currency: total amount lent and Flash Return Rate (in % by 365 days) over time.
+Get a list of the most recent funding data for the given currency: total amount provided and Flash Return Rate (in % by 365 days) over time.
 
 **Request Details**
 
