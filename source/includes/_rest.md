@@ -3139,7 +3139,7 @@ baseRequest.post(options, function(error, response, body) {
 
 **Description**
 
-Return the funding taken in a margin position
+Allow you to close an unused or used taken fund
 
 **Request Details**
 
@@ -3156,7 +3156,7 @@ Return the funding taken in a margin position
             <tr>
               <td><strong>swap_id</strong></td>
               <td>[int]</td>
-              <td>The ID given by `/taken_funds`.</td>
+              <td>The ID given by `/taken_funds` or `/unused_taken_funds`.</td>
             </tr>
             </tbody>
             </table>
