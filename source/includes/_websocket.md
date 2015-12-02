@@ -248,7 +248,8 @@ w.send(JSON.stringify({
     "event": "subscribe",
     "channel": "book",
     "pair": "BTCUSD",
-    "prec": "P0"
+    "prec": "P0",
+    "len":"<LENGTH>"
 }))
 ```
 > **Request**
@@ -309,11 +310,85 @@ PRECISION | string | Level of price aggregation (P0, P1, P2, P3). The default is
 PRICE | float | Price level.
 COUNT | int | Number of orders at that price level.
 ±AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
+LENGTH | string | Number of price points ("25", "100") [default="25"]
 
 <aside class="notice">
 <strong>NOTE</strong>
 COUNT=0 means that you have to remove the price level from your book. 
 </aside>
+
+#### Raw order Books
+
+> **Example**
+
+```javascript
+w.send(JSON.stringify({
+    "event": "subscribe",
+    "channel": "book",
+    "pair": "BTCUSD",
+    "prec": "R0",
+    "len":"<LENGTH>"
+}))
+```
+> **Request**
+
+```json
+{
+   "event":"subscribe",
+   "channel":"book",
+   "pair":"<PAIR>",
+   "prec":"R0"
+}
+```
+> **Response**
+
+```json
+{
+   "event":"subscribed",
+   "channel":"book",
+   "chanId":"<CHANNEL_ID>",
+   "pair":"<PAIR>",
+   "prec":"R0",
+   "len":"<LENGTH>"
+}
+```
+> **Snapshot**
+
+```json
+[
+   "<CHANNEL_ID>",
+   [
+      [
+         "<ORD_ID>",
+         "<PRICE>",
+         "<AMOUNT>"
+      ],
+      [
+         "..."
+      ]
+   ]
+]
+```
+> **Updates**
+
+```json
+[
+   "<CHANNEL_ID>",
+   "<ORD_ID>",
+   "<ORD_PRICE>",
+   "<AMOUNT>"
+]
+```
+
+**Fields**
+
+Fields | Type | Description
+--- | --- | ---
+PRECISION | string | Aggregation level (R0).
+ORD_ID | int | Order id.
+PRICE | float | Price level.
+±AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
+LENGTH | string | Number of price points ("25" | "100" ) [default="25"]
 
 **Precision Levels per Pair**
 
@@ -403,7 +478,7 @@ w.send(JSON.stringify({
 ```
 *here is an example of a real trade*
 
-`[ 5, 'BTCUSD-1234', 1443659698, 236.42, 0.49064538 ]`
+`[ 5, '1234-BTCUSD', 1443659698, 236.42, 0.49064538 ]`
 
 **Fields**
 
