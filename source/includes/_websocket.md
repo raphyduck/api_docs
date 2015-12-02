@@ -235,6 +235,7 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 
 ## Public Channels
 ---
+
 ### Order Books
 
 The Order Books channel allow you to keep track of the state of the Bitfinex order book.
@@ -312,12 +313,37 @@ COUNT | int | Number of orders at that price level.
 ±AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
 LENGTH | string | Number of price points ("25", "100") [default="25"]
 
+**Precision Levels per Pair**
+
+Pair | Precision Level | Number of decimal places | Example
+--- | --- | --- | ---
+BTCUSD | P0 | 2 | $0.01
+...    | P1 | 1 | $0.10
+...    | P2 | 0 | $1
+...    | P3 | -1| $10
+LTCUSD | P0 | 4 | $0.0001
+...    | P1 | 3 | $0.001
+...    | P2 | 2 | $0.01
+...    | P3 | 1 | $0.1
+LTCBTC | P0 | 6 | ฿0.000001
+...    | P1 | 5 | ฿0.00001
+...    | P2 | 4 | ฿0.0001
+...    | P3 | 3 | ฿0.001
+
+<aside class="warning">
+<strong>error codes</strong>
+<br>
+10011 : Unknown Book precision
+<br>
+10012 : Unknown Book length
+</aside>
+
 <aside class="notice">
 <strong>NOTE</strong>
 COUNT=0 means that you have to remove the price level from your book. 
 </aside>
 
-### Raw order Books
+#### Raw Order Books
 
 > **Example**
 
@@ -386,34 +412,10 @@ Fields | Type | Description
 --- | --- | ---
 PRECISION | string | Aggregation level (R0).
 ORD_ID | int | Order id.
-PRICE | float | Price level.
+ORD_PRICE | float | Order price.
 ±AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
 LENGTH | string | Number of price points ("25" | "100" ) [default="25"]
 
-**Precision Levels per Pair**
-
-Pair | Precision Level | Number of decimal places | Example
---- | --- | --- | ---
-BTCUSD | P0 | 2 | $0.01
-...    | P1 | 1 | $0.10
-...    | P2 | 0 | $1
-...    | P3 | -1| $10
-LTCUSD | P0 | 4 | $0.0001
-...    | P1 | 3 | $0.001
-...    | P2 | 2 | $0.01
-...    | P3 | 1 | $0.1
-LTCBTC | P0 | 6 | ฿0.000001
-...    | P1 | 5 | ฿0.00001
-...    | P2 | 4 | ฿0.0001
-...    | P3 | 3 | ฿0.001
-
-<aside class="warning">
-<strong>error codes</strong>
-<br>
-10011 : Unknown Book precision
-<br>
-10012 : Unknown Book length
-</aside>
 
 ### Trades
 This channel sends a trade message whenever a trade occurs at Bitfinex.
