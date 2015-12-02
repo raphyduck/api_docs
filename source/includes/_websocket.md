@@ -489,6 +489,11 @@ TIMESTAMP | int|  Unix timestamp of the trade.
 PRICE | float | Price at which the trade was executed
 AMOUNT | float | How much was bought (positive) or sold (negative). The order that causes the trade determines if it is a buy or a sell.
 
+<aside class="notice">
+<strong>NOTE</strong>
+SEQ is different from canonical TRADE_ID. Websocket server uses SEQ strings to push trades with low latency. We may add in the future a delayed message to help mapping between SEQ and TRADE_ID.
+</aside>
+
 ### Ticker
 The ticker is a high level overview of the state of the market.
 It shows you the current best bid and ask, as well as the last trade
