@@ -22,7 +22,7 @@ Each message sent and received via the Bitfinex's websocket channel is encoded i
 ### How to Connect
 Open up a websocket connection to the websocket URI.
 
-> **Example**
+> **Connection Example**
 
 ```javascript
 //using the ws library
@@ -242,7 +242,7 @@ The Order Books channel allow you to keep track of the state of the Bitfinex ord
 It is provided on a price aggregated basis, with customizable precision.
 After receiving the response, you will receive a snapshot of the book,
 followed by updates upon any changes to the book.
-> **Example**
+> **Order Books Example**
 
 ```javascript
 w.send(JSON.stringify({
@@ -343,9 +343,9 @@ LTCBTC | P0 | 6 | ฿0.000001
 COUNT=0 means that you have to remove the price level from your book. 
 </aside>
 
-#### Raw Order Books
+### Raw Order Books
 
-> **Example**
+> **Raw Order Books Example**
 
 ```javascript
 w.send(JSON.stringify({
@@ -421,7 +421,7 @@ LENGTH | string | Number of price points ("25" | "100" ) [default="25"]
 This channel sends a trade message whenever a trade occurs at Bitfinex.
 It includes all the pertinent details of the trade,
 such as price, size and time.
-> **Example**
+> **Trades Example**
 
 ```javascript
 w.send(JSON.stringify({
@@ -501,7 +501,7 @@ The ticker is a high level overview of the state of the market.
 It shows you the current best bid and ask, as well as the last trade
 price. It also includes information such as daily volume and how
 much the price has moved over the last day.
-> **Example**
+> **Ticker Example**
 
 ```javascript
 w.send(JSON.stringify({
@@ -597,7 +597,7 @@ Account info always uses chanId 0.
 <li>AUTH_SIGNATURE: (string) HMAC-sha384 signature</li></ul>
 </aside>
 
-> **Example**
+> **Auth Example**
 
 ```javascript
 var
