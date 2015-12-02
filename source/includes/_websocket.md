@@ -87,9 +87,9 @@ Websocket server sends other `info` messages to inform regarding relevant events
 <br>
 20051 : Stop/Restart Websocket Server (please try to reconnect)
 <br>
-20060 : Refreshing data from the Trading Engine
+20060 : Refreshing data from the Trading Engine. Please pause any activity and resume after receiving the `info` message `20061` (it should take 10 seconds at most).
 <br>
-20061 : Done Refreshing data from the Trading Engine
+20061 : Done Refreshing data from the Trading Engine. You can resume normal activity. It is advised to unsubscribe/subscribe again all channels.
 <br>
 </aside>
 
