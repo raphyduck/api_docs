@@ -3091,9 +3091,7 @@ View the total of your active funding used in your position(s).
             </tbody>
             </table>
 
-**Response Details**
-
-##### Close margin funding
+#### Close margin funding
 
 > **Request**
 
