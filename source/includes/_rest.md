@@ -168,18 +168,17 @@ var url = "https://api.bitfinex.com/v1"
 All Public Endpoints use GET requests
 </aside>
 ### Ticker
-> **Request**
 
 ```javascript
+// request
 request.get(url + "/pubticker/:symbol",
   function(error, response, body) {
     console.log(body);
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "mid":"244.755",
   "bid":"244.75",
@@ -214,18 +213,17 @@ volume	|[price]	|Trading volume of the last 24 hours
 timestamp|	[time]|	The timestamp at which this information was valid.
 
 ### Stats
-> **Request**
 
 ```javascript
+// request
 request.get(url + "/stats/BTCUSD",
   function(error, response, body) {
     console.log(body);
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "period":1,
   "volume":"7967.96766158"
@@ -254,9 +252,9 @@ period | [integer] | period covered in days
 volume |[price] | volume
 
 ### Fundingbook
-> **Request**
 
 ```javascript
+// request
 var payload = {
   "limit_bids": 1,
   "limit_asks": 1
@@ -270,9 +268,8 @@ request.get(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "bids":[{
     "rate":"9.1287",
@@ -405,9 +402,8 @@ Get the full margin funding book
           </table>
 ### Orderbook
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "limit_bids": 1,
   "limit_asks": 1,
@@ -422,9 +418,8 @@ request.get(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "bids":[{
     "rate":"9.1287",
@@ -537,9 +532,8 @@ Get the full order book.
 
 ### Trades
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "timestamp": false,
   "limit_trades": 1
@@ -553,9 +547,8 @@ request.get(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "timestamp":1444266681,
   "tid":11988919,
@@ -653,9 +646,8 @@ Get a list of the most recent trades for the given symbol.
 
 ### Provided funding
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "timestamp": false,
   "limit_lends": 1
@@ -669,9 +661,8 @@ request.get(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "rate":"9.8998",
   "amount_lent":"22528933.77950878",
@@ -757,9 +748,8 @@ Get a list of the most recent funding data for the given currency: total amount 
 
 ### Symbols
 
-> **Request**
-
 ```javascript
+// request
 var options = {
   url: url + '/symbols',
   qs: {}
@@ -769,9 +759,8 @@ request.get(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 ["btcusd","ltcusd","ltcbtc"]
 ```
 
@@ -788,9 +777,9 @@ Get a list of valid symbol IDs.
 A list of symbol names. Currently "btcusd", "ltcusd", "ltcbtc"
 
 ### Symbol Details
-> **Request**
 
 ```javascript
+// request
 var options = {
   url: url + '/symbols_details',
   qs: {}
@@ -800,9 +789,8 @@ request.get(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// reponse
 [{
   "pair":"btcusd",
   "price_precision":5,
@@ -907,9 +895,8 @@ All Authenticated Endpoints use POST requests
 </aside>
 ### Account info
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/account_infos",
   "nonce": Date.now().toString()
@@ -929,9 +916,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "maker_fees":"0.1",
   "taker_fees":"0.2",
@@ -993,9 +979,8 @@ Return information about your account (trading fees).
 
 ### Deposit
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/deposit/new",
   "nonce": Date.now().toString(),
@@ -1018,9 +1003,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "result":"success",
   "method":"bitcoin",
@@ -1107,9 +1091,8 @@ Return your deposit address to make a new deposit.
 
 #### New Order
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/order/new",
   "nonce": Date.now().toString(),
@@ -1135,9 +1118,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "id":448364249,
   "symbol":"btcusd",
@@ -1275,9 +1257,8 @@ Submit a new order.
 
 #### Multiple new orders
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/order/new/multi",
   "nonce": Date.now().toString(),
@@ -1313,9 +1294,8 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "order_ids":[{
     "id":448383727,
@@ -1430,9 +1410,9 @@ Submit several new orders at once.
 
 
 #### Cancel order
-> **Request**
 
 ```javascript
+// request
 var payload = {
   "request": "/v1/order/cancel",
   "nonce": Date.now().toString(),
@@ -1453,9 +1433,8 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "id":446915287,
   "symbol":"btcusd",
@@ -1509,9 +1488,8 @@ Result of /order/status for the cancelled order.
 
 #### Cancel multiple orders
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/order/cancel/multi",
   "nonce": Date.now().toString(),
@@ -1532,9 +1510,8 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {"result":"Orders cancelled"}
 ```
 
@@ -1572,9 +1549,8 @@ Confirmation of cancellation of the orders.
 
 #### Cancel all orders
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/order/cancel/all",
   "nonce": Date.now().toString()
@@ -1594,9 +1570,8 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {"result":"All orders cancelled"}
 ```
 
@@ -1618,9 +1593,8 @@ Confirmation of cancellation of the orders.
 
 #### Replace order
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "order_id": 448411153,
   "request": "/v1/order/cancel/replace",
@@ -1647,9 +1621,8 @@ baseRequest.post(options, function(error, response, body) {
 })
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "id":448411365,
   "symbol":"btcusd",
@@ -1755,9 +1728,8 @@ Replace an orders with a new one.
 
 #### Order status
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "order_id": 448411153,
   "request": "/v1/order/status",
@@ -1778,9 +1750,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "id":448411153,
   "symbol":"btcusd",
@@ -1916,9 +1887,8 @@ Get the status of an order. Is it active? Was it cancelled? To what extent has i
 
 #### Active orders
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/orders",
   "nonce": Date.now().toString()
@@ -1938,9 +1908,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "id":448411365,
   "symbol":"btcusd",
@@ -1976,9 +1945,8 @@ An array of the results of `/order/status` for all your live orders.
 
 #### Active Positions
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/positions",
   "nonce": Date.now().toString()
@@ -1998,9 +1966,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "id":943715,
   "symbol":"btcusd",
@@ -2028,9 +1995,8 @@ An array of your active positions.
 
 #### Claim position
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/position/claim",
   "nonce": Date.now().toString(),
@@ -2051,9 +2017,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "id":943715,
   "symbol":"btcusd",
@@ -2111,9 +2076,8 @@ Status of the position for the claimed position, if the position could be claime
 
 #### Balance History
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/history",
   "nonce": Date.now().toString(),
@@ -2135,9 +2099,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "currency":"USD",
   "amount":"-246.94",
@@ -2238,9 +2201,8 @@ View all of your balance ledger entries.
 
 #### Deposit-Withdrawal History
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/history/movements",
   "nonce": Date.now().toString(),
@@ -2262,9 +2224,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "id":581183,
   "currency":"BTC",
@@ -2380,9 +2341,8 @@ An array of histories
 
 #### Past Trades
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/mytrades",
   "nonce": Date.now().toString(),
@@ -2407,6 +2367,7 @@ baseRequest.post(options, function(error, response, body) {
 > **Response**
 
 ```json
+// response
 [{
   "price":"246.94",
   "amount":"1.0",
@@ -2539,9 +2500,9 @@ An array of trades
 ### Margin Funding
 
 #### New Offer
-> **Request**
 
 ```javascript
+// request
 var payload = {
   "request": "/v1/offer/new",
   "nonce": Date.now().toString(),
@@ -2566,9 +2527,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "id":13800585,
   "currency":"USD",
@@ -2654,9 +2614,9 @@ Submit a new offer.
             </table>
 
 #### Cancel Offer
-> **Request**
 
 ```javascript
+// request
 var payload = {
   "request": "/v1/offer/cancel",
   "nonce": Date.now().toString(),
@@ -2677,9 +2637,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "id":13800585,
   "currency":"USD",
@@ -2728,9 +2687,9 @@ Cancel an offer.
 Result of /offer/status for the cancelled offer.
 
 #### Offer Status
-> **Request**
 
 ```javascript
+// request
 var payload = {
   "request": "/v1/offer/status",
   "nonce": Date.now().toString(),
@@ -2751,9 +2710,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "id":13800585,
   "currency":"USD",
@@ -2870,9 +2828,8 @@ Get the status of an offer. Is it active? Was it cancelled? To what extent has i
 
 #### Active Credits
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/offers",
   "nonce": Date.now().toString(),
@@ -2892,9 +2849,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "id":13800719,
   "currency":"USD",
@@ -2924,9 +2880,8 @@ An array of the results of `/offer/status` for all your live offers (lending or 
 
 #### Active funding used in a margin position
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/taken_funds",
   "nonce": Date.now().toString(),
@@ -2946,9 +2901,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "id":11576737,
   "position_id":944309,
@@ -2975,9 +2929,8 @@ An array of your active margin funds.
 
 #### Active funding not used in a margin position
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/unused_taken_funds",
   "nonce": Date.now().toString(),
@@ -2997,9 +2950,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "id":11576737,
   "position_id":944309,
@@ -3027,9 +2979,8 @@ An array of your active unused margin funds.
 
 #### Total taken funds
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/total_taken_funds",
   "nonce": Date.now().toString(),
@@ -3049,9 +3000,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "position_pair":"BTCUSD",
   "total_swaps":"34.24603414"
@@ -3093,9 +3043,8 @@ View the total of your active funding used in your position(s).
 
 #### Close margin funding
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/funding/close",
   "nonce": Date.now().toString(),
@@ -3116,9 +3065,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 {
   "id":11576737,
   "position_id":944309,
@@ -3165,9 +3113,8 @@ Status of the margin funding contract. Closed if it could be closed.
 
 ### Wallet Balances
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/balances",
   "nonce": Date.now().toString()
@@ -3187,9 +3134,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "type":"deposit",
   "currency":"btc",
@@ -3270,9 +3216,8 @@ An array of wallet balances
 
 ### Margin Information
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/margin_infos",
   "nonce": Date.now().toString()
@@ -3292,9 +3237,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "margin_balance":"14.80039951",
   "tradable_balance":"-12.50620089",
@@ -3390,9 +3334,8 @@ See your trading wallet information for margin trading.
 
 ### Transfer Between Wallets
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/transfer",
   "nonce": Date.now().toString(),
@@ -3416,9 +3359,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "status":"success",
   "message":"1.0 USD transfered from Exchange to Deposit"
@@ -3495,9 +3437,8 @@ Allow you to move available balances between your wallets.
 
 ### Withdrawal
 
-> **Request**
-
 ```javascript
+// request
 var payload = {
   "request": "/v1/withdraw",
   "nonce": Date.now().toString(),
@@ -3521,9 +3462,8 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
-> **Response**
-
 ```json
+// response
 [{
   "status":"success",
   "message":"Your withdrawal request has been successfully submitted.",
