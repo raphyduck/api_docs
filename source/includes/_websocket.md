@@ -101,7 +101,7 @@ Rely on <CODE> only to handle `info` events.
 ### Ping/Pong
 Use `ping` message to test your connection to the websocket server.
 
-> **#Request**
+> **Request**
 
 ```json
 {
