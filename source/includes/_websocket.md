@@ -158,6 +158,7 @@ If there is no new message in the channel for 5 seconds, Websocket server will s
 
 
 ### Snapshot
+
 > **Snapshot**
 
 ```json
@@ -196,6 +197,7 @@ Channel ID's allow you to keep track of the messages, they are static per sessio
 </aside>
 
 ### Unsubscribe to Channels
+
 ```json
 // request
 {
@@ -230,6 +232,7 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 ## Public Channels
 
 ### Order Books
+
 ```javascript
 w.send(JSON.stringify({
     "event": "subscribe",
@@ -397,6 +400,7 @@ LENGTH | string | Number of price points ("25" | "100" ) [default="25"]
 
 
 ### Trades
+
 This channel sends a trade message whenever a trade occurs at Bitfinex.
 It includes all the pertinent details of the trade,
 such as price, size and time.
@@ -484,7 +488,6 @@ w.send(JSON.stringify({
 }))
 ```
 
-
 ```json
 // request
 {
@@ -530,6 +533,7 @@ w.send(JSON.stringify({
    "<LOW>"
 ]
 ```
+
 *Here is an example of a real ticker*
 
 `[ 2, 236.62, 9.0029, 236.88, 7.1138, -1.02, 0, 236.52, 5191.36754297, 250.01, 220.05 ]`
@@ -552,18 +556,6 @@ LOW | float | Daily low
 ## Authenticated Channels
 
 ### Account Info
-
-This channel allows you to keep up to date with the status of
-your account. You can receive updates on your positions,
-your balances, your orders and your trades.
-
-Account info always uses chanId 0.
-
-<aside class="notice">
-<strong>AUTH request message: authenticate for the private data stream</strong>
-<ul><li>API_KEY: (string) Bitfinex's api key</li>
-<li>AUTH_SIGNATURE: (string) HMAC-sha384 signature</li></ul>
-</aside>
 
 ```javascript
 var
@@ -640,6 +632,19 @@ for {
    "code":"<ERROR_CODE>"
 }
 ```
+
+This channel allows you to keep up to date with the status of
+your account. You can receive updates on your positions,
+your balances, your orders and your trades.
+
+Account info always uses chanId 0.
+
+<aside class="notice">
+<strong>AUTH request message: authenticate for the private data stream</strong>
+<ul><li>API_KEY: (string) Bitfinex's api key</li>
+<li>AUTH_SIGNATURE: (string) HMAC-sha384 signature</li></ul>
+</aside>
+
 
 #### Position Snapshot
 
