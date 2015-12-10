@@ -690,9 +690,10 @@ POS_MARGIN_FUNDING_TYPE | int | 0 for daily, 1 for term.
    ]
 ]
 
+```
+
 **Fields**
 
-```
 Term | Type | Description
 --- | --- | ---
 WLT_NAME | string | Wallet name (exchange, trading, deposit)
