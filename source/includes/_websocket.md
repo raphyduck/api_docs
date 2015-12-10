@@ -234,7 +234,6 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 </aside>
 
 ## Public Channels
----
 
 ### Order Books
 
@@ -307,10 +306,10 @@ w.send(JSON.stringify({
 
 Fields | Type | Description
 --- | --- | ---
-PRECISION | string | Level of price aggregation (P0, P1, P2, P3). The default is P0.
+PRECISION | string | Level of price aggregation (P0, P1, P2, P3).<br>The default is P0.
 PRICE | float | Price level.
 COUNT | int | Number of orders at that price level.
-±AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
+±AMOUNT | float | Total amount available at that price level.<br>Positive values mean bid, negative values mean ask.
 LENGTH | string | Number of price points ("25", "100") [default="25"]
 
 **Precision Levels per Pair**
@@ -413,7 +412,7 @@ Fields | Type | Description
 PRECISION | string | Aggregation level (R0).
 ORD_ID | int | Order id.
 ORD_PRICE | float | Order price.
-±AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
+±AMOUNT | float | Total amount available at that price level.<br>Positive values mean bid, negative values mean ask.
 LENGTH | string | Number of price points ("25" | "100" ) [default="25"]
 
 
@@ -489,7 +488,7 @@ Fields | Type | Description
 SEQ | string | Trade sequence id
 TIMESTAMP | int|  Unix timestamp of the trade.
 PRICE | float | Price at which the trade was executed
-AMOUNT | float | How much was bought (positive) or sold (negative). The order that causes the trade determines if it is a buy or a sell.
+AMOUNT | float | How much was bought (positive) or sold (negative).<br>The order that causes the trade determines if it is a buy or a sell.
 
 <aside class="notice">
 <strong>NOTE</strong>
@@ -574,15 +573,15 @@ BID | float | Price of last highest bid
 BID_SIZE | float | Size of the last highest bid
 ASK | float | Price of last lowest ask
 ASK_SIZE | float | Size of the last lowest ask
-DAILY_CHANGE | float | Amount that the last price has changed since yesterday
-DAILY_CHANGE_PERC | float | Amount that the price has changed expressed in percentage terms
+DAILY_CHANGE | float | Amount that the last price<br>has changed since yesterday
+DAILY_CHANGE_PERC | float | Amount that the price<br>has changed expressed in percentage terms
 LAST_PRICE | float| Price of the last trade.
 VOLUME | float | Daily volume
 HIGH | float | Daily high
 LOW | float | Daily low
 
 ## Authenticated Channels
----
+
 ### Account Info
 
 This channel allows you to keep up to date with the status of
@@ -707,7 +706,7 @@ Term | Type | Description
 --- | --- | ---
 POS_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC).
 POS_STATUS | string | Status (ACTIVE, CLOSED).
-±POS_AMOUNT | float | Size of the position. Positive values means a long position, negative values means a short position.
+±POS_AMOUNT | float | Size of the position.<br>Positive values means a long position,<br>negative values means a short position.
 POS_BASE_PRICE | float | The price at which you entered your position.
 POS_MARGIN_FUNDING | float | The amount of funding being used for this position.
 POS_MARGIN_FUNDING_TYPE | int | 0 for daily, 1 for term.
@@ -771,7 +770,7 @@ ORD_ID | int | order id
 ORD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
 ±ORD_AMOUNT | float | Positive means buy, negative means sell.
 ±ORD_AMOUNT_ORIG | float | Original amount
-ORD_TYPE | string | The type of the order (LIMIT, STOP, TRAILING STOP, ...).
+ORD_TYPE | string | The type of the order<br>(LIMIT, STOP, TRAILING STOP, ...).
 ORD_STATUS | string | Status (ACTIVE, EXECUTED, PARTIALLY FILLED, ...)
 ORD_PRICE | float | Price
 ORD_PRICE_AVG | float | Average price
