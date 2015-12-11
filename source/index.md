@@ -7,7 +7,6 @@ includes:
 title: Bitfinex API Reference
 
 language_tabs:
-  - json
   - javascript
   - go
 

@@ -2831,6 +2831,58 @@ Get the status of an offer. Is it active? Was it cancelled? To what extent has i
 ```javascript
 // request
 var payload = {
+  "request": "/v1/credits",
+  "nonce": Date.now().toString(),
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+  url: "/credits",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+  console.log(body);
+});
+```
+
+```json
+// response
+[{
+  "id":13800719,
+  "currency":"USD",
+  "rate":"31.39",
+  "period":2,
+  "direction":"lend",
+  "timestamp":"1444280237.0",
+  "is_live":true,
+  "is_cancelled":false,
+  "original_amount":"50.0",
+  "remaining_amount":"50.0",
+  "executed_amount":"0.0"
+}]
+```
+  
+**Endpoint**
+
+`/credits`
+
+**Description**
+
+View your funds currently taken (active credits).
+
+**Response Details**
+
+An array of your active credits
+
+#### Offers
+
+```javascript
+// request
+var payload = {
   "request": "/v1/offers",
   "nonce": Date.now().toString(),
 };
