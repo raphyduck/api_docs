@@ -159,8 +159,6 @@ If there is no new message in the channel for 5 seconds, Websocket server will s
 
 ### Snapshot
 
-> **Snapshot**
-
 ```json
 ["<Chan Id>",
   ["<Group of Update Messages>",
