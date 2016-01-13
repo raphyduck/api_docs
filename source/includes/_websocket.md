@@ -3,26 +3,29 @@
 ## General
 
 ### Current Version
+
 Bitfinex Websocket API current version is 1.0
 
 ### SSL Websocket Connection
+
 URI: `wss://api2.bitfinex.com:3000/ws`
 
 ### Message encoding
+
 Each message sent and received via the Bitfinex's websocket channel is encoded in JSON format
 
 ### Public Channels
+
 * **Book:** order book feed (BTCUSD, LTCUSD, LTCBTC)
 * **Ticker:** ticker feed (BTCUSD, LTCUSD, LTCBTC)
 * **Trades:** trades feed (BTCUSD, LTCUSD, LTCBTC)
 
 ### Authenticated Channels
+
 * **Account Info:** account specific private data (positions, orders, executed trades, balances)
 
 ### How to Connect
 Open up a websocket connection to the websocket URI.
-
-> **Example**
 
 ```javascript
 //using the ws library
@@ -45,6 +48,7 @@ if err != nil {
 ```
 
 ### Error Codes
+
 In case of error, you receive a message containing the proper error code (`code` JSON field).
 
 <aside class="warning">
@@ -56,8 +60,6 @@ In case of error, you receive a message containing the proper error code (`code`
 </aside>
 
 ### Info Messages
-Info messages are sent from the websocket server to notify the state of your connection.
-Right after connecting you receive an info message that contains the actual version of the websocket stream.
 
 ```json
 {
@@ -67,12 +69,13 @@ Right after connecting you receive an info message that contains the actual vers
 }
 ```
 
+Info messages are sent from the websocket server to notify the state of your connection.
+Right after connecting you receive an info message that contains the actual version of the websocket stream.
+
 <aside class="notice">
 <strong>NOTE</strong>
 If you are developing/using a trading bot, please make sure to handle version number changes.
 </aside>
-
-Websocket server sends other `info` messages to inform regarding relevant events.
 
 ```json
 {
@@ -82,65 +85,59 @@ Websocket server sends other `info` messages to inform regarding relevant events
 }
 ```
 
+Websocket server sends other `info` messages to inform regarding relevant events.
+
 <aside class="warning">
 <strong>info codes</strong>
 <br>
 20051 : Stop/Restart Websocket Server (please try to reconnect)
 <br>
-20060 : Refreshing data from the Trading Engine
+20060 : Refreshing data from the Trading Engine. Please pause any activity and resume after receiving the `info` message `20061` (it should take 10 seconds at most).
 <br>
-20061 : Done Refreshing data from the Trading Engine
+20061 : Done Refreshing data from the Trading Engine. You can resume normal activity. It is advised to unsubscribe/subscribe again all channels.
 <br>
 </aside>
 
 <aside class="notice">
 <strong>NOTE</strong>
-Rely on <CODE> only to handle `info` events.
+Rely on `CODE` only to handle `info` events.
 </aside>
 
 ### Ping/Pong
-Use `ping` message to test your connection to the websocket server.
-
-> **#Request**
 
 ```json
+// request
 {
    "event":"ping"
 }
-```
 
-> **Response**
-
-```json
+// response
 {
    "event":"pong"
 }
 ```
 
-### Subscribe to Channels
-To receive data from a channel you have to send a "subscribe" message first.
 
-> **Request**
+Use `ping` message to test your connection to the websocket server.
+
+
+### Subscribe to Channels
 
 ```json
+// request
 {
    "event":"subscribe",
    "channel":"CHANNEL_NAME"
 }
-```
-> **Response - Success**
 
-```json
+// response
 {
    "event":"subscribed",
    "channel":"CHANNEL_NAME",
    "chanId":"<CHANNEL_ID>"
 }
-```
 
-> **Response - Failure**
-
-```json
+// response-failure
 {
    "event":"error",
    "msg":"<ERROR_MSG>",
@@ -148,19 +145,19 @@ To receive data from a channel you have to send a "subscribe" message first.
 }
 ```
 
+To receive data from a channel you have to send a "subscribe" message first.
+
+
 ### Heartbeating
-If there is no new message in the channel for 5 seconds, Websocket server will send you an heartbeat message in this format.
+
 ```json
 ["<Chan Id>", "hb"]
 ```
 
-### Snapshot
-Upon subscribing to a channel an initial snapshot is sent. Typically,
-the snapshot will have as its first item, the chanId, its second item
-will be an array of update messages (each of which is itself an array).
-So The array would have 3 levels.
+If there is no new message in the channel for 5 seconds, Websocket server will send you an heartbeat message in this format.
 
-> **Snapshot**
+
+### Snapshot
 
 ```json
 ["<Chan Id>",
@@ -170,20 +167,24 @@ So The array would have 3 levels.
 ]
 ```
 
+Upon subscribing to a channel an initial snapshot is sent. Typically,
+the snapshot will have as its first item, the chanId, its second item
+will be an array of update messages (each of which is itself an array).
+So The array would have 3 levels.
+
 ### Update
 After receiving the snapshot, you will receive updates upon any change.
 
 <aside class="notice">
-Channel ID's allow you to keep track of the messages, they are static
-per session, you will receive both the CHANNEL_NAME and the chanId
-in the response to a subscription message.
-<ul><li>CHANNEL_NAME: (string) channel name (book, trades, ticker)</li>
-<li>chanId/CHANNEL_ID: (int) channel identifier. chanId is a numeric channel identifier that the developer
-can use to distinguish between updates for each subscribed channel.</li></ul>
+Channel ID's allow you to keep track of the messages, they are static per session, you will receive both the CHANNEL_NAME and the CHANNEL_ID in the response to a subscription message.
+<ul>
+<li>CHANNEL_NAME: (string) channel name (book, trades, ticker)</li>
+<li>CHANNEL_ID: (int) channel identifier. CHANNEL_ID is a numeric channel identifier that the developer can use to distinguish between updates for each subscribed channel.</li>
+</ul>
 </aside>
 
 <aside class="warning">
-<strong>error codes</strong>
+<strong>Error Codes</strong>
 <br>
 10300 : Subscription failed (generic)
 <br>
@@ -194,39 +195,32 @@ can use to distinguish between updates for each subscribed channel.</li></ul>
 </aside>
 
 ### Unsubscribe to Channels
-To stop receiving data from a channel you have to send a "unsubscribe" message.
-
-> **Request**
 
 ```json
+// request
 {
    "event":"unsubscribe",
    "chanId":"<CHANNEL_ID>"
 }
-```
 
-> **Response - Success**
-
-```json
+// response
 {
    "event":"unsubscribed",
    "status":"OK",
    "chanId":"<CHANNEL_ID>"
 }
-```
 
-> **Response - Failure**
-
-```json
+// response-failure
 {
    "event":"error",
    "msg":"<ERROR_MSG>",
    "code":"<ERROR_CODE>"
 }
 ```
+To stop receiving data from a channel you have to send a "unsubscribe" message.
 
 <aside class="warning">
-<strong>error codes</strong>
+<strong>Error Codes</strong>
 <br>
 10400 : Subscription failed (generic)
 <br>
@@ -234,36 +228,29 @@ To stop receiving data from a channel you have to send a "unsubscribe" message.
 </aside>
 
 ## Public Channels
----
-### Order Books
 
-The Order Books channel allow you to keep track of the state of the Bitfinex order book.
-It is provided on a price aggregated basis, with customizable precision.
-After receiving the response, you will receive a snapshot of the book,
-followed by updates upon any changes to the book.
-> **Example**
+### Order Books
 
 ```javascript
 w.send(JSON.stringify({
     "event": "subscribe",
     "channel": "book",
     "pair": "BTCUSD",
-    "prec": "P0"
+    "prec": "P0",
+    "len":"<LENGTH>"
 }))
 ```
-> **Request**
 
 ```json
+// request
 {
    "event":"subscribe",
    "channel":"book",
    "pair":"<PAIR>",
    "prec":"<PRECISION>"
 }
-```
-> **Response**
 
-```json
+// response
 {
    "event":"subscribed",
    "channel":"book",
@@ -273,9 +260,14 @@ w.send(JSON.stringify({
    "len":"<LENGTH>"
 }
 ```
-> **Snapshot**
+
+The Order Books channel allow you to keep track of the state of the Bitfinex order book.
+It is provided on a price aggregated basis, with customizable precision.
+After receiving the response, you will receive a snapshot of the book,
+followed by updates upon any changes to the book.
 
 ```json
+// snapshot
 [
    "<CHANNEL_ID>",
    [
@@ -289,10 +281,8 @@ w.send(JSON.stringify({
       ]
    ]
 ]
-```
-> **Updates**
 
-```json
+// updates
 [
    "<CHANNEL_ID>",
    "<PRICE>",
@@ -305,15 +295,11 @@ w.send(JSON.stringify({
 
 Fields | Type | Description
 --- | --- | ---
-PRECISION | string | Level of price aggregation (P0, P1, P2, P3). The default is P0.
+PRECISION | string | Level of price aggregation (P0, P1, P2, P3).<br>The default is P0.
 PRICE | float | Price level.
 COUNT | int | Number of orders at that price level.
-±AMOUNT | float | Total amount available at that price level. Positive values mean bid, negative values mean ask.
-
-<aside class="notice">
-<strong>NOTE</strong>
-COUNT=0 means that you have to remove the price level from your book. 
-</aside>
+±AMOUNT | float | Total amount available at that price level.<br>Positive values mean bid, negative values mean ask.
+LENGTH | string | Number of price points ("25", "100") [default="25"]
 
 **Precision Levels per Pair**
 
@@ -333,18 +319,89 @@ LTCBTC | P0 | 6 | ฿0.000001
 ...    | P3 | 3 | ฿0.001
 
 <aside class="warning">
-<strong>error codes</strong>
+<strong>Error Codes</strong>
 <br>
 10011 : Unknown Book precision
 <br>
 10012 : Unknown Book length
 </aside>
 
+<aside class="notice">
+<strong>NOTE</strong>
+COUNT=0 means that you have to remove the price level from your book. 
+</aside>
+
+### Raw Order Books
+
+```javascript
+w.send(JSON.stringify({
+    "event": "subscribe",
+    "channel": "book",
+    "pair": "BTCUSD",
+    "prec": "R0",
+    "len":"<LENGTH>"
+}))
+```
+
+```json
+// request
+{
+   "event":"subscribe",
+   "channel":"book",
+   "pair":"<PAIR>",
+   "prec":"R0"
+}
+
+// response
+{
+   "event":"subscribed",
+   "channel":"book",
+   "chanId":"<CHANNEL_ID>",
+   "pair":"<PAIR>",
+   "prec":"R0",
+   "len":"<LENGTH>"
+}
+
+// snapshot
+[
+   "<CHANNEL_ID>",
+   [
+      [
+         "<ORD_ID>",
+         "<PRICE>",
+         "<AMOUNT>"
+      ],
+      [
+         "..."
+      ]
+   ]
+]
+
+// updates
+[
+   "<CHANNEL_ID>",
+   "<ORD_ID>",
+   "<ORD_PRICE>",
+   "<AMOUNT>"
+]
+```
+
+**Fields**
+
+Fields | Type | Description
+--- | --- | ---
+PRECISION | string | Aggregation level (R0).
+ORD_ID | int | Order id.
+ORD_PRICE | float | Order price.
+±AMOUNT | float | Total amount available at that price level.<br>Positive values mean bid, negative values mean ask.
+LENGTH | string | Number of price points ("25" | "100" ) [default="25"]
+
+
 ### Trades
+
 This channel sends a trade message whenever a trade occurs at Bitfinex.
 It includes all the pertinent details of the trade,
 such as price, size and time.
-> **Example**
 
 ```javascript
 w.send(JSON.stringify({
@@ -353,28 +410,24 @@ w.send(JSON.stringify({
     "pair": "BTCUSD"
 }))
 ```
-> **Request**
 
 ```json
+// request
 {
   "event": "subscribe",
   "channel": "trades",
   "pair": "BTCUSD"
 }
-```
-> **Response**
 
-```json
+// response
 {
   "event": "subscribed",
   "channel": "trades",
   "chanId": "<CHANNEL_ID>",
   "pair":"<PAIR>"
 }
-```
-> **Snapshot**
 
-```json
+// snapshot
 [  
    "<CHANNEL_ID>",
    [  
@@ -389,10 +442,8 @@ w.send(JSON.stringify({
       ]
    ]
 ]
-```
-> **Updates**
 
-```json
+// updates
 [
    "<CHANNEL_ID>",
    "<SEQ>",
@@ -401,9 +452,10 @@ w.send(JSON.stringify({
    "<AMOUNT>"
 ]
 ```
+
 *here is an example of a real trade*
 
-`[ 5, 11928301, 1443659698, 236.42, 0.49064538 ]`
+`[ 5, '1234-BTCUSD', 1443659698, 236.42, 0.49064538 ]`
 
 **Fields**
 
@@ -412,14 +464,19 @@ Fields | Type | Description
 SEQ | string | Trade sequence id
 TIMESTAMP | int|  Unix timestamp of the trade.
 PRICE | float | Price at which the trade was executed
-AMOUNT | float | How much was bought (positive) or sold (negative). The order that causes the trade determines if it is a buy or a sell.
+AMOUNT | float | How much was bought (positive) or sold (negative).<br>The order that causes the trade determines if it is a buy or a sell.
+
+<aside class="notice">
+<strong>NOTE</strong>
+SEQ is different from canonical TRADE_ID. Websocket server uses SEQ strings to push trades with low latency. We may add in the future a delayed message to help mapping between SEQ and TRADE_ID.
+</aside>
 
 ### Ticker
+
 The ticker is a high level overview of the state of the market.
 It shows you the current best bid and ask, as well as the last trade
 price. It also includes information such as daily volume and how
 much the price has moved over the last day.
-> **Example**
 
 ```javascript
 w.send(JSON.stringify({
@@ -428,27 +485,38 @@ w.send(JSON.stringify({
     "pair": "BTCUSD"
 }))
 ```
-> **Request**
 
 ```json
+// request
 {
    "event":"subscribe",
    "channel":"ticker",
    "pair":"BTCUSD"
 }
-```
-> **Response**
 
-```json
+// response
 {
    "event":"subscribed",
    "channel":"ticker",
    "chanId":"<CHANNEL_ID>"
 }
-```
-> **Snapshot**
 
-```json
+// snapshot
+[
+   "<CHANNEL_ID>",
+   "<BID>",
+   "<BID_SIZE>",
+   "<ASK>",
+   "<ASK_SIZE>",
+   "<DAILY_CHANGE>",
+   "<DAILY_CHANGE_PERC>",
+   "<LAST_PRICE>",
+   "<VOLUME>",
+   "<HIGH>",
+   "<LOW>"
+]
+
+// updates
 [
    "<CHANNEL_ID>",
    "<BID>",
@@ -463,23 +531,7 @@ w.send(JSON.stringify({
    "<LOW>"
 ]
 ```
-> **Updates**
 
-```json
-[
-   "<CHANNEL_ID>",
-   "<BID>",
-   "<BID_SIZE>",
-   "<ASK>",
-   "<ASK_SIZE>",
-   "<DAILY_CHANGE>",
-   "<DAILY_CHANGE_PERC>",
-   "<LAST_PRICE>",
-   "<VOLUME>",
-   "<HIGH>",
-   "<LOW>"
-]
-```
 *Here is an example of a real ticker*
 
 `[ 2, 236.62, 9.0029, 236.88, 7.1138, -1.02, 0, 236.52, 5191.36754297, 250.01, 220.05 ]`
@@ -492,30 +544,16 @@ BID | float | Price of last highest bid
 BID_SIZE | float | Size of the last highest bid
 ASK | float | Price of last lowest ask
 ASK_SIZE | float | Size of the last lowest ask
-DAILY_CHANGE | float | Amount that the last price has changed since yesterday
-DAILY_CHANGE_PERC | float | Amount that the price has changed expressed in percentage terms
+DAILY_CHANGE | float | Amount that the last price<br>has changed since yesterday
+DAILY_CHANGE_PERC | float | Amount that the price<br>has changed expressed in percentage terms
 LAST_PRICE | float| Price of the last trade.
 VOLUME | float | Daily volume
 HIGH | float | Daily high
 LOW | float | Daily low
 
 ## Authenticated Channels
----
+
 ### Account Info
-
-This channel allows you to keep up to date with the status of
-your account. You can receive updates on your positions,
-your balances, your orders and your trades.
-
-Account info always uses chanId 0.
-
-<aside class="notice">
-<strong>AUTH request message: authenticate for the private data stream</strong>
-<ul><li>API_KEY: (string) Bitfinex's api key</li>
-<li>AUTH_SIGNATURE: (string) HMAC-sha384 signature</li></ul>
-</aside>
-
-> **Example**
 
 ```javascript
 var
@@ -567,29 +605,24 @@ for {
     }
 ```
 
-> **Request**
-
 ```json
+// request
 {  
    "event":"auth",
    "status":"OK",
    "chanId":0,
    "userId":"<USER_ID>"
 }
-```
-> **Response - Success**
 
-```json
+// response
 {  
    "event":"auth",
    "status":"OK",
    "chanId":0,
    "userId":"<USER_ID>"
 }
-```
-> **Response - Failure**
 
-```json
+// response-failure
 {  
    "event":"auth",
    "status":"FAIL",
@@ -598,7 +631,22 @@ for {
 }
 ```
 
-> **Position Snapshot**
+This channel allows you to keep up to date with the status of
+your account. You can receive updates on your positions,
+your balances, your orders and your trades.
+
+Account info always uses chanId 0.
+
+<aside class="notice">
+<strong>AUTH request message: authenticate for the private data stream</strong>
+<ul><li>API_KEY: (string) Bitfinex's api key</li>
+<li>AUTH_SIGNATURE: (string) HMAC-sha384 signature</li></ul>
+</aside>
+
+
+#### Position Snapshot
+
+**Fields**
 
 ```json
 [  
@@ -619,18 +667,17 @@ for {
    ]
 ]
 ```
-**Fields**
 
 Term | Type | Description
 --- | --- | ---
 POS_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC).
 POS_STATUS | string | Status (ACTIVE, CLOSED).
-±POS_AMOUNT | float | Size of the position. Positive values means a long position, negative values means a short position.
+±POS_AMOUNT | float | Size of the position.<br>Positive values means a long position,<br>negative values means a short position.
 POS_BASE_PRICE | float | The price at which you entered your position.
 POS_MARGIN_FUNDING | float | The amount of funding being used for this position.
 POS_MARGIN_FUNDING_TYPE | int | 0 for daily, 1 for term.
 
-> **Wallet Snapshot**
+#### Wallet Snapshot
 
 ```json
 [
@@ -645,7 +692,9 @@ POS_MARGIN_FUNDING_TYPE | int | 0 for daily, 1 for term.
       ]
    ]
 ]
+
 ```
+
 **Fields**
 
 Term | Type | Description
@@ -654,7 +703,7 @@ WLT_NAME | string | Wallet name (exchange, trading, deposit)
 WLT_BALANCE | float | Wallet balance
 WLT_INTEREST_UNSETTLED | float | Unsettled interest
 
-> **Order Snapshot**
+#### Order Snapshot
 
 ```json
 [
@@ -689,7 +738,7 @@ ORD_ID | int | order id
 ORD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
 ±ORD_AMOUNT | float | Positive means buy, negative means sell.
 ±ORD_AMOUNT_ORIG | float | Original amount
-ORD_TYPE | string | The type of the order (LIMIT, STOP, TRAILING STOP, ...).
+ORD_TYPE | string | The type of the order<br>(LIMIT, STOP, TRAILING STOP, ...).
 ORD_STATUS | string | Status (ACTIVE, EXECUTED, PARTIALLY FILLED, ...)
 ORD_PRICE | float | Price
 ORD_PRICE_AVG | float | Average price
@@ -697,7 +746,8 @@ ORD_CREATED_AT | string | Creation date/time
 ORD_NOTIFY | int | 1 if Notify flag is active, 0 if not
 ORD_HIDDEN | int | 1 if Hidden, 0 if not hidden
 
-> **Trade Snapshot**
+
+#### Trade Snapshot
 
 ```json
 [
@@ -738,9 +788,7 @@ ORD_PRICE | float | Order price
 FEE | float | Fee
 FE_CURRENCY | string | Fee currency
 
-
-
-> **Updates (order)**
+#### Order Updates 
 
 ```json
 [
@@ -761,7 +809,8 @@ FE_CURRENCY | string | Fee currency
    ]
 ]
 ```
-> **Updates (position)**
+
+#### Position Updates 
 
 ```json
 [  
@@ -777,7 +826,8 @@ FE_CURRENCY | string | Fee currency
    ]
 ]
 ```
-> **Updates (wallet)**
+
+#### Wallet Updates 
 
 ```json
 [
@@ -802,7 +852,7 @@ FE_CURRENCY | string | Fee currency
 </ul>
 </aside>
 
-> **Updates (trade_executed)**
+#### Executed Trades
 
 ```json
 [
@@ -861,7 +911,7 @@ te | trade executed
 tu | trade execution update
 
 <aside class="warning">
-<strong>error codes</strong>
+<strong>Error Codes</strong>
 <br>
 10100 : Authentication failure (generic)
 <br>
@@ -876,26 +926,20 @@ tu | trade execution update
 
 ### Unauthentication
 
-> **Request**
-
 ```json
+// request
 {  
    "event":"unauth"
 }
-```
-> **Response - Success**
 
-```json
+// response
 {  
    "event":"unauth",
    "status":"OK",
    "chanId":0
 }
-```
 
-> **Response - Failure**
-
-```json
+// response-failure
 {
    "event":"error",
    "status":"FAILED",
@@ -905,7 +949,7 @@ tu | trade execution update
 ```
 
 <aside class="warning">
-<strong>error codes</strong>
+<strong>Error Codes</strong>
 <br>
 10201 : Not authenticated
 </aside>
