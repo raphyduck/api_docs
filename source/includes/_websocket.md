@@ -703,7 +703,9 @@ WLT_NAME | string | Wallet name (exchange, trading, deposit)
 WLT_BALANCE | float | Wallet balance
 WLT_INTEREST_UNSETTLED | float | Unsettled interest
 
-#### Order Snapshot
+#### Order Snapshots
+
+`os` and `hos` indentify respectively *active* and *inactive* orders snapshots
 
 ```json
 [
@@ -745,6 +747,7 @@ ORD_PRICE_AVG | float | Average price
 ORD_CREATED_AT | string | Creation date/time
 ORD_NOTIFY | int | 1 if Notify flag is active, 0 if not
 ORD_HIDDEN | int | 1 if Hidden, 0 if not hidden
+ORD_OCO | int | ID of the linked order, 0 otherwise
 
 
 #### Trade Snapshot
