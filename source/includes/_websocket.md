@@ -333,6 +333,8 @@ COUNT=0 means that you have to remove the price level from your book.
 
 ### Raw Order Books
 
+These are the most granular books.
+
 ```javascript
 w.send(JSON.stringify({
     "event": "subscribe",
