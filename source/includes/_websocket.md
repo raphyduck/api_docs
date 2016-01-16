@@ -723,7 +723,8 @@ WLT_INTEREST_UNSETTLED | float | Unsettled interest
          "<ORD_PRICE_AVG>",
          "<ORD_CREATED_AT>",
          "<ORD_NOTIFY>",
-         "<ORD_HIDDEN>"
+         "<ORD_HIDDEN>",
+         "<ORD_OCO>"
       ],
       [
          "..."
