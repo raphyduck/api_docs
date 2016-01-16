@@ -1200,6 +1200,16 @@ Submit a new order.
               <td>[bool]</td>
               <td>true if the order should be post only. Default is false. Only relevant for limit orders.</td>
             </tr>
+            <tr>
+              <td><strong>ocoorder</strong></td>
+              <td>[bool]</td>
+              <td>Set an additional STOP OCO order that will be linked with the current order.</td>
+            </tr>
+            <tr>
+              <td><strong>buy_price_oco</strong></td>
+              <td>[price]</td>
+              <td>If ocoorder is true, this field represent the price of the OCO stop order to place</td>
+            </tr>
             </tbody>
             </table>
 
@@ -1764,6 +1774,7 @@ baseRequest.post(options, function(error, response, body) {
   "is_live":false,
   "is_cancelled":true,
   "is_hidden":false,
+  "oco_order":null,
   "was_forced":false,
   "original_amount":"0.01",
   "remaining_amount":"0.01",
@@ -1860,6 +1871,11 @@ Get the status of an order. Is it active? Was it cancelled? To what extent has i
               <td><strong>is_hidden</strong></td>
               <td>[bool]</td>
               <td>Is the order hidden?</td>
+            </tr>
+            <tr>
+              <td><strong>oco_order</strong></td>
+              <td>[integer]</td>
+              <td>If the order is an OCO order, the ID of the linked order. Otherwise, null</td>
             </tr>
             <tr>
               <td><strong>was_forced</strong></td>
