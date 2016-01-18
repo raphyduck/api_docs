@@ -22,7 +22,7 @@ Each message sent and received via the Bitfinex's websocket channel is encoded i
 
 ### Authenticated Channels
 
-* **Account Info:** account specific private data (positions, orders, executed trades, balances)
+* **Account Information:** account specific private data (positions, orders, executed trades, balances)
 
 ### How to Connect
 Open up a websocket connection to the websocket URI.
@@ -158,8 +158,6 @@ If there is no new message in the channel for 5 seconds, Websocket server will s
 
 
 ### Snapshot
-
-> **Snapshot**
 
 ```json
 ["<Chan Id>",
@@ -334,6 +332,8 @@ COUNT=0 means that you have to remove the price level from your book.
 </aside>
 
 ### Raw Order Books
+
+These are the most granular books.
 
 ```javascript
 w.send(JSON.stringify({
@@ -555,7 +555,7 @@ LOW | float | Daily low
 
 ## Authenticated Channels
 
-### Account Info
+### Account Info Channel
 
 ```javascript
 var
@@ -705,7 +705,9 @@ WLT_NAME | string | Wallet name (exchange, trading, deposit)
 WLT_BALANCE | float | Wallet balance
 WLT_INTEREST_UNSETTLED | float | Unsettled interest
 
-#### Order Snapshot
+#### Order Snapshots
+
+`os` and `hos` indentify respectively *active* and *inactive* orders snapshots
 
 ```json
 [
@@ -723,7 +725,8 @@ WLT_INTEREST_UNSETTLED | float | Unsettled interest
          "<ORD_PRICE_AVG>",
          "<ORD_CREATED_AT>",
          "<ORD_NOTIFY>",
-         "<ORD_HIDDEN>"
+         "<ORD_HIDDEN>",
+         "<ORD_OCO>"
       ],
       [
          "..."
@@ -747,6 +750,7 @@ ORD_PRICE_AVG | float | Average price
 ORD_CREATED_AT | string | Creation date/time
 ORD_NOTIFY | int | 1 if Notify flag is active, 0 if not
 ORD_HIDDEN | int | 1 if Hidden, 0 if not hidden
+ORD_OCO | int | ID of the linked order, 0 otherwise
 
 
 #### Trade Snapshot
