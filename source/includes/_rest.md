@@ -893,7 +893,8 @@ var
 <aside class="notice">
 All Authenticated Endpoints use POST requests
 </aside>
-### Account info
+
+### Account Info
 
 ```javascript
 // request
