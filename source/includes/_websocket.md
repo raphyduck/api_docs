@@ -555,7 +555,7 @@ LOW | float | Daily low
 
 ## Authenticated Channels
 
-### Account Info Channel
+### Account Information
 
 ```javascript
 var
