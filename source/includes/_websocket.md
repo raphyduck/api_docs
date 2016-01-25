@@ -469,6 +469,7 @@ w.send(JSON.stringify({
 *here is an example of a real trade*
 
 `[ 5, 'te', '1234-BTCUSD', 1443659698, 236.42, 0.49064538 ]`
+
 `[ 5, 'tu', '1234-BTCUSD', 15254529, 1443659698, 236.42, 0.49064538 ]`
 
 **Fields**
