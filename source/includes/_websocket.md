@@ -434,7 +434,7 @@ w.send(JSON.stringify({
    "<CHANNEL_ID>",
    [  
       [  
-         "<SEQ>",
+         "<SEQ> OR <ID>",
          "<TIMESTAMP>",
          "<PRICE>",
          "<AMOUNT>"
@@ -448,7 +448,18 @@ w.send(JSON.stringify({
 // updates
 [
    "<CHANNEL_ID>",
+   "te",
    "<SEQ>",
+   "<TIMESTAMP>",
+   "<PRICE>",
+   "<AMOUNT>"
+]
+
+[
+   "<CHANNEL_ID>",
+   "tu",
+   "<SEQ>",
+   "<ID>",
    "<TIMESTAMP>",
    "<PRICE>",
    "<AMOUNT>"
@@ -457,20 +468,23 @@ w.send(JSON.stringify({
 
 *here is an example of a real trade*
 
-`[ 5, '1234-BTCUSD', 1443659698, 236.42, 0.49064538 ]`
+`[ 5, 'te', '1234-BTCUSD', 1443659698, 236.42, 0.49064538 ]`
+`[ 5, 'tu', '1234-BTCUSD', 15254529, 1443659698, 236.42, 0.49064538 ]`
 
 **Fields**
 
 Fields | Type | Description
 --- | --- | ----
 SEQ | string | Trade sequence id
+ID | int | Trade database id
 TIMESTAMP | int|  Unix timestamp of the trade.
 PRICE | float | Price at which the trade was executed
 AMOUNT | float | How much was bought (positive) or sold (negative).<br>The order that causes the trade determines if it is a buy or a sell.
 
 <aside class="notice">
 <strong>NOTE</strong>
-SEQ is different from canonical TRADE_ID. Websocket server uses SEQ strings to push trades with low latency. We may add in the future a delayed message to help mapping between SEQ and TRADE_ID.
+SEQ is different from canonical ID. Websocket server uses SEQ strings to push trades with low latency. 
+After a "te" message you receive shortly a "tu" message that contains the real trade "ID".
 </aside>
 
 ### Ticker
@@ -783,7 +797,7 @@ ORD_OCO | int | ID of the linked order, 0 otherwise
 
 Term | Type | Description
 --- | --- | ---
-TRD_ID | int | Trade id 
+TRD_ID | int | Trade database id 
 TRD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
 TRD_TIMESTAMP | int | Execution timestamp
 TRD_ORD_ID | int | Order id 
@@ -811,7 +825,8 @@ FE_CURRENCY | string | Fee currency
       "<ORD_PRICE_AVG>",
       "<ORD_CREATED_AT>",
       "<ORD_NOTIFY>",
-      "<ORD_HIDDEN>"
+      "<ORD_HIDDEN>",
+      "<ORD_OCO>"
    ]
 ]
 ```
