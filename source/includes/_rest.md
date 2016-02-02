@@ -644,7 +644,7 @@ Get a list of the most recent trades for the given symbol.
           </tbody>
           </table>
 
-### Provided funding
+### Lends
 
 ```javascript
 // request
@@ -653,7 +653,7 @@ var payload = {
   "limit_lends": 1
 },
 options = {
-  url: url + '/provided_funds/USD',
+  url: url + '/lends/USD',
   qs: payload
 };
 request.get(options, function(error, response, body) {
@@ -673,7 +673,7 @@ request.get(options, function(error, response, body) {
 
 **Endpoint**
 
-/provided_funds/:currency
+/lends/:currency
 
 **Description**
 
