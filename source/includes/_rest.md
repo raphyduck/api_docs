@@ -2082,6 +2082,11 @@ greater or equal to the amount of the position and the margin funding used.
               <td>[int]</td>
               <td>The position ID given by `/positions`.</td>
             </tr>
+            <tr>
+              <td><strong>amount</strong></td>
+              <td>[decimal]</td>
+              <td>The partial amount you wish to claim</td>
+            </tr>
             </tbody>
             </table>
 
