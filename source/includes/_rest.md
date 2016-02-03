@@ -3693,3 +3693,77 @@ Allow you to request a withdrawal from one of your wallet.
             </tr>
             </tbody>
           </table>
+
+### Key Permissions
+
+> **Request**
+
+```javascript
+var payload = {
+  "request": "/v1/key_info",
+  "nonce": Date.now().toString()
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+  url: "/key_info",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  }
+};
+baseRequest.get(options, function(error, response, body) {
+  console.log(body);
+});
+```
+
+> **Response**
+
+```json
+{
+"account":{
+"read":true,
+"write":false
+},
+"history":{
+"read":true,
+"write":false
+},
+"orders":{
+"read":true,
+"write":true
+},
+"positions":{
+"read":true,
+"write":true
+},
+"funding":{
+"read":true,
+"write":true
+},
+"wallets":{
+"read":true,
+"write":true
+},
+"withdraw":{
+"read":null,
+"write":null
+}
+}
+```
+
+**Endpoint**
+
+`/key_info`
+
+**Description**
+
+Check the permissions of the key being used to generate this request
+
+**Request Details**
+
+No additional params
+
+**Response Details**
+
+A JSON object with a key for each of the possible permissions whose value is another JSON object with both a read and write key which has a value of true or false
