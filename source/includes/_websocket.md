@@ -64,7 +64,6 @@ In case of error, you receive a message containing the proper error code (`code`
 ```json
 {
    "event":"info",
-   "code": 20000,
    "version": 1
 }
 ```
@@ -247,7 +246,8 @@ w.send(JSON.stringify({
    "event":"subscribe",
    "channel":"book",
    "pair":"<PAIR>",
-   "prec":"<PRECISION>"
+   "prec":"<PRECISION>",
+   "freq":"<FREQUENCY>"
 }
 
 // response
@@ -257,6 +257,7 @@ w.send(JSON.stringify({
    "chanId":"<CHANNEL_ID>",
    "pair":"<PAIR>",
    "prec":"<PRECISION>",
+   "freq":"<FREQUENCY>",
    "len":"<LENGTH>"
 }
 ```
@@ -296,6 +297,7 @@ followed by updates upon any changes to the book.
 Fields | Type | Description
 --- | --- | ---
 PRECISION | string | Level of price aggregation (P0, P1, P2, P3).<br>The default is P0.
+FREQUENCY | string | Frequency of updates (F0, F1, F2, F3).<br>F0=realtime / F1=2sec / F2=5sec / F3=10sec.
 PRICE | float | Price level.
 COUNT | int | Number of orders at that price level.
 ±AMOUNT | float | Total amount available at that price level.<br>Positive values mean bid, negative values mean ask.
