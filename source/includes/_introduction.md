@@ -45,13 +45,13 @@ You can generate as many API keys as you would like, and each of those keys can 
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input checked="checked" class="filled-in" id="permissions_account_read" name="permissions[account][read]" type="checkbox" value="1">
-                  <label for="permissions_account_read">Read</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_account_read">Read</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox show50">
                   <input class="filled-in" disabled="disabled" id="permissions_account" name="permissions[account]" type="checkbox" value="1">
-                  <label class="tooltip-no-hide-on-click tooltipstered" for="permissions_account">
+                  <label  for="permissions_account">
                     Write
                   </label>
                 </p>
@@ -67,13 +67,13 @@ You can generate as many API keys as you would like, and each of those keys can 
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input checked="checked" class="filled-in" id="permissions_history_read" name="permissions[history][read]" type="checkbox" value="1">
-                  <label for="permissions_history_read">Read</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_history_read">Read</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox show50">
                   <input class="filled-in" disabled="disabled" id="permissions_history" name="permissions[history]" type="checkbox" value="1">
-                  <label class="tooltip-no-hide-on-click tooltipstered" for="permissions_history">
+                  <label  for="permissions_history">
                     Write
                   </label>
                 </p>
@@ -89,13 +89,13 @@ You can generate as many API keys as you would like, and each of those keys can 
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input checked="checked" class="filled-in" id="permissions_orders_read" name="permissions[orders][read]" type="checkbox" value="1">
-                  <label for="permissions_orders_read">Read</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_orders_read">Read</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input class="filled-in" id="permissions_orders_write" name="permissions[orders][write]" type="checkbox" value="1">
-                  <label for="permissions_orders_write">Write</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_orders_write">Write</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td></td>
@@ -109,13 +109,13 @@ You can generate as many API keys as you would like, and each of those keys can 
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input checked="checked" class="filled-in" id="permissions_positions_read" name="permissions[positions][read]" type="checkbox" value="1">
-                  <label for="permissions_positions_read">Read</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_positions_read">Read</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input class="filled-in" id="permissions_positions_write" name="permissions[positions][write]" type="checkbox" value="1">
-                  <label for="permissions_positions_write">Write</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_positions_write">Write</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td></td>
@@ -129,13 +129,13 @@ You can generate as many API keys as you would like, and each of those keys can 
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input checked="checked" class="filled-in" id="permissions_funding_read" name="permissions[funding][read]" type="checkbox" value="1">
-                  <label for="permissions_funding_read">Read</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_funding_read">Read</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input class="filled-in" id="permissions_funding_write" name="permissions[funding][write]" type="checkbox" value="1">
-                  <label for="permissions_funding_write">Write</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_funding_write">Write</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td></td>
@@ -149,13 +149,13 @@ You can generate as many API keys as you would like, and each of those keys can 
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input checked="checked" class="filled-in" id="permissions_wallets_read" name="permissions[wallets][read]" type="checkbox" value="1">
-                  <label for="permissions_wallets_read">Read</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_wallets_read">Read</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input class="filled-in" id="permissions_wallets_write" name="permissions[wallets][write]" type="checkbox" value="1">
-                  <label for="permissions_wallets_write">Write</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_wallets_write">Write</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td></td>
@@ -169,7 +169,7 @@ You can generate as many API keys as you would like, and each of those keys can 
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox show50">
                   <input class="filled-in" disabled="disabled" id="permissions_withdraw" name="permissions[withdraw]" type="checkbox" value="1">
-                  <label class="tooltip-no-hide-on-click tooltipstered" for="permissions_withdraw">
+                  <label  for="permissions_withdraw">
                     Read
                   </label>
                 </p>
@@ -177,7 +177,7 @@ You can generate as many API keys as you would like, and each of those keys can 
             <td class="col-info" style="width:24%;">
                 <p class="smaller-checkbox">
                   <input class="filled-in" id="permissions_withdraw_write" name="permissions[withdraw][write]" type="checkbox" value="1">
-                  <label for="permissions_withdraw_write">Write</label> <a href="javascript:;" class="tooltip tooltipstered">?</a>
+                  <label for="permissions_withdraw_write">Write</label> <a href="javascript:;" >?</a>
                 </p>
             </td>
             <td></td>
