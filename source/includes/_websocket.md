@@ -760,8 +760,8 @@ ORD_ID | int | order id
 ORD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
 ±ORD_AMOUNT | float | Positive means buy, negative means sell.
 ±ORD_AMOUNT_ORIG | float | Original amount
-ORD_TYPE | string | The type of the order<br>(LIMIT, STOP, TRAILING STOP, ...).
-ORD_STATUS | string | Status (ACTIVE, EXECUTED, PARTIALLY FILLED, ...)
+ORD_TYPE | string | The type of the order<br>["LIMIT", "MARKET", "STOP", "TRAILING STOP", "EXCHANGE MARKET", "EXCHANGE LIMIT", "EXCHANGE STOP", "EXCHANGE TRAILING STOP", "FOK", "EXCHANGE FOK”].
+ORD_STATUS | string | Status [ACTIVE, EXECUTED, PARTIALLY FILLED, CANCELED]
 ORD_PRICE | float | Price
 ORD_PRICE_AVG | float | Average price
 ORD_CREATED_AT | string | Creation date/time
