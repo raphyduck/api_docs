@@ -153,7 +153,7 @@ To receive data from a channel you have to send a "subscribe" message first.
 ["<Chan Id>", "hb"]
 ```
 
-If there is no new message in the channel for 5 seconds, Websocket server will send you an heartbeat message in this format.
+If there is no new message in the channel for 1 second, Websocket server will send you an heartbeat message in this format.
 
 
 ### Snapshot
