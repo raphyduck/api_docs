@@ -2600,7 +2600,7 @@ Submit a new offer.
             <tr>
               <td><strong>rate</strong></td>
               <td>[decimal]</td>
-              <td>Rate to lend or borrow at. <b>In percentage per 365 days</b>.</td>
+              <td>Rate to lend or borrow at. <b>In percentage per 365 days</b>(Set to 0 for FRR).</td>
             </tr>
             <tr>
               <td><strong>period</strong></td>
