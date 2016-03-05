@@ -30,6 +30,21 @@ payload := map[string]interface{}{
 }
 ```
 
+```ruby
+require 'bitfinex'
+```
+
+```ruby
+Bitfinex::Client.config do |conf|
+  conf.secret = ENV["BFX_API_SECRET"]
+  conf.api_key = ENV["BFX_API_KEY"]
+end
+```
+
+```ruby
+client = Bitfinex::Client.new
+```
+
 Authentication is done using an API key and a secret. To generate this pair,
 go to the [API Access](https://www.bitfinex.com/account/api) page.
 As an example of how to authenticate, we can look at the "account_infos" endpoint.
@@ -128,6 +143,7 @@ func main() {
 }
 ```
 
+
 The authentications procedures is as follows:
 
 * The payload is the parameters object, first JSON encoded, and then encoded into Base64
@@ -176,6 +192,9 @@ request.get(url + "/pubticker/:symbol",
     console.log(body);
 });
 ```
+```ruby
+tick = client.ticker
+```
 
 ```json
 // response
@@ -220,6 +239,9 @@ request.get(url + "/stats/BTCUSD",
   function(error, response, body) {
     console.log(body);
 });
+```
+```ruby
+stats = client.stats
 ```
 
 ```json
@@ -266,6 +288,10 @@ var options = {
 request.get(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+ funding_book = client.funding_book
 ```
 
 ```json
@@ -418,6 +444,10 @@ request.get(options, function(error, response, body) {
 });
 ```
 
+```ruby
+orderbook = client.orderbook
+```
+
 ```json
 // response
 {
@@ -547,6 +577,10 @@ request.get(options, function(error, response, body) {
 });
 ```
 
+```ruby
+trades = client.trades
+```
+
 ```json
 // response
 [{
@@ -661,6 +695,10 @@ request.get(options, function(error, response, body) {
 });
 ```
 
+```ruby
+lends = client.lends
+```
+
 ```json
 // response
 [{
@@ -759,6 +797,10 @@ request.get(options, function(error, response, body) {
 });
 ```
 
+```ruby
+symbols = client.symbols
+```
+
 ```json
 // response
 ["btcusd","ltcusd","ltcbtc"]
@@ -788,6 +830,11 @@ request.get(options, function(error, response, body) {
   console.log(body);
 });
 ```
+
+```ruby
+symbols_details = client.symbols_details
+```
+
 
 ```json
 // reponse
@@ -917,6 +964,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+client.account_info
+```
+
 ```json
 // response
 [{
@@ -1004,13 +1055,17 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+new_address = client.deposit("bitcoin", "exchange")
+```
+
 ```json
 // response
 {
   "result":"success",
   "method":"bitcoin",
   "currency":"BTC",
-  "address":"3FdY9coNq47MLiKhG2FLtKzdaXS3hZpSo4"
+  "address":"1A2wyHKJ4KWEoahDHVxwQy3kdd6g1qiSYV"
 }
 ```
 
@@ -1117,6 +1172,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+client.new_order("usdbtc", 100, "market", "sell", 0) 
 ```
 
 ```json
@@ -1305,6 +1364,11 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
+```ruby
+response = client.multiple_orders([{symbol: "btcusd", amount: 10, price: 0, exchange: "bitfinex", side: "buy", type: "market"}])
+```
+
+
 ```json
 // response
 {
@@ -1444,6 +1508,10 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
+```ruby
+response = client.cancel_orders(448364249)
+```
+
 ```json
 // response
 {
@@ -1521,6 +1589,10 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
+```ruby
+response = client.cancel_orders([448402101, 448402099])
+```
+
 ```json
 // response
 {"result":"Orders cancelled"}
@@ -1581,6 +1653,10 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
+```ruby
+response = client.cancel_orders
+```
+
 ```json
 // response
 {"result":"All orders cancelled"}
@@ -1630,6 +1706,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 })
+```
+
+```ruby
+response = client.replace_order(100,"usdbtc", 10, "market", "buy", 0)
 ```
 
 ```json
@@ -1759,6 +1839,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.order_status(448411153)
 ```
 
 ```json
@@ -1925,6 +2009,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.orders
+```
+
 ```json
 // response
 [{
@@ -1983,6 +2071,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.positions
+```
+
 ```json
 // response
 [{
@@ -2032,6 +2124,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+client.claim_position(100,10)
 ```
 
 ```json
@@ -2119,6 +2215,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.history
 ```
 
 ```json
@@ -2244,6 +2344,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+reponse = client.movements
 ```
 
 ```json
@@ -2384,6 +2488,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.mytrades
 ```
 
 > **Response**
@@ -2549,6 +2657,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.new_offer("btc", 10.0, 20, 365, "lend")
+```
+
 ```json
 // response
 {
@@ -2658,6 +2770,9 @@ baseRequest.post(options, function(error, response, body) {
     console.log(body);
 });
 ```
+```ruby
+response = client.cancel_offer(1000)
+```
 
 ```json
 // response
@@ -2730,6 +2845,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.offer_status(1000)
 ```
 
 ```json
@@ -2871,6 +2990,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.credits
+```
+
 ```json
 // response
 [{
@@ -2921,6 +3044,10 @@ body: payload
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.offers
 ```
 
 ```json
@@ -2975,6 +3102,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.taken_funds
+```
+
 ```json
 // response
 [{
@@ -3022,6 +3153,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.unused_taken_funds
 ```
 
 ```json
@@ -3072,6 +3207,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.total_taken_funds
 ```
 
 ```json
@@ -3137,6 +3276,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.close_funding(1000)
 ```
 
 ```json
@@ -3206,6 +3349,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.balances
 ```
 
 ```json
@@ -3309,6 +3456,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.margin_infos
 ```
 
 ```json
@@ -3433,6 +3584,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.transfer(10, 'btc', "exchange", "deposit")
+```
+
 ```json
 // response
 [{
@@ -3534,6 +3689,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.withdraw("bitcoin","deposit",1000, address: "1DKwqRhDmVyHJDL4FUYpDmQMYA3Rsxtvur")
 ```
 
 ```json
@@ -3715,6 +3874,10 @@ var options = {
 baseRequest.get(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.key_info
 ```
 
 > **Response**
