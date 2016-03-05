@@ -1,12 +1,14 @@
 FROM ubuntu:trusty
 
-RUN apt-get update
-RUN apt-get install -yq ruby ruby-dev build-essential git
-RUN gem install --no-ri --no-rdoc bundler
-ADD Gemfile /app/Gemfile
-ADD Gemfile.lock /app/Gemfile.lock
-RUN cd /app; bundle install
 ADD . /app
-EXPOSE 4567
 WORKDIR /app
+
+RUN apt-get update && \
+    apt-get install -yq ruby ruby-dev build-essential git && \
+    gem install --no-ri --no-rdoc bundler && \
+    rm -fr /var/lib/apt/lists/* && \
+    bundle install
+
+EXPOSE 4567
+
 CMD ["bundle", "exec", "middleman", "server"]

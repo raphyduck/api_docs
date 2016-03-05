@@ -13,12 +13,11 @@ The following open source projects are works in progress. We will be continually
 
 ### Node.js
 
-* Reference implementation: [bitfinexcom/bitfinex-api-node](https://github.com/bitfinexcom/bitfinex-api-node)
-* Library: Coming soon
+* Library: [bitfinexcom/bitfinex-api-node](https://github.com/bitfinexcom/bitfinex-api-node)
 
 ### Ruby
 
-* Library: Coming soon
+* Library: [bitfinexcom/bitfinex-api-rb](https://github.com/bitfinexcom/bitfinex-api-rb)
 
 ## API Access
 In order to access the parts of the API which require authentication, you must generate an API key and an API secret
