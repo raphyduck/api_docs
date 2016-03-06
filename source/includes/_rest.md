@@ -31,7 +31,8 @@ payload := map[string]interface{}{
 ```
 
 ```ruby
-require 'bitfinex'
+# add in your Gemfile
+gem 'bitfinex-rb' 
 ```
 
 ```ruby
