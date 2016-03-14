@@ -14,11 +14,14 @@ URI: `wss://api2.bitfinex.com:3000/ws`
 
 Each message sent and received via the Bitfinex's websocket channel is encoded in JSON format
 
+### Supported Pairs
+BTCUSD, LTCUSD, LTCBTC, ETHUSD, ETHBTC
+
 ### Public Channels
 
-* **Book:** order book feed (BTCUSD, LTCUSD, LTCBTC)
-* **Ticker:** ticker feed (BTCUSD, LTCUSD, LTCBTC)
-* **Trades:** trades feed (BTCUSD, LTCUSD, LTCBTC)
+* **Book:** order book feed
+* **Ticker:** ticker feed
+* **Trades:** trades feed
 
 ### Authenticated Channels
 
@@ -316,6 +319,14 @@ LTCUSD | P0 | 4 | $0.0001
 ...    | P2 | 2 | $0.01
 ...    | P3 | 1 | $0.1
 LTCBTC | P0 | 6 | ฿0.000001
+...    | P1 | 5 | ฿0.00001
+...    | P2 | 4 | ฿0.0001
+...    | P3 | 3 | ฿0.001
+ETHUSD | P0 | 4 | $0.0001
+...    | P1 | 3 | $0.001
+...    | P2 | 2 | $0.01
+...    | P3 | 1 | $0.1
+ETHBTC | P0 | 6 | ฿0.000001
 ...    | P1 | 5 | ฿0.00001
 ...    | P2 | 4 | ฿0.0001
 ...    | P3 | 3 | ฿0.001
@@ -689,7 +700,7 @@ Account info always uses chanId 0.
 
 Term | Type | Description
 --- | --- | ---
-POS_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC).
+POS_PAIR | string | Pair (BTCUSD, ...).
 POS_STATUS | string | Status (ACTIVE, CLOSED).
 ±POS_AMOUNT | float | Size of the position.<br>Positive values means a long position,<br>negative values means a short position.
 POS_BASE_PRICE | float | The price at which you entered your position.
@@ -757,7 +768,7 @@ WLT_INTEREST_UNSETTLED | float | Unsettled interest
 Term | Type | Description
 --- | --- | ---
 ORD_ID | int | order id
-ORD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
+ORD_PAIR | string | Pair (BTCUSD, ...)
 ±ORD_AMOUNT | float | Positive means buy, negative means sell.
 ±ORD_AMOUNT_ORIG | float | Original amount
 ORD_TYPE | string | The type of the order<br>["LIMIT", "MARKET", "STOP", "TRAILING STOP", "EXCHANGE MARKET", "EXCHANGE LIMIT", "EXCHANGE STOP", "EXCHANGE TRAILING STOP", "FOK", "EXCHANGE FOK”].
@@ -801,7 +812,7 @@ ORD_OCO | int | ID of the linked order, 0 otherwise
 Term | Type | Description
 --- | --- | ---
 TRD_ID | int | Trade database id 
-TRD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
+TRD_PAIR | string | Pair (BTCUSD, ...)
 TRD_TIMESTAMP | int | Execution timestamp
 TRD_ORD_ID | int | Order id 
 ±TRD_AMOUNT_EXECUTED | float | Positive means buy, negative means sell
