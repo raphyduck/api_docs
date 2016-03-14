@@ -804,7 +804,7 @@ symbols = client.symbols
 
 ```json
 // response
-["btcusd","ltcusd","ltcbtc"]
+["btcusd","ltcusd","ltcbtc","ethusd", "ethbtc"]
 ```
 
 **Endpoint**
@@ -817,7 +817,7 @@ Get a list of valid symbol IDs.
 
 **Response Details**
 
-A list of symbol names. Currently "btcusd", "ltcusd", "ltcbtc"
+A list of symbol names. Currently "btcusd", "ltcusd", "ltcbtc", "ethusd", "ethbtc"
 
 ### Symbol Details
 
@@ -863,7 +863,10 @@ symbols_details = client.symbols_details
   "maximum_order_size":"5000.0",
   "minimum_order_size":"0.1",
   "expiration":"NA"
-}]
+}, 
+...
+...
+]
 ```
 
 **Endpoint**
@@ -2535,7 +2538,7 @@ View your past trades.
           <tr>
             <td><strong>symbol</strong></td>
             <td>[string]</td>
-            <td>The pair traded (BTCUSD, LTCUSD, LTCBTC).</td>
+            <td>The pair traded (BTCUSD, ...).</td>
           </tr>
           <tr>
             <td><strong>timestamp</strong></td>
