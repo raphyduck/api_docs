@@ -1096,7 +1096,7 @@ Return your deposit address to make a new deposit.
           <tr>
             <td><strong>method</strong></td>
             <td>[string]</td>
-            <td>Method of deposit (methods accepted: "bitcoin", "litecoin", "darkcoin", "mastercoin" (tethers)).</td>
+            <td>Method of deposit (methods accepted: "bitcoin", "litecoin", "ethereum", "mastercoin" (tethers)).</td>
           </tr>
           <tr>
             <td><strong>wallet_name</strong></td>
