@@ -3731,7 +3731,7 @@ Allow you to request a withdrawal from one of your wallet.
             <tr>
               <td><strong>withdraw_type</strong></td>
               <td>[string]</td>
-              <td>can be "bitcoin", "litecoin" or "darkcoin"  or "tether" or "wire".</td>
+              <td>can be "bitcoin", "litecoin" or "ethereum"  or "tether" or "wire".</td>
             </tr>
             <tr>
               <td><strong>walletselected</strong></td>
