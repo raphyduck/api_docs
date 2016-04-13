@@ -493,7 +493,7 @@ SEQ | string | Trade sequence id
 ID | int | Trade database id
 TIMESTAMP | int|  Unix timestamp of the trade.
 PRICE | float | Price at which the trade was executed
-AMOUNT | float | How much was bought (positive) or sold (negative).<br>The order that causes the trade determines if it is a buy or a sell.
+±AMOUNT | float | How much was bought (positive) or sold (negative).<br>The order that causes the trade determines if it is a buy or a sell.
 
 <aside class="notice">
 <strong>NOTE</strong>
