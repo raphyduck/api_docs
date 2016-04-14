@@ -47,7 +47,7 @@ client = Bitfinex::Client.new
 ```
 
 ```go
-import "github.com/bfx/bitfinex-api-go"
+import "github.com/bitfinexcom/bitfinex-api-go"
 
 client := bitfinex.NewClient().Auth(API_KEY, API_SECRET)
 ```
