@@ -187,9 +187,11 @@ appended to the URL being called as follows:
 var request = require('request')
 var url = "https://api.bitfinex.com/v1"
 ```
+
 <aside class="notice">
 All Public Endpoints use GET requests
 </aside>
+
 ### Ticker
 
 ```javascript
@@ -199,6 +201,7 @@ request.get(url + "/pubticker/:symbol",
     console.log(body);
 });
 ```
+
 ```ruby
 tick = client.ticker
 ```
@@ -216,6 +219,7 @@ tick = client.ticker
   "timestamp":"1444253422.348340958"
 }
 ```
+
 **Endpoint**
 
 `/pubticker/:symbol`
@@ -2791,7 +2795,7 @@ Submit a new offer.
             </tr>
 
             </tbody>
-</table>
+            </table>
 
 #### Cancel Offer
 
