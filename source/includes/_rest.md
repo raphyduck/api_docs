@@ -36,7 +36,7 @@ gem 'bitfinex-rb'
 ```
 
 ```ruby
-Bitfinex::Client.config do |conf|
+Bitfinex::Client.configure do |conf|
   conf.secret = ENV["BFX_API_SECRET"]
   conf.api_key = ENV["BFX_API_KEY"]
 end
@@ -44,6 +44,12 @@ end
 
 ```ruby
 client = Bitfinex::Client.new
+```
+
+```go
+import "github.com/bitfinexcom/bitfinex-api-go"
+
+client := bitfinex.NewClient().Auth(API_KEY, API_SECRET)
 ```
 
 Authentication is done using an API key and a secret. To generate this pair,
@@ -181,9 +187,11 @@ appended to the URL being called as follows:
 var request = require('request')
 var url = "https://api.bitfinex.com/v1"
 ```
+
 <aside class="notice">
 All Public Endpoints use GET requests
 </aside>
+
 ### Ticker
 
 ```javascript
@@ -193,6 +201,7 @@ request.get(url + "/pubticker/:symbol",
     console.log(body);
 });
 ```
+
 ```ruby
 tick = client.ticker
 ```
@@ -210,6 +219,7 @@ tick = client.ticker
   "timestamp":"1444253422.348340958"
 }
 ```
+
 **Endpoint**
 
 `/pubticker/:symbol`
@@ -2588,16 +2598,6 @@ An array of trades
             <td></td>
           </tr>
           <tr>
-            <td><strong>timestamp</strong></td>
-            <td>[time]</td>
-            <td>return only trades after or at the time specified here</td>
-          </tr>
-          <tr>
-            <td><strong>until</strong></td>
-            <td>[time]</td>
-            <td>return only trades before or a the time specified here</td>
-          </tr>
-          <tr>
             <td><strong>exchange</strong></td>
             <td>[string]</td>
             <td></td>
@@ -2744,10 +2744,56 @@ Submit a new offer.
             <tbody>
 
             <tr>
-              <td><strong>offer_id</strong></td>
+              <td><strong>id</strong></td>
               <td>[int]</td>
               <td>A randomly generated ID for the offer and the information given by /offer/status</td>
             </tr>
+            <tr>
+              <td><strong>currency</strong></td>
+              <td>[string]</td>
+              <td>The name of the currency.</td>
+            </tr>
+            <tr>
+              <td><strong>rate</strong></td>
+              <td>[decimal]</td>
+              <td>Rate to lend or borrow at. <b>In percentage per 365 days</b>. (Set to 0 for FRR).</td>
+            </tr>
+            <tr>
+              <td><strong>period</strong></td>
+              <td>[integer]</td>
+              <td>Number of days of the funding contract (in days)</td>
+            </tr>
+            <tr>
+              <td><strong>direction</strong></td>
+              <td>[string]</td>
+              <td>Either "lend" or "loan".</td>
+            </tr>
+            <tr>
+              <td><strong>is_live</strong></td>
+              <td>[bool]</td>
+              <td>Could the offer still be filled?</td>
+            </tr>
+            <tr>
+              <td><strong>is_cancelled</strong></td>
+              <td>[bool]</td>
+              <td>Has the offer been cancelled?</td>
+            </tr>
+            <tr>
+              <td><strong>executed_amount</strong></td>
+              <td>[decimal]</td>
+              <td>How much of the offer has been executed so far in its history?</td>
+            </tr>
+            <tr>
+              <td><strong>remaining_amount</strong></td>
+              <td>[decimal]</td>
+              <td>How much is still remaining to be submitted?</td>
+            </tr>
+            <tr>
+              <td><strong>original_amount</strong></td>
+              <td>[decimal]</td>
+              <td>What was the offer originally submitted for?</td>
+            </tr>
+
             </tbody>
             </table>
 
