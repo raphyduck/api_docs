@@ -1705,7 +1705,8 @@ var payload = {
   "price": "0.02",
   "exchange": "bitfinex",
   "side": "buy",
-  "type": "exchange limit"
+  "type": "exchange limit",
+  "use_remaining": false
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
@@ -1807,6 +1808,11 @@ Replace an orders with a new one.
               <td><strong>is_hidden</strong></td>
               <td>[bool]</td>
               <td>true if the order should be hidden. Default is false.</td>
+            </tr>
+            <tr>
+              <td><strong>use_remaining</strong></td>
+              <td>[bool]</td>
+              <td>True if the new order should use the remaining amount of the original order. Default is false</td>
             </tr>
             </tbody>
             </table>
