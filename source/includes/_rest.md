@@ -32,7 +32,7 @@ payload := map[string]interface{}{
 
 ```ruby
 # add in your Gemfile
-gem 'bitfinex-rb' 
+gem 'bitfinex-rb'
 ```
 
 ```ruby
@@ -873,7 +873,7 @@ symbols_details = client.symbols_details
   "maximum_order_size":"5000.0",
   "minimum_order_size":"0.1",
   "expiration":"NA"
-}, 
+},
 ...
 ...
 ]
@@ -1043,6 +1043,97 @@ Return information about your account (trading fees).
           </tbody>
           </table>
 
+### Summary
+```javascript
+// request
+var payload = {
+  "request": "/v1/summary",
+  "nonce": Date.now().toString(),
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+  url: "/summary",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  }
+  body: payload
+}
+baseRequest.post(options, function(error, response, body) {
+  console.log(body);
+});
+```
+
+```ruby
+client.summary
+```
+
+```javascript
+//response
+{
+  "trade_vol_30d":[
+    {"curr":"BTC","vol":11.88696022},
+    {"curr":"LTC","vol":0.0},
+    {"curr":"ETH","vol":0.1},
+    {"curr":"Total (USD)","vol":5027.63}
+  ],
+  "funding_profit_30d":[
+    {"curr":"USD","amount":0.0},
+    {"curr":"BTC","amount":0.0},
+    {"curr":"LTC","amount":0.0},
+    {"curr":"ETH","amount":0.0}
+  ],
+  "maker_fee":0.001,
+  "taker_fee":0.002
+}
+```
+
+**Endpoint**
+
+`/summary`
+
+**Description**
+
+Returns a 30-day summary of your trading volume and return on margin funding
+
+**Response Details**
+
+<table class="striped">
+          <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td><strong>trade_vol_30d</strong></td>
+            <td>[string]</td>
+            <td>Trading volumes for any currency for the last 30 days</td>
+          </tr>
+          <tr>
+            <td><strong>funding_profit_30d</strong></td>
+            <td>[string]</td>
+            <td>Funding profits for any currency for the last 30 days</td>
+          </tr>
+          <tr>
+            <td><strong>maker_fees</strong></td>
+            <td>[decimal]</td>
+            <td>Your current fees for maker orders (limit orders not marketable, in percent)</td>
+          </tr>
+          <tr>
+            <td><strong>taker_fees</strong></td>
+            <td>[decimal]</td>
+            <td>Your current fees for taker orders (marketable order, in percent)</td>
+          </tr>
+
+          </tbody>
+          </table>
+
+
 ### Deposit
 
 ```javascript
@@ -1082,6 +1173,7 @@ new_address = client.deposit("bitcoin", "exchange")
   "address":"1A2wyHKJ4KWEoahDHVxwQy3kdd6g1qiSYV"
 }
 ```
+
 
 **Endpoint**
 
@@ -1189,7 +1281,7 @@ baseRequest.post(options, function(error, response, body) {
 ```
 
 ```ruby
-client.new_order("usdbtc", 100, "market", "sell", 0) 
+client.new_order("usdbtc", 100, "market", "sell", 0)
 ```
 
 ```json
@@ -3066,7 +3158,7 @@ response = client.credits
   "executed_amount":"0.0"
 }]
 ```
-  
+
 **Endpoint**
 
 `/credits`
