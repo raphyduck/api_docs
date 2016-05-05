@@ -12,6 +12,7 @@ Bitfinex Websocket API current version is 1.0
 * priv channel: rename `ts` tag to `hts`
 * priv channel: clientOrderId and groupId `os`, `on`, `ou`, `oc`. `["<ORD_ID>","<ORD_PAIR>",...]` becomes `["<ORD_ID>","<ORD_GROUP_ID>","<ORD_CLI_ID>","<ORD_PAIR>",...]`
 * priv channel: input apis for trading (beta)
+* book: improved book updates after trades 
 
 #### v1.1
 * related blog post http://blog.bitfinex.com/post/143259611674/websocket-api-v11-update
