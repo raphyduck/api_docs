@@ -8,6 +8,10 @@ Bitfinex Websocket API current version is 1.0
 
 ### Changelog
 
+#### v1.2 (dev)
+* priv channel: `ts` to `hts`
+* priv channel: client order ids in `os`, `on`, `ou`, `oc`
+
 #### v1.1
 * related blog post http://blog.bitfinex.com/post/143259611674/websocket-api-v11-update
 * priv channel (trade snapshot `ts`): include last 30 trades from each pair, as opposed to the last 30 trades total in v1.0.
