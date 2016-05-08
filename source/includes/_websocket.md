@@ -15,6 +15,7 @@ Bitfinex Websocket API current version is 1.0
 * priv channel: changes to `bs`, `bu` channels `["<USD_EQUIV_FULL>", "<USD_EQUIV_BASE>"]`
 * priv channel: notification subchannel `n`
 * book: improved book updates after trades 
+* general: performance improvements
 
 #### v1.1
 * related blog post http://blog.bitfinex.com/post/143259611674/websocket-api-v11-update
