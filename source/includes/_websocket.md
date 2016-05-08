@@ -14,6 +14,7 @@ Bitfinex Websocket API current version is 1.0
 * priv channel: input apis for trading (beta)
 * priv channel: `calc` option: tradable balance, usd equivalent balance, unrealized P&L, swap, ...
 * priv channel: notification subchannel `n`
+* priv channel: fixed heartbeat frequency (1 every second)
 * book: improved book updates after trades 
 * general: performance improvements
 
