@@ -4,7 +4,7 @@
 
 ### Current Version
 
-Bitfinex Websocket API current version is 1.0
+Bitfinex Websocket API current version is 1.1
 
 ### Changelog
 
