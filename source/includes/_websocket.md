@@ -16,6 +16,7 @@ Bitfinex Websocket API current version is 1.1
 * priv channel: fixed heartbeat frequency (1 every second)
 * book: improved book updates after trades 
 * general: performance improvements
+* general: support for decimal numbers format (string or float)
 
 #### v1.1
 * related blog post http://blog.bitfinex.com/post/143259611674/websocket-api-v11-update
