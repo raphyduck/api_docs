@@ -10,7 +10,7 @@ Bitfinex Websocket API current version is 1.1
 
 #### v1.2 (dev)
 * priv channel: rename `ts` tag to `hts`
-* priv channel: add clientOrderId and groupId to `os`, `on`, `ou`, `oc` subchannels. `["<ORD_ID>","<ORD_PAIR>",...]` becomes `["<ORD_ID>","<ORD_GROUP_ID>","<ORD_CLI_ID>","<ORD_PAIR>",...]`
+* priv channel: add clientOrderId, groupId, trailing price and flags to `os`, `on`, `ou`, `oc` subchannels
 * priv channel: `calc` option: tradable balance, usd equivalent balance, unrealized P&L, swap, ...
 * priv channel: notification subchannel `n`
 * priv channel: fixed heartbeat frequency (1 every second)
