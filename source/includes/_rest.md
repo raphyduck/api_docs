@@ -1200,6 +1200,11 @@ Submit a new order.
               <td>[bool]</td>
               <td>true if the order should be post only. Default is false. Only relevant for limit orders.</td>
             </tr>
+            <tr>
+              <td><strong>use_all_available</strong></td>
+              <td>[int]</td>
+              <td>Optional. default is 0. 1 will post an order that will use all of your available balance.</td>
+            </tr>
             </tbody>
             </table>
 
