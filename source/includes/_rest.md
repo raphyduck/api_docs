@@ -30,6 +30,28 @@ payload := map[string]interface{}{
 }
 ```
 
+```ruby
+# add in your Gemfile
+gem 'bitfinex-rb'
+```
+
+```ruby
+Bitfinex::Client.configure do |conf|
+  conf.secret = ENV["BFX_API_SECRET"]
+  conf.api_key = ENV["BFX_API_KEY"]
+end
+```
+
+```ruby
+client = Bitfinex::Client.new
+```
+
+```go
+import "github.com/bitfinexcom/bitfinex-api-go"
+
+client := bitfinex.NewClient().Auth(API_KEY, API_SECRET)
+```
+
 Authentication is done using an API key and a secret. To generate this pair,
 go to the [API Access](https://www.bitfinex.com/account/api) page.
 As an example of how to authenticate, we can look at the "account_infos" endpoint.
@@ -128,6 +150,7 @@ func main() {
 }
 ```
 
+
 The authentications procedures is as follows:
 
 * The payload is the parameters object, first JSON encoded, and then encoded into Base64
@@ -164,9 +187,11 @@ appended to the URL being called as follows:
 var request = require('request')
 var url = "https://api.bitfinex.com/v1"
 ```
+
 <aside class="notice">
 All Public Endpoints use GET requests
 </aside>
+
 ### Ticker
 
 ```javascript
@@ -175,6 +200,10 @@ request.get(url + "/pubticker/:symbol",
   function(error, response, body) {
     console.log(body);
 });
+```
+
+```ruby
+tick = client.ticker
 ```
 
 ```json
@@ -190,6 +219,7 @@ request.get(url + "/pubticker/:symbol",
   "timestamp":"1444253422.348340958"
 }
 ```
+
 **Endpoint**
 
 `/pubticker/:symbol`
@@ -220,6 +250,9 @@ request.get(url + "/stats/BTCUSD",
   function(error, response, body) {
     console.log(body);
 });
+```
+```ruby
+stats = client.stats
 ```
 
 ```json
@@ -266,6 +299,10 @@ var options = {
 request.get(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+ funding_book = client.funding_book
 ```
 
 ```json
@@ -418,6 +455,10 @@ request.get(options, function(error, response, body) {
 });
 ```
 
+```ruby
+orderbook = client.orderbook
+```
+
 ```json
 // response
 {
@@ -547,6 +588,10 @@ request.get(options, function(error, response, body) {
 });
 ```
 
+```ruby
+trades = client.trades
+```
+
 ```json
 // response
 [{
@@ -644,7 +689,7 @@ Get a list of the most recent trades for the given symbol.
           </tbody>
           </table>
 
-### Provided funding
+### Lends
 
 ```javascript
 // request
@@ -653,12 +698,16 @@ var payload = {
   "limit_lends": 1
 },
 options = {
-  url: url + '/provided_funds/USD',
+  url: url + '/lends/USD',
   qs: payload
 };
 request.get(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+lends = client.lends
 ```
 
 ```json
@@ -673,7 +722,7 @@ request.get(options, function(error, response, body) {
 
 **Endpoint**
 
-/provided_funds/:currency
+/lends/:currency
 
 **Description**
 
@@ -759,9 +808,13 @@ request.get(options, function(error, response, body) {
 });
 ```
 
+```ruby
+symbols = client.symbols
+```
+
 ```json
 // response
-["btcusd","ltcusd","ltcbtc"]
+["btcusd","ltcusd","ltcbtc","ethusd", "ethbtc"]
 ```
 
 **Endpoint**
@@ -774,7 +827,7 @@ Get a list of valid symbol IDs.
 
 **Response Details**
 
-A list of symbol names. Currently "btcusd", "ltcusd", "ltcbtc"
+A list of symbol names. Currently "btcusd", "ltcusd", "ltcbtc", "ethusd", "ethbtc"
 
 ### Symbol Details
 
@@ -788,6 +841,11 @@ request.get(options, function(error, response, body) {
   console.log(body);
 });
 ```
+
+```ruby
+symbols_details = client.symbols_details
+```
+
 
 ```json
 // reponse
@@ -815,7 +873,10 @@ request.get(options, function(error, response, body) {
   "maximum_order_size":"5000.0",
   "minimum_order_size":"0.1",
   "expiration":"NA"
-}]
+},
+...
+...
+]
 ```
 
 **Endpoint**
@@ -893,7 +954,8 @@ var
 <aside class="notice">
 All Authenticated Endpoints use POST requests
 </aside>
-### Account info
+
+### Account Info
 
 ```javascript
 // request
@@ -914,6 +976,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+client.account_info
 ```
 
 ```json
@@ -977,6 +1043,97 @@ Return information about your account (trading fees).
           </tbody>
           </table>
 
+### Summary
+```javascript
+// request
+var payload = {
+  "request": "/v1/summary",
+  "nonce": Date.now().toString(),
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+  url: "/summary",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  }
+  body: payload
+}
+baseRequest.post(options, function(error, response, body) {
+  console.log(body);
+});
+```
+
+```ruby
+client.summary
+```
+
+```javascript
+//response
+{
+  "trade_vol_30d":[
+    {"curr":"BTC","vol":11.88696022},
+    {"curr":"LTC","vol":0.0},
+    {"curr":"ETH","vol":0.1},
+    {"curr":"Total (USD)","vol":5027.63}
+  ],
+  "funding_profit_30d":[
+    {"curr":"USD","amount":0.0},
+    {"curr":"BTC","amount":0.0},
+    {"curr":"LTC","amount":0.0},
+    {"curr":"ETH","amount":0.0}
+  ],
+  "maker_fee":0.001,
+  "taker_fee":0.002
+}
+```
+
+**Endpoint**
+
+`/summary`
+
+**Description**
+
+Returns a 30-day summary of your trading volume and return on margin funding
+
+**Response Details**
+
+<table class="striped">
+          <thead>
+            <tr>
+              <th class="sortable">Key<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Type<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+              <th class="sortable">Description<i class="fa fa-sort-down"></i><i class="fa fa-sort-up"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td><strong>trade_vol_30d</strong></td>
+            <td>[string]</td>
+            <td>Trading volumes for any currency for the last 30 days</td>
+          </tr>
+          <tr>
+            <td><strong>funding_profit_30d</strong></td>
+            <td>[string]</td>
+            <td>Funding profits for any currency for the last 30 days</td>
+          </tr>
+          <tr>
+            <td><strong>maker_fees</strong></td>
+            <td>[decimal]</td>
+            <td>Your current fees for maker orders (limit orders not marketable, in percent)</td>
+          </tr>
+          <tr>
+            <td><strong>taker_fees</strong></td>
+            <td>[decimal]</td>
+            <td>Your current fees for taker orders (marketable order, in percent)</td>
+          </tr>
+
+          </tbody>
+          </table>
+
+
 ### Deposit
 
 ```javascript
@@ -1003,15 +1160,20 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+new_address = client.deposit("bitcoin", "exchange")
+```
+
 ```json
 // response
 {
   "result":"success",
   "method":"bitcoin",
   "currency":"BTC",
-  "address":"3FdY9coNq47MLiKhG2FLtKzdaXS3hZpSo4"
+  "address":"1A2wyHKJ4KWEoahDHVxwQy3kdd6g1qiSYV"
 }
 ```
+
 
 **Endpoint**
 
@@ -1036,7 +1198,7 @@ Return your deposit address to make a new deposit.
           <tr>
             <td><strong>method</strong></td>
             <td>[string]</td>
-            <td>Method of deposit (methods accepted: "bitcoin", "litecoin", "darkcoin", "mastercoin" (tethers)).</td>
+            <td>Method of deposit (methods accepted: "bitcoin", "litecoin", "ethereum", "mastercoin" (tethers)).</td>
           </tr>
           <tr>
             <td><strong>wallet_name</strong></td>
@@ -1116,6 +1278,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+client.new_order("usdbtc", 100, "market", "sell", 0)
 ```
 
 ```json
@@ -1204,6 +1370,16 @@ Submit a new order.
               <td><strong>use_all_available</strong></td>
               <td>[int]</td>
               <td>Optional. default is 0. 1 will post an order that will use all of your available balance.</td>
+            </tr>
+            <tr>
+              <td><strong>ocoorder</strong></td>
+              <td>[bool]</td>
+              <td>Set an additional STOP OCO order that will be linked with the current order.</td>
+            </tr>
+            <tr>
+              <td><strong>buy_price_oco</strong></td>
+              <td>[price]</td>
+              <td>If ocoorder is true, this field represent the price of the OCO stop order to place</td>
             </tr>
             </tbody>
             </table>
@@ -1298,6 +1474,11 @@ baseRequest.post(options, function (error, response, body) {
     console.log(body);
 });
 ```
+
+```ruby
+response = client.multiple_orders([{symbol: "btcusd", amount: 10, price: 0, exchange: "bitfinex", side: "buy", type: "market"}])
+```
+
 
 ```json
 // response
@@ -1438,6 +1619,10 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
+```ruby
+response = client.cancel_orders(448364249)
+```
+
 ```json
 // response
 {
@@ -1515,6 +1700,10 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
+```ruby
+response = client.cancel_orders([448402101, 448402099])
+```
+
 ```json
 // response
 {"result":"Orders cancelled"}
@@ -1575,6 +1764,10 @@ baseRequest.post(options, function (error, response, body) {
 });
 ```
 
+```ruby
+response = client.cancel_orders
+```
+
 ```json
 // response
 {"result":"All orders cancelled"}
@@ -1609,7 +1802,8 @@ var payload = {
   "price": "0.02",
   "exchange": "bitfinex",
   "side": "buy",
-  "type": "exchange limit"
+  "type": "exchange limit",
+  "use_remaining": false
 };
 payload = new Buffer(JSON.stringify(payload)).toString('base64');
 var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
@@ -1624,6 +1818,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 })
+```
+
+```ruby
+response = client.replace_order(100,"usdbtc", 10, "market", "buy", 0)
 ```
 
 ```json
@@ -1708,6 +1906,11 @@ Replace an orders with a new one.
               <td>[bool]</td>
               <td>true if the order should be hidden. Default is false.</td>
             </tr>
+            <tr>
+              <td><strong>use_remaining</strong></td>
+              <td>[bool]</td>
+              <td>True if the new order should use the remaining amount of the original order. Default is false</td>
+            </tr>
             </tbody>
             </table>
 
@@ -1755,6 +1958,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.order_status(448411153)
+```
+
 ```json
 // response
 {
@@ -1769,6 +1976,7 @@ baseRequest.post(options, function(error, response, body) {
   "is_live":false,
   "is_cancelled":true,
   "is_hidden":false,
+  "oco_order":null,
   "was_forced":false,
   "original_amount":"0.01",
   "remaining_amount":"0.01",
@@ -1867,6 +2075,11 @@ Get the status of an order. Is it active? Was it cancelled? To what extent has i
               <td>Is the order hidden?</td>
             </tr>
             <tr>
+              <td><strong>oco_order</strong></td>
+              <td>[integer]</td>
+              <td>If the order is an OCO order, the ID of the linked order. Otherwise, null</td>
+            </tr>
+            <tr>
               <td><strong>was_forced</strong></td>
               <td>[bool]</td>
               <td>For margin only true if it was forced by the system.</td>
@@ -1911,6 +2124,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.orders
 ```
 
 ```json
@@ -1971,6 +2188,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.positions
+```
+
 ```json
 // response
 [{
@@ -2022,6 +2243,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+client.claim_position(100,10)
+```
+
 ```json
 // response
 {
@@ -2070,6 +2295,11 @@ greater or equal to the amount of the position and the margin funding used.
               <td>[int]</td>
               <td>The position ID given by `/positions`.</td>
             </tr>
+            <tr>
+              <td><strong>amount</strong></td>
+              <td>[decimal]</td>
+              <td>The partial amount you wish to claim</td>
+            </tr>
             </tbody>
             </table>
 
@@ -2102,6 +2332,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.history
 ```
 
 ```json
@@ -2227,6 +2461,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+reponse = client.movements
 ```
 
 ```json
@@ -2369,6 +2607,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.mytrades
+```
+
 > **Response**
 
 ```json
@@ -2409,7 +2651,7 @@ View your past trades.
           <tr>
             <td><strong>symbol</strong></td>
             <td>[string]</td>
-            <td>The pair traded (BTCUSD, LTCUSD, LTCBTC).</td>
+            <td>The pair traded (BTCUSD, ...).</td>
           </tr>
           <tr>
             <td><strong>timestamp</strong></td>
@@ -2457,16 +2699,6 @@ An array of trades
             <td><strong>amount</strong></td>
             <td>[decimal]</td>
             <td></td>
-          </tr>
-          <tr>
-            <td><strong>timestamp</strong></td>
-            <td>[time]</td>
-            <td>return only trades after or at the time specified here</td>
-          </tr>
-          <tr>
-            <td><strong>until</strong></td>
-            <td>[time]</td>
-            <td>return only trades before or a the time specified here</td>
           </tr>
           <tr>
             <td><strong>exchange</strong></td>
@@ -2532,6 +2764,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.new_offer("btc", 10.0, 20, 365, "lend")
+```
+
 ```json
 // response
 {
@@ -2583,7 +2819,7 @@ Submit a new offer.
             <tr>
               <td><strong>rate</strong></td>
               <td>[decimal]</td>
-              <td>Rate to lend or borrow at. <b>In percentage per 365 days</b>.</td>
+              <td>Rate to lend or borrow at. <b>In percentage per 365 days</b>. (Set to 0 for FRR).</td>
             </tr>
             <tr>
               <td><strong>period</strong></td>
@@ -2611,10 +2847,56 @@ Submit a new offer.
             <tbody>
 
             <tr>
-              <td><strong>offer_id</strong></td>
+              <td><strong>id</strong></td>
               <td>[int]</td>
               <td>A randomly generated ID for the offer and the information given by /offer/status</td>
             </tr>
+            <tr>
+              <td><strong>currency</strong></td>
+              <td>[string]</td>
+              <td>The name of the currency.</td>
+            </tr>
+            <tr>
+              <td><strong>rate</strong></td>
+              <td>[decimal]</td>
+              <td>Rate to lend or borrow at. <b>In percentage per 365 days</b>. (Set to 0 for FRR).</td>
+            </tr>
+            <tr>
+              <td><strong>period</strong></td>
+              <td>[integer]</td>
+              <td>Number of days of the funding contract (in days)</td>
+            </tr>
+            <tr>
+              <td><strong>direction</strong></td>
+              <td>[string]</td>
+              <td>Either "lend" or "loan".</td>
+            </tr>
+            <tr>
+              <td><strong>is_live</strong></td>
+              <td>[bool]</td>
+              <td>Could the offer still be filled?</td>
+            </tr>
+            <tr>
+              <td><strong>is_cancelled</strong></td>
+              <td>[bool]</td>
+              <td>Has the offer been cancelled?</td>
+            </tr>
+            <tr>
+              <td><strong>executed_amount</strong></td>
+              <td>[decimal]</td>
+              <td>How much of the offer has been executed so far in its history?</td>
+            </tr>
+            <tr>
+              <td><strong>remaining_amount</strong></td>
+              <td>[decimal]</td>
+              <td>How much is still remaining to be submitted?</td>
+            </tr>
+            <tr>
+              <td><strong>original_amount</strong></td>
+              <td>[decimal]</td>
+              <td>What was the offer originally submitted for?</td>
+            </tr>
+
             </tbody>
             </table>
 
@@ -2640,6 +2922,9 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
     console.log(body);
 });
+```
+```ruby
+response = client.cancel_offer(1000)
 ```
 
 ```json
@@ -2713,6 +2998,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.offer_status(1000)
 ```
 
 ```json
@@ -2836,6 +3125,62 @@ Get the status of an offer. Is it active? Was it cancelled? To what extent has i
 ```javascript
 // request
 var payload = {
+  "request": "/v1/credits",
+  "nonce": Date.now().toString(),
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+  url: "/credits",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  },
+body: payload
+};
+baseRequest.post(options, function(error, response, body) {
+  console.log(body);
+});
+```
+
+```ruby
+response = client.credits
+```
+
+```json
+// response
+[{
+  "id":13800719,
+  "currency":"USD",
+  "rate":"31.39",
+  "period":2,
+  "direction":"lend",
+  "timestamp":"1444280237.0",
+  "is_live":true,
+  "is_cancelled":false,
+  "original_amount":"50.0",
+  "remaining_amount":"50.0",
+  "executed_amount":"0.0"
+}]
+```
+
+**Endpoint**
+
+`/credits`
+
+**Description**
+
+View your funds currently taken (active credits).
+
+**Response Details**
+
+An array of your active credits
+
+#### Offers
+
+```javascript
+// request
+var payload = {
   "request": "/v1/offers",
   "nonce": Date.now().toString(),
 };
@@ -2852,6 +3197,10 @@ body: payload
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.offers
 ```
 
 ```json
@@ -2906,6 +3255,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.taken_funds
+```
+
 ```json
 // response
 [{
@@ -2953,6 +3306,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.unused_taken_funds
 ```
 
 ```json
@@ -3003,6 +3360,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.total_taken_funds
 ```
 
 ```json
@@ -3068,6 +3429,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.close_funding(1000)
 ```
 
 ```json
@@ -3137,6 +3502,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.balances
 ```
 
 ```json
@@ -3240,6 +3609,10 @@ var options = {
 baseRequest.post(options, function(error, response, body) {
   console.log(body);
 });
+```
+
+```ruby
+response = client.margin_infos
 ```
 
 ```json
@@ -3364,6 +3737,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.transfer(10, 'btc', "exchange", "deposit")
+```
+
 ```json
 // response
 [{
@@ -3467,6 +3844,10 @@ baseRequest.post(options, function(error, response, body) {
 });
 ```
 
+```ruby
+response = client.withdraw("bitcoin","deposit",1000, address: "1DKwqRhDmVyHJDL4FUYpDmQMYA3Rsxtvur")
+```
+
 ```json
 // response
 [{
@@ -3499,7 +3880,7 @@ Allow you to request a withdrawal from one of your wallet.
             <tr>
               <td><strong>withdraw_type</strong></td>
               <td>[string]</td>
-              <td>can be "bitcoin", "litecoin" or "darkcoin"  or "tether" or "wire".</td>
+              <td>can be "bitcoin", "litecoin" or "ethereum"  or "tether" or "wire".</td>
             </tr>
             <tr>
               <td><strong>walletselected</strong></td>
@@ -3624,3 +4005,81 @@ Allow you to request a withdrawal from one of your wallet.
             </tr>
             </tbody>
           </table>
+
+### Key Permissions
+
+> **Request**
+
+```javascript
+var payload = {
+  "request": "/v1/key_info",
+  "nonce": Date.now().toString()
+};
+payload = new Buffer(JSON.stringify(payload)).toString('base64');
+var signature = crypto.createHmac("sha384", api_secret).update(payload).digest('hex');
+var options = {
+  url: "/key_info",
+  headers: {
+    'X-BFX-PAYLOAD': payload,
+    'X-BFX-SIGNATURE': signature
+  }
+};
+baseRequest.get(options, function(error, response, body) {
+  console.log(body);
+});
+```
+
+```ruby
+response = client.key_info
+```
+
+> **Response**
+
+```json
+{
+"account":{
+"read":true,
+"write":false
+},
+"history":{
+"read":true,
+"write":false
+},
+"orders":{
+"read":true,
+"write":true
+},
+"positions":{
+"read":true,
+"write":true
+},
+"funding":{
+"read":true,
+"write":true
+},
+"wallets":{
+"read":true,
+"write":true
+},
+"withdraw":{
+"read":null,
+"write":null
+}
+}
+```
+
+**Endpoint**
+
+`/key_info`
+
+**Description**
+
+Check the permissions of the key being used to generate this request
+
+**Request Details**
+
+No additional params
+
+**Response Details**
+
+A JSON object with a key for each of the possible permissions whose value is another JSON object with both a read and write key which has a value of true or false

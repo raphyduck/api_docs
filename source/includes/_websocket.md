@@ -4,7 +4,28 @@
 
 ### Current Version
 
-Bitfinex Websocket API current version is 1.0
+Bitfinex Websocket API current version is 1.1
+
+### Changelog
+
+#### v1.2 (dev)
+* priv channel: rename `ts` tag to `hts`
+* priv channel: add clientOrderId, groupId, trailing price and flags to `os`, `on`, `ou`, `oc` subchannels
+* priv channel: `calc` option: tradable balance, usd equivalent balance, unrealized P&L, swap, ...
+* priv channel: notification subchannel `n`
+* priv channel: fixed heartbeat frequency (1 every second)
+* book: improved book updates after trades 
+* general: performance improvements
+* general: support for decimal numbers format (string or float)
+
+#### v1.1
+* related blog post http://blog.bitfinex.com/post/143259611674/websocket-api-v11-update
+* priv channel (trade snapshot `ts`): include last 30 trades from each pair, as opposed to the last 30 trades total in v1.0.
+* priv channel: publish a full snapshot after a trading engine resync message
+* performance: noticeable latency reduction
+* bugfixes
+
+#### v1.0 Initial Release
 
 ### SSL Websocket Connection
 
@@ -14,15 +35,18 @@ URI: `wss://api2.bitfinex.com:3000/ws`
 
 Each message sent and received via the Bitfinex's websocket channel is encoded in JSON format
 
+### Supported Pairs
+BTCUSD, LTCUSD, LTCBTC, ETHUSD, ETHBTC
+
 ### Public Channels
 
-* **Book:** order book feed (BTCUSD, LTCUSD, LTCBTC)
-* **Ticker:** ticker feed (BTCUSD, LTCUSD, LTCBTC)
-* **Trades:** trades feed (BTCUSD, LTCUSD, LTCBTC)
+* **Book:** order book feed
+* **Ticker:** ticker feed
+* **Trades:** trades feed
 
 ### Authenticated Channels
 
-* **Account Info:** account specific private data (positions, orders, executed trades, balances)
+* **Account Information:** account specific private data (positions, orders, executed trades, balances)
 
 ### How to Connect
 Open up a websocket connection to the websocket URI.
@@ -64,7 +88,6 @@ In case of error, you receive a message containing the proper error code (`code`
 ```json
 {
    "event":"info",
-   "code": 20000,
    "version": 1
 }
 ```
@@ -154,7 +177,7 @@ To receive data from a channel you have to send a "subscribe" message first.
 ["<Chan Id>", "hb"]
 ```
 
-If there is no new message in the channel for 5 seconds, Websocket server will send you an heartbeat message in this format.
+If there is no new message in the channel for 1 second, Websocket server will send you an heartbeat message in this format.
 
 
 ### Snapshot
@@ -247,7 +270,8 @@ w.send(JSON.stringify({
    "event":"subscribe",
    "channel":"book",
    "pair":"<PAIR>",
-   "prec":"<PRECISION>"
+   "prec":"<PRECISION>",
+   "freq":"<FREQUENCY>"
 }
 
 // response
@@ -257,6 +281,7 @@ w.send(JSON.stringify({
    "chanId":"<CHANNEL_ID>",
    "pair":"<PAIR>",
    "prec":"<PRECISION>",
+   "freq":"<FREQUENCY>",
    "len":"<LENGTH>"
 }
 ```
@@ -296,6 +321,7 @@ followed by updates upon any changes to the book.
 Fields | Type | Description
 --- | --- | ---
 PRECISION | string | Level of price aggregation (P0, P1, P2, P3).<br>The default is P0.
+FREQUENCY | string | Frequency of updates (F0, F1, F2, F3).<br>F0=realtime / F1=2sec / F2=5sec / F3=10sec.
 PRICE | float | Price level.
 COUNT | int | Number of orders at that price level.
 ±AMOUNT | float | Total amount available at that price level.<br>Positive values mean bid, negative values mean ask.
@@ -317,6 +343,14 @@ LTCBTC | P0 | 6 | ฿0.000001
 ...    | P1 | 5 | ฿0.00001
 ...    | P2 | 4 | ฿0.0001
 ...    | P3 | 3 | ฿0.001
+ETHUSD | P0 | 4 | $0.0001
+...    | P1 | 3 | $0.001
+...    | P2 | 2 | $0.01
+...    | P3 | 1 | $0.1
+ETHBTC | P0 | 6 | ฿0.000001
+...    | P1 | 5 | ฿0.00001
+...    | P2 | 4 | ฿0.0001
+...    | P3 | 3 | ฿0.001
 
 <aside class="warning">
 <strong>Error Codes</strong>
@@ -332,6 +366,8 @@ COUNT=0 means that you have to remove the price level from your book.
 </aside>
 
 ### Raw Order Books
+
+These are the most granular books.
 
 ```javascript
 w.send(JSON.stringify({
@@ -432,7 +468,7 @@ w.send(JSON.stringify({
    "<CHANNEL_ID>",
    [  
       [  
-         "<SEQ>",
+         "<SEQ> OR <ID>",
          "<TIMESTAMP>",
          "<PRICE>",
          "<AMOUNT>"
@@ -446,7 +482,18 @@ w.send(JSON.stringify({
 // updates
 [
    "<CHANNEL_ID>",
+   "te",
    "<SEQ>",
+   "<TIMESTAMP>",
+   "<PRICE>",
+   "<AMOUNT>"
+]
+
+[
+   "<CHANNEL_ID>",
+   "tu",
+   "<SEQ>",
+   "<ID>",
    "<TIMESTAMP>",
    "<PRICE>",
    "<AMOUNT>"
@@ -455,20 +502,24 @@ w.send(JSON.stringify({
 
 *here is an example of a real trade*
 
-`[ 5, '1234-BTCUSD', 1443659698, 236.42, 0.49064538 ]`
+`[ 5, 'te', '1234-BTCUSD', 1443659698, 236.42, 0.49064538 ]`
+
+`[ 5, 'tu', '1234-BTCUSD', 15254529, 1443659698, 236.42, 0.49064538 ]`
 
 **Fields**
 
 Fields | Type | Description
 --- | --- | ----
 SEQ | string | Trade sequence id
+ID | int | Trade database id
 TIMESTAMP | int|  Unix timestamp of the trade.
 PRICE | float | Price at which the trade was executed
-AMOUNT | float | How much was bought (positive) or sold (negative).<br>The order that causes the trade determines if it is a buy or a sell.
+±AMOUNT | float | How much was bought (positive) or sold (negative).<br>The order that causes the trade determines if it is a buy or a sell.
 
 <aside class="notice">
 <strong>NOTE</strong>
-SEQ is different from canonical TRADE_ID. Websocket server uses SEQ strings to push trades with low latency. We may add in the future a delayed message to help mapping between SEQ and TRADE_ID.
+SEQ is different from canonical ID. Websocket server uses SEQ strings to push trades with low latency. 
+After a "te" message you receive shortly a "tu" message that contains the real trade "ID".
 </aside>
 
 ### Ticker
@@ -553,7 +604,7 @@ LOW | float | Daily low
 
 ## Authenticated Channels
 
-### Account Info
+### Account Information
 
 ```javascript
 var
@@ -670,7 +721,7 @@ Account info always uses chanId 0.
 
 Term | Type | Description
 --- | --- | ---
-POS_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC).
+POS_PAIR | string | Pair (BTCUSD, ...).
 POS_STATUS | string | Status (ACTIVE, CLOSED).
 ±POS_AMOUNT | float | Size of the position.<br>Positive values means a long position,<br>negative values means a short position.
 POS_BASE_PRICE | float | The price at which you entered your position.
@@ -703,7 +754,9 @@ WLT_NAME | string | Wallet name (exchange, trading, deposit)
 WLT_BALANCE | float | Wallet balance
 WLT_INTEREST_UNSETTLED | float | Unsettled interest
 
-#### Order Snapshot
+#### Order Snapshots
+
+`os` and `hos` indentify respectively *active* and *inactive* orders snapshots
 
 ```json
 [
@@ -721,7 +774,8 @@ WLT_INTEREST_UNSETTLED | float | Unsettled interest
          "<ORD_PRICE_AVG>",
          "<ORD_CREATED_AT>",
          "<ORD_NOTIFY>",
-         "<ORD_HIDDEN>"
+         "<ORD_HIDDEN>",
+         "<ORD_OCO>"
       ],
       [
          "..."
@@ -735,16 +789,17 @@ WLT_INTEREST_UNSETTLED | float | Unsettled interest
 Term | Type | Description
 --- | --- | ---
 ORD_ID | int | order id
-ORD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
+ORD_PAIR | string | Pair (BTCUSD, ...)
 ±ORD_AMOUNT | float | Positive means buy, negative means sell.
 ±ORD_AMOUNT_ORIG | float | Original amount
-ORD_TYPE | string | The type of the order<br>(LIMIT, STOP, TRAILING STOP, ...).
-ORD_STATUS | string | Status (ACTIVE, EXECUTED, PARTIALLY FILLED, ...)
+ORD_TYPE | string | The type of the order<br>["LIMIT", "MARKET", "STOP", "TRAILING STOP", "EXCHANGE MARKET", "EXCHANGE LIMIT", "EXCHANGE STOP", "EXCHANGE TRAILING STOP", "FOK", "EXCHANGE FOK”].
+ORD_STATUS | string | Status [ACTIVE, EXECUTED, PARTIALLY FILLED, CANCELED]
 ORD_PRICE | float | Price
 ORD_PRICE_AVG | float | Average price
 ORD_CREATED_AT | string | Creation date/time
 ORD_NOTIFY | int | 1 if Notify flag is active, 0 if not
 ORD_HIDDEN | int | 1 if Hidden, 0 if not hidden
+ORD_OCO | int | ID of the linked order, 0 otherwise
 
 
 #### Trade Snapshot
@@ -777,8 +832,8 @@ ORD_HIDDEN | int | 1 if Hidden, 0 if not hidden
 
 Term | Type | Description
 --- | --- | ---
-TRD_ID | int | Trade id 
-TRD_PAIR | string | Pair (BTCUSD, LTCUSD, LTCBTC)
+TRD_ID | int | Trade database id 
+TRD_PAIR | string | Pair (BTCUSD, ...)
 TRD_TIMESTAMP | int | Execution timestamp
 TRD_ORD_ID | int | Order id 
 ±TRD_AMOUNT_EXECUTED | float | Positive means buy, negative means sell
@@ -805,7 +860,8 @@ FE_CURRENCY | string | Fee currency
       "<ORD_PRICE_AVG>",
       "<ORD_CREATED_AT>",
       "<ORD_NOTIFY>",
-      "<ORD_HIDDEN>"
+      "<ORD_HIDDEN>",
+      "<ORD_OCO>"
    ]
 ]
 ```
