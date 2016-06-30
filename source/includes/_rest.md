@@ -2471,6 +2471,7 @@ reponse = client.movements
   "type":"WITHDRAWAL",
   "amount":".01",
   "description":"3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, offchain transfer ",
+  "address":"3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ"
   "status":"COMPLETED",
   "timestamp":"1443833327.0"
 }]
@@ -2562,6 +2563,11 @@ An array of histories
             <td><strong>description</strong></td>
             <td>[string]</td>
             <td>Description of the movement (txid, destination address,,,,)</td>
+          </tr>
+          <tr>
+            <td><strong>address</strong></td>
+            <td>[string]</td>
+            <td>Deposit address used or withdrawal destination address</td>
           </tr>
           <tr>
             <td><strong>status</strong></td>
