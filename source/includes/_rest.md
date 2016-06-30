@@ -2471,7 +2471,7 @@ reponse = client.movements
   "type":"WITHDRAWAL",
   "amount":".01",
   "description":"3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, offchain transfer ",
-  "address":"3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ"
+  "address":"3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ",
   "status":"COMPLETED",
   "timestamp":"1443833327.0"
 }]
